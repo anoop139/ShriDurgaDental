@@ -32,7 +32,7 @@ error_reporting(0);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Insert Page</title>
     <style>
         body{
             background-image:url("Images/professional-dentist-tools-dental-office_1204-235.jpg");
@@ -80,13 +80,13 @@ $pho    = $_POST['pho'];
   $query = mysqli_query($conn, $insert);
 	if($query)
 	{
-	echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Inseted succesfully</h1>";
+	echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Inseted succesfully $name</h1>";
 		
 
 	}
 	else
 	{
-    echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px; margin-top:100px;' >Insetion failed new $name </h1>".mysqli_connect_error();
+    echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insetion failed new $name </h1>".mysqli_connect_error();
 	}
        	
 
