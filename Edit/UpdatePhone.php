@@ -24,8 +24,8 @@ error_reporting(0);
         <?php
         $oldName = $_GET['oldName'];
         $newPhone =$_GET['newPhone'];
-		echo"ID  ".$oldPhone; 
-		echo"<br> New name is ".$newPhone; 
+		// echo"ID  ".$oldPhone; 
+		// echo"<br> New name is ".$newPhone; 
 		$update ="update patient set phoNo='$newPhone' where sno=$oldName";
         $query1  = mysqli_query($conn, $update);
 		if($query1)
