@@ -69,8 +69,8 @@ error_reporting(0);
 <div id="output" style="display:none">
 <?php
 //echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insetion failed</h1>";
-echo"the ".$name   = $_POST['name']."<br>";
-echo"The ".$age    = $_POST['age'];
+$name   = $_POST['name'];
+$age    = $_POST['age'];
 $gen    = $_POST['gen'];
 $pho    = $_POST['pho'];
   
@@ -80,13 +80,13 @@ $pho    = $_POST['pho'];
   $query = mysqli_query($conn, $insert);
 	if($query)
 	{
-	echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Inseted succesfully $name</h1>";
+	echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Inseted succesfully</h1>";
 		
 
 	}
 	else
 	{
-    echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insetion failed new $name </h1>".mysqli_connect_error();
+    echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px; margin-top:100px;' >Insetion failed new $name </h1>".mysqli_connect_error();
 	}
        	
 
