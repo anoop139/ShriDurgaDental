@@ -1,0 +1,65 @@
+ 
+       #d1 {
+        background-color:lightblue
+        }
+        #d1{
+		   height:40px;     
+		} 
+	
+		#d1 ul li{
+		    list-style-type:none;
+		}
+		#d1 ul li a{
+		    text-decoration:none;
+		}
+		#d1 ul li{
+		    float:left;
+     	padding-left:4px
+		}
+       #d1 ul li{
+		    padding-top:10px;
+		}
+		#d1 ul li a{
+		    font-size:20px;
+		}
+        #formEle{
+            float: left;
+        }
+        #formInput{
+        text-align: center;
+        }        
+        #formInput{
+            padding-top: 40px;
+            
+        }
+        .span{
+            font-weight: bold;
+            font-size: 20px;
+        }
+        form #Submit{
+            padding: 40px;
+            margin-left: 300px;
+            background-color: green;
+            border: 2px solid white;
+            color: white;
+            font-size: 20px;
+
+        }
+         .mobErr
+        {
+            padding: 0px;
+        }
+       .mobErr{
+        background-color: white;
+        color: red;
+        width: 140px;
+        margin-left:920px;
+        text-align:left;
+        padding-right: 10px;
+       }
+	#d1 ul li a:hover{
+	 text-decoration:underline
+	}
+	#d1 ul li a{
+	 color:green
+	}
