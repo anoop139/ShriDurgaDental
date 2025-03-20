@@ -74,6 +74,7 @@ $show   = mysqli_fetch_assoc($query1);
 <th>Edit Gender</th>
 <th>Phone Number</th>
 <th> Edit Phone Number</th>
+<th>Delete</th>
 </tr>
 <tr>
 <td><?php echo$show['name'];?></td>
@@ -84,6 +85,7 @@ $show   = mysqli_fetch_assoc($query1);
 <td style="text-align:center;"><a href="Edit/Gender.html?v=<?php echo $show['sno'];?>">Edit gender</a></td>
 <td><?php echo$show['phoNo'];?></td>
 <td><a href="Edit/Phone.html?v=<?php echo $show['sno'];?>">Edit phone number</a></td>
+<td><a href="Edit/Delete.php?d=<?php echo $show['sno'];?>">Delete</a></td>
 </tr>
 </table>
 

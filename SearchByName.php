@@ -7,7 +7,7 @@ error_reporting(0);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Search by name</title>
 	<style>
 	body{
 		background-image:url("Images/SearchbyNames.jpeg");
@@ -103,9 +103,10 @@ error_reporting(0);
 </div>
 <div id="res1">
 <h1>Search by Name :</h1>
-<form id="input">
+<form id="input"onsubmit="return checkInput()">
 <input type="text" id="input1" name="name" class="Col">&nbsp;
-<input type="submit" name="Sub" class="Col" value="Click here"><br><br><br>
+<input type="submit" name="Sub" class="Col" value="Click here" ><br>
+<div id="errInfo"></div><br><br>
 </form>
 <div id="pateintInfo">
 <?php
@@ -156,6 +157,7 @@ if(isset($_GET['Sub']))
 </div>
 </div>
 </div>
+<script src="./Script.js"></script>
 <div id="Back"><button class="Col">Back</button></div>
 <div id="Next"><button class="Col">Next</button></div>
 </body>

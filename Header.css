@@ -116,8 +116,8 @@
 	}
 	
 	#sub{
-		margin-top:10px;
-		margin-left:50px;
+		margin-top:20px;
+		margin-left:40px;
 	}
 	#sub{
 		padding:20px;
@@ -127,7 +127,20 @@
 	}
 	
 
- 
+	#patientName{
+		position: absolute;
+		top:0px;
+	    transition: transform 4s linear 1s;  
+	  }
+	 .res{
+		position: absolute;
+		top:0px;
+	    transition: transform 4s linear 1s;  
+	  }
+	  #patientName:hover{
+		transform: translateY(-80px);
+	 }
+
  
  
  

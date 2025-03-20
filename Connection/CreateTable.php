@@ -48,7 +48,7 @@ include("Connect.php")
               treatment varchar(255),  
                amount int(255),
                tid int(255),
-             foreign key(tid) references patient(sno)
+             foreign key(tid) references patient(sno)on delete cascade
            );";
 		   $query1 = mysqli_query($conn, $ct);
 			if($query1)

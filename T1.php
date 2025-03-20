@@ -42,17 +42,33 @@ error_reporting(0);
      .treat{
       border:2px solid black;
      }
+     .errorMessage{
+      background-color:white;
+     }
+     .errorMessage{
+      height: auto;
+      font-weight:bold;
+      font-size:20px;
+     }
+     
+     #errorMessage{
+      position: relative;
+      top:0px;
+     }
+     
     </style>
-	<link rel="stylesheet" href="Header.css">
+	<link rel="stylesheet" href="Header.css?v=5">
 </head>
 <body>
 <div id="header0" style="background-color:lightblue;">
 <?php
 $fid =$_GET['v'];
-$name =$_GET['n'];
+$n   = "No name";
+if (isset( $_GET['n'])) {
+  $n =  $_GET['n'];
+}
 
- // echo"the fd is ".$fid."<br>";
- // echo"the name ".$name;
+echo"<h1>n = $n</h1>";
 ?>  <div id="header">
     <ul>
       <li><a href="HomePage.html">Home</a></li>
@@ -61,60 +77,88 @@ $name =$_GET['n'];
     </ul>
   </div><br><br>
 </div>
+
   <div id="div1">
     <h1>Enter Treatmemt </h1>
     <h1>Enter Amount </h1>
   </div>
-  <form action="http://localhost:8081/Shri/T1.php">
-    <input type="text" name="treat" id="treat1" class="treat"><br><br><br>
+  <form action="http://localhost:8081/Shri/T1.php" onsubmit="return Submit()">
+    <input type="text" name="treat" id="treat1" class="treat"><br>
+   
+     <div class="errorMessage" id="errorMessage1"> <?php
+    ?></div>
+    <br><br>
     <input type="number" name="amt" id="" class="treat"><br>
-    <input type="text" name="name" hidden id="pname"  value="<?php echo$name; ?>" class="treat"><br>
-    <input type="number" name="fid" hidden id="pname1"   value="<?php echo$fid; ?>" class="treat"><br>
+    <input type="text" name="name" hidden id="pname"  value="<?php echo$name; ?>" class="treat">
+    <input type="number" name="fid" hidden id="pname1"   value="<?php echo$fid; ?>" class="treat">
+    <input type="hidden" name="pname" value=<?php echo $n;?>/>
 	<?php
-
+  $pn0=$_GET['pname'];
 if(isset($_GET['sub']))
-{
-	$y=$_GET['name'];
+{  
+    $name=$_GET['name'];
 	$treat=$_GET['treat'];
 	$fid1=$_GET['fid'];
-	$amt=$_GET['amt'];
+	$amt=$_GET['amt'];	
+
+
+  
+	if (isset($name)) {
+    # code...
+    //  echo"hi ".$treat;
 	$insert ="insert into treatment(treatment, amount, tid) value('$treat',$amt,$fid1)";
 	$query =  mysqli_query($conn, $insert);
 	$treatmentName = "Select treatment from treatment where treatment = '$treat'";
 	$query1 =  mysqli_query($conn, $treatmentName);
 	$noOf   =  mysqli_num_rows($query1);
 	$fetch =  mysqli_fetch_assoc($query1);
-   if($query && $noOf==0)
-   {
-	 echo"<script>
- //     alert($treat)
-//   window.location='http://localhost:8081/Shri/Display.php?n=$y'
-	
-	</script>";
-   }
-   else if($noOf>0)
-   {
-	   
-	echo"<h1 style='text-align:center; background-color:white;'>The treatmt for the patient already exists </h1>";
-   }    
-    else
+
+   if($query)
     {
-	   
-	 echo"<h1 style='text-align:center; background-color:white;'>Failed "." ".$y." ".$treat." ".$amt."</h1>";
-    }  
-   
-   
+      if ($pn0!="No") {
+        header("location:Display.php");
+        // echo"<span class='errorMessage'>Treatment inserted $pn0 </span><br>";
+      }
+      else {
+        header("location:Info.php?name3='Anoop Shetty'");
+        // echo"<span class='errorMessage'>Treatment inserted without name  $pn0</span><br>";
+      }
+
+////      echo"<span class='errorMessage'>Treatment inserted $pn0 </span><br>";
+      //echo"<script>window.location.href='Display.php?name=$name'</script>";
+    }
+  
+  // else if($query && !isset($pno))
+  //   {
+  //      echo"<span class='errorMessage'>Treatment inserted 2 </span><br><>";
+  //}
+       
+ else{
+  echo"<span class='errorMessage'>Failed</span><br>";
 }
+}
+ 
+}
+?>
+<script>
+   let msg = document.getElementById("errorMessage1")
+   let treat 
+   function Submit() {
+     treat = document.getElementById("treat1").value 
+    if (!treat) {
+      // 
 
-
-
-
-
-
-
-
-?>  
-    <input type="submit" name="sub" id="sub" class="treat"><br>
+        msg.innerHTML="Enter treatment";///
+      // alert("obj/ect")
+          return false 
+    }
+  }
+ window.oninput=(()=>{
+  // alert("testion")
+  msg.innerHTML="";
+ })
+</script>  
+    <input type="submit" name="sub" id="sub" class="treat" ><br>
   </form>
 
 </body>

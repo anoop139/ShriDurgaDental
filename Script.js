@@ -1,4 +1,4 @@
-
+let errInfo = document.getElementById("errInfo") 
 function insert() {
 	let pname = document.getElementById("name0").value;
 	let m = document.getElementById("Male");
@@ -12,7 +12,7 @@ let toDate = ""
 toDate=d.toString()+" - "+mo.toString()+" - "+y
 let date2 = document.getElementById("date2")
 
-      let errInfo = document.getElementById("errInfo") 
+     
       let errInfo1 = document.getElementById("errInfo1") 
 	let nameErr = document.getElementById("nameErr");
       let phoNo = document.getElementById("pho").value
@@ -82,7 +82,15 @@ let date2 = document.getElementById("date2")
 
 }
 
+function checkInput() {
+	let input = document.getElementById("input1").value;
 
+	if (!input) {
+      errInfo.innerHTML="<h1 style=''>Enter name</h1>"//
+	// alert("Enter your name "+errInfo.innerHTML)
+		return false
+	}
+}
 
 
 
