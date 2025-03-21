@@ -1,0 +1,45 @@
+       body{
+            background-image: url("Images/image1s.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+        #d1 {
+        margin-left:400px;
+        }
+      #d1 ul li a{
+        margin-left:21px ;
+      }
+      
+        #d1{
+           background-color:white;
+           height:25px;
+           width: 900px;
+        
+          
+        }
+        
+        #d1 ul li{
+            float: left;
+        
+        }
+        #d1 ul li{
+           list-style-type: none;
+        }
+        #d1 ul {
+            padding-left:600px;
+        
+        }
+       #d1 ul li a{
+        text-decoration: none;
+       }
+       #d1 ul li a:hover{
+        text-decoration: underline;
+       }
+       #d1 ul li a{
+
+        font-size:20px
+       }
+      .mobErr{
+        padding-left: 4px;
+      }
