@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Name</title>
+    <link rel="stylesheet" href="./Style.css?v=52">
+</head>
+<body id="nameBody">
+    <div id="main-div">
+        <!-- <h1>hello </h1> -->
+        <h1>Enter new name :</h1>
+        <form action="./UpdateName.php" id="form" method="GET">
+         <div>
+            <input type="text" name="newName" id="newName"><br>
+            <center><span style="color:red; " id="messageArea"></span></center><br>
+          <span id="submitArea"><input type="button" value="Update" name="submit" onclick="updateName()"></span>
+         </div>
+        </form>
+    </div>
+    <script src="./Update.js"></script>
+</body>
+</html>

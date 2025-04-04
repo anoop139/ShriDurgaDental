@@ -1,0 +1,80 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+#nameBody{
+	background-image: url("../Images/blurred-image-modern-dental-clinic_334978-14316.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+#main-div{
+	margin-top: 40px;
+	margin-left: 300px;
+  }
+
+#main-div{
+	padding: 20px;
+  }
+#main-div{
+	background-color: lightblue;
+}
+#main-div{
+	border: 2px solid black;
+	height: 50px;
+	width: 1000px;
+}
+
+#main-div form div{
+    position: absolute;
+	top: 0px;
+	left: 800px;
+}
+
+#main-div form div{
+    position: absolute;
+	top: 70px;
+}
+#main-div form div input{
+    margin-left: 100px;
+}
+#submitArea{
+    margin-left: 25px;
+}
+#submitArea input{
+	padding-left: 50px;
+	padding-right: 50px;
+}
+#submitArea input{
+	border: 2px solid black;
+}
+#ageBody{
+	background-image: url("https://media.istockphoto.com/id/1397214511/photo/doctor-checking-up-patient-at-dentist-office.jpg?s=612x612&w=0&k=20&c=j2YXiZ8coO2ov3QMQQOHh3fGm_AicbfzXPXwjX4qlWQ=");
+	filter: blur("40px");
+	background-repeat: no-repeat;
+	background-size: cover;
+	
+}
+#newAge{
+    position: absolute;
+	top: 40px;
+	left: 800px;
+}
+#Agebtn{
+	position: absolute;
+	top: 80px;
+	left: 850px;
+}
+
+#ageBody h1{
+	padding-top: 40px;
+	color: wheat;
+}
+
+#messageArea{
+	position: absolute;
+	top: 20px;
+}
+.h{
+	/* background-color: black; */
+	margin-top: 40px;
+}
