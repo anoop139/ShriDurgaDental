@@ -1,0 +1,135 @@
+      
+	  .ank{
+		  text-decoration:none;
+	  }
+    #header0{
+		background-color:white;
+	}
+	#header0{
+		padding-top:0px;
+		height:50px;
+
+	}
+    #header0 #header ul li{
+		float:left;
+	}    
+	#header0 #header ul li a{
+		text-decoration:none;
+	} 
+	#header0 #header ul li a:hover{
+		text-decoration:underline;
+	}    
+	a{
+		text-decoration:none;
+	}
+	a:hover{
+		text-decoration:underline;
+	}    
+	#header0 #header ul li a{
+		font-size:20px;
+	}
+	#header{
+     position:absolute;
+	 top:0px;
+	 right:10px;
+	 bottom:2px;
+	}
+	#header0 #header ul li{
+		margin-left:10px;
+		padding-top:10px;
+	}
+	 #Result{
+		 position:absolute;
+		 top:100px;
+	 }
+	#header ul li{
+		list-style-type:none;
+	}
+ 
+	  #dis{
+            border:2px solid black;
+			height:400px;
+        }	  
+		#body{
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV5tegbIR32oDRVB_qdMazaa-KJwDX04xfiA&s");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;  
+			
+        }
+		#dis{
+            padding-top:120px;
+           padding-left:400px;
+        }
+		.btn{
+		padding-left:20px;
+		padding-right:20px;
+		}
+		.btn{
+		background-color:black;
+		color:white;
+		}
+		#next{
+		position:absolute;
+		right:0px;
+		}
+		
+		
+        #formEle{
+            float: left;
+
+        }        
+        #formInput{
+            padding-top: 40px;
+          text-align:center
+        }
+        .span{
+            font-weight: bold;
+            font-size: 20px;
+        }
+        form #Submit{
+            padding: 40px;
+            margin-left: 300px;
+        background-color: green;
+            border: 2px solid white;
+            color: white;
+            font-size: 20px;
+
+        }
+         .mobErr
+        {
+           // padding: 0px;
+        }
+       .mobErr{
+       // background-color: white;
+        color: red;
+		padding-right:40px;
+       }
+	   #nameError{
+		   padding-right:40px;
+	   }
+	#d1 ul li a:hover{
+	 text-decoration:underline
+	}
+	#d1 ul li a{
+	 color:green
+	}
+	
+	#sub{
+		margin-top:10px;
+		margin-left:50px;
+	}
+	#sub{
+		padding:20px;
+		background-color:blue;
+		color:white;
+		font-size:20px;
+	}
+	
+
+ 
+ 
+ 
+ 
+ 
+ 
