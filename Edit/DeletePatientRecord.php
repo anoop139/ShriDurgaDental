@@ -8,7 +8,7 @@ error_reporting(0);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Delete Pateint recod</title>
+    <title>Delete Pateint Record</title>
     <style>
     #main-div{
         padding: 0px;
