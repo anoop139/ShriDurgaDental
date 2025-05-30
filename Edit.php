@@ -88,7 +88,7 @@ $show   = mysqli_fetch_assoc($query1);
 <td style="text-align:center;"><a href="Edit/Gender.html?id=<?php echo $show['sno'];?>">Edit gender</a></td>
 <td><?php echo$show['phoNo'];?></td>
 <td><a href="Edit/Phone.html?id=<?php echo $show['sno'];?>">Edit phone number</a></td>
-<td><a href="Edit/Delete.php?id=<?php echo $show['sno'];?>">Delete</a></td>
+<td><a href="Edit/DeletePatientRecord.php?id=<?php echo $show['sno'];?>">Delete</a></td>
 </tr>
 </table>
 <script>
