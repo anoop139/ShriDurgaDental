@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+	    
+        body{
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ZPZEsAvUt48PqhFubhzvfcaxOPzVzKPcEg&s");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;  
+        }
+		#header ul li a{
+		  color:white;
+		}
+    </style>
+	<link rel="stylesheet" href="Header.css">
+</head>
+<body id="body1">
+<div id="header0" style="background-color:black">
+	  <div id="header">
+        <ul>
+        <li><a href="HomePage.html">Home </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/display.php">Patient List </a></li>&nbsp;
+        
+        <li><a href="http://localhost:8081/Shri/SearchByName.php">Search by Name</a></li>
+        </ul>
+</ul><br><br><br><br><br>
+</div>
+</div>
+<div class="div1">
+ <div id="formEle">
+    <h1> Enter Name         :  </h1>
+    <h1> Enter Age          : </h1>
+    <h1> Enter Gender       : </h1>
+    <h1>Enter Mobile Number :</h1>
+    <!-- <h1>Enter Date          :</h1> 
+    <h1>Enter Amount        :</h1>-->
+ </div>
+ 
+ <div id="formInput">
+    <form action="http://localhost:8081/Shri/Insert.php" method="POST">    
+    <input type="text" name="name" id="name0" required><br> 
+    <span class="mobErr" id="nameErr"></span><br><br>
+    <input type="number" name="age" id="age" required><br>
+	   <span class="mobErr" id="errInfo1"></span><br><br>
+    <input type="radio" name="Gender" id="Male" value="Male" required><span class="span" name="Male">Male</span>
+    <input type="radio" name="Gender" id="Female" id="Female" required><span class="span">Female</span><br><br><br>
+    <input type="text" name="pho" id="pho" required><br>
+    <span class="mobErr" id="errInfo"></span><br><br>
+    <!-- <input type="date" name="date" id="date" required><br><br><br> -->
+    <!-- <input type="number" name="amount" id="amount"><br><br><br> -->
+    <input type="text" name="gen" id="value" value="no" hidden><br><br><br>
+    <input type="text" name="date" id="date2" value="no" hidden><br><br><br>
+    <input type="submit" value="Submit" id="Submit" onclick="return insert()">
+ </div>
+ <script src="Script.js"></script>
+ </form>
+</div>
+</div>
+</body>
+</html>		

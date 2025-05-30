@@ -1,0 +1,58 @@
+
+// else if (isset($_GET['name3'])) {
+// 	# code...
+//     	$primary =$_GET['primary'];
+//     	$pm = $_GET['name4'];
+//     //    echo"<h1>treatment of  ".$_GET['name4']."</h1>";//
+//         $deletedTreatment ="delete from treatment where sno=$primary";
+// 		$deletedQuery     = mysqli_query($conn, $deletedTreatment);
+// 		if ($deletedQuery) {
+// 			# code...
+// 			echo"<h1 id='del'>Treatment for ".$pm." deleted successfully</h1>";
+// 		}
+//         else{
+// 			echo"<h1 id='del'>Deletion failed</h1>";
+// 		}
+//     	$name3 = $_GET['name3'];
+// 		$fid2 = $_GET['fid2'];
+// 		$name4 = $_GET['name4'];
+// 		// echo"<h1>".$name3."</h1>";
+// 		// echo"<h1>the ".$fid2."</h1>";
+// 		$display ="select * from treatment where tid =$name3";
+// 		 $display2 ="select SUM(amount) as amt from treatment  where tid =$name3";
+// 		$query   =  mysqli_query($conn, $display);
+// 		$no   =  mysqli_num_rows($query);
+// 		$query1   =  mysqli_query($conn, $display2);
+// 		$fect0    = mysqli_fetch_assoc($query1);
+	   
+// 		if($no>0) 
+// 		{
+			
+// 	   echo"<h1>Treatment for ".$name4."</h1>";
+// 	   // echo"<h1>the ".$fect0['tid']."</h1>";
+// 	   echo"<center>
+// 	   <table border='1' cellpadding='4px' style='text-align:center'>
+// 		  <tr>
+// 		  <th>Treatment</th>
+// 		  <th>Amount</th>
+// 		  <th>Delete</th>
+// 		  </tr>";
+// 	   while( $fect    = mysqli_fetch_assoc($query))
+// 	   {
+// 		   echo"<tr>
+// 		  <td>$fect[treatment]</td>
+// 		  <td>$fect[amount]</td>
+// 			 <th><a href='Edit/TreatmentDel.php?t=$fect[sno]&name3=$name;'>Delete</a></th>
+// 		  <tr>";
+// 	   }
+// 	   echo"<th>Total</th>
+// 		  <th> $fect0[amt]</th>
+		  
+// 			 </table>
+// 			 </center>";
+// 	   }
+	   
+// 	   else if($no==0){
+// 		   echo"<h1 id='no'> No treatment for ".$name." recoded</h1>";
+// 	   }
+// }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="javascriptract">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Gender</title>
+<style>
+    *{
+        padding: 0px;
+        margin: 0px;
+
+    }
+    body
+    {
+        background-image: url("../Images/Gender.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    #genDiv{
+        margin-top: 25px;
+        margin-left: 25px;
+    }
+    #genDiv{
+        background-color: white;
+    }
+    #genDiv{
+        margin-left: 100px;
+    }
+    
+    #genform{
+        margin-top: -30px;
+        margin-left: 700px;
+    }
+    #genDiv{
+        border: 2px solid black;
+        height: 50px;
+        width: 1000px;
+    }
+    #genDiv{
+        padding: 20px;
+    }
+    #genform span{
+      font-weight: bold;
+    }   
+     #genbtn{
+       padding-left: 40px 
+    }
+</style>
+</head>
+<body>
+    <div id="genDiv">
+        <h1>Select new Gender</h1>
+        <form action="" id="genform">
+          <span><input type="radio" name="Gender" id="Male" value="Male">Male</span> &nbsp; 
+         <span><input type="radio" name="Gender" id="Female" value="Female">Female</span> &nbsp;<br>
+          <span style="color: red; padding-left:30px;" id="messageArea" class="h"></span><br>
+          <input type="text" id="gen" hidden>
+          <div id="genbtn"><input type="button" value="Update" onclick="updateGen()"/></div>
+        </form>
+    </div>
+    <script src="./Script1.js?v=1"></script>
+</body>
+</html>
