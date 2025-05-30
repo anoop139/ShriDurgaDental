@@ -192,54 +192,7 @@ if(isset($_GET['Sub']) ||  isset($_GET["pid"]))
 	}
 
 }
-// if(isset($_GET["id"]))
-// {
-// 	$id = $_GET['id'];
-// 	echo"<h1 id='TreatInserted'>Treatment inserted successfully</h1>";
-//     $patientInfo ="select *from patient where sno=$id";
-// 	$query       = mysqli_query($conn, $patientInfo);
-// 	$no           = mysqli_num_rows($query);
-	 
-	
-	
-// 	if($no>0)
-// 	{
-		
-// 		echo" <table border='2'>
-// 	 <tr>
-// 	 <th style='padding:3px;'>Date</th>
-// 	 <th style='padding:3px;'>Name</th>
-// 	 <th style='padding:5px;'>Age</th>
-// 	 <th style='padding:5px;'>Gender</th>
-// 	 <th style='padding:5px;'>No. of treatment</th>
-// 	 <th style='padding:5px;'>Treatment details</th>
-// 	 <th style='padding:5px;'>Phone Number</th>
-// 	 <th style='padding:5px;'>Edit</th>
-// 	 </tr>";
-//       while($fetch =mysqli_fetch_assoc($query))
-// 	  { 
-//         $id ="select * from treatment where sno=$fetch[sno]";
-// 		$query2       = mysqli_query($conn, $id);
-// 	    $no2           = mysqli_num_rows($query2);   
-// 		 ///  echo"hi $fetch[sno]";
-//            		echo"<tr>
-// 				 <td class='td'>$fetch[date]</td>
-// 		  <td class='td'>$fetch[name]</td>
-// 	 <td style='text-align:center'>$fetch[age]</td>
-// 	 <td style='text-align:center'>$fetch[gen]</td>
-// 	 <td style='text-align:center'><a id='Number' href='TreatmentDetail.php?id=$fetch[sno]'>$no2</a></td>
-// 	 <td style='text-align:center'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&sbm=True'>Click here to add treatment</a></td>
-// 	 <td>$fetch[phoNo]</td>
-// 	 <td><a href='Edit.php?id=$fetch[sno]'>Edit</a></td>
-// 	 </tr>";		  
-// 	  }
-//        echo"</table>";
-// 	}
-// 	else
-// 	{
-// 		echo"<h1 style='padding-left:200px;'>No recod found</h1>";
-// 	}
-// } todaygi
+
 ?>
 
 <script>
