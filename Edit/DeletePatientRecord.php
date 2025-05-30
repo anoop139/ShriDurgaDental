@@ -55,7 +55,7 @@ error_reporting(0);
             <?php
            if (isset($_GET['id'])) {
               $record = $_GET['id'];
-              echo"<h1>Id is $record</h1>";
+            //   echo"<h1>Id is $record</h1>";
                $patName = "select name from patient where sno=$record";
                $query   = mysqli_query($conn, $patName);
                $getName = mysqli_fetch_assoc($query);
