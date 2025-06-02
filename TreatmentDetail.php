@@ -85,7 +85,7 @@ error_reporting(0);
     transform: translateY(-50px)
 } */
 	</style>
-    <link rel="stylesheet" href="Header.css?v=6">
+    <link rel="stylesheet" href="Header.css?v=4">
 </head>
 <body>
 <div id="header0" style="background-color:lightblue">
@@ -165,6 +165,7 @@ echo"<center>
    <tr>
    <th>Treatment</th>
    <th>Amount</th>
+   <th>Edir</th>
    <th>Delete</th>
    </tr>";
 while( $fect= mysqli_fetch_assoc($query))
@@ -172,6 +173,7 @@ while( $fect= mysqli_fetch_assoc($query))
 	echo"<tr>
    <td>$fect[treatment]</td>
    <td>$fect[amount]</td>
+  <td><a href='EditTreatment\EditTreatment.php?id=$PatienName[sno]&tid=$fect[tid]'>Edit</a></td>
   <td><a href='Edit\TreatmentDel.php?id=$PatienName[sno]&tid=$fect[tid]'>Delete</a></td>
     </tr>";
 
