@@ -165,7 +165,7 @@ echo"<center>
    <tr>
    <th>Treatment</th>
    <th>Amount</th>
-   <th>Edir</th>
+   <th>Edit</th>
    <th>Delete</th>
    </tr>";
 while( $fect= mysqli_fetch_assoc($query))
