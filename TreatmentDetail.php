@@ -173,7 +173,7 @@ while( $fect= mysqli_fetch_assoc($query))
 	echo"<tr>
    <td>$fect[treatment]</td>
    <td>$fect[amount]</td>
-  <td><a href='EditTreatment\EditTreatment.php?id=$PatienName[sno]&tid=$fect[tid]'>Edit</a></td>
+  <td><a href='EditTreatment\EditTreatment.php?tid=$fect[tid]'>Edit</a></td>
   <td><a href='Edit\TreatmentDel.php?id=$PatienName[sno]&tid=$fect[tid]'>Delete</a></td>
     </tr>";
 
@@ -225,6 +225,6 @@ else if($no==0){
 window.onload=pop;
  </script>
 
-<a id="Back"><button class="Col">Back</button></a>
-<div id="Next"><button class="Col">Next</button></div>
+<!-- <a id="Back"><button class="Col">Back</button></a>/ -->
+<!-- <div id="Next"><button class="Col">Next</button></div>h -->
 </body> 
