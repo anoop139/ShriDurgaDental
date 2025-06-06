@@ -72,7 +72,7 @@ error_reporting(0);
     </style>
 </head>
 <body>
-<form id="mainFom" action=""  method="GET">
+<form id="mainFom" action="../TreatmentDetail.php?id="<?php echo $_GET['tid'];?>  method="GET">
 <input type="hidden" name="treatId" value="<?php echo $_GET['tid'];?>"> 
 <div id="main-div">
          <?php

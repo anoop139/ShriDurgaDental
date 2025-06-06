@@ -10,12 +10,20 @@ error_reporting(0);
 
     <title>Delete Pateint Record</title>
     <style>
+        body{
+            
+            background-image:url("../Images/DentalPatient2.jpg");
+            background-repeat:no-repeat;
+            background-size:cover
+        }
     #main-div{
         padding: 0px;
         margin: 0px;
     }
     #main-div{
-        border: 2px solid black;
+             background-image:url("../Images/DentalPatient.jpg");
+            background-repeat:no-repeat;
+            background-size:cover
     }
     #main-div{
         height: 200px;
@@ -46,6 +54,16 @@ error_reporting(0);
     .btns{
         border: 2px solid black; 
     }
+    .btns{
+  background-color: #ffffff;
+  color: #008B8B; /* DarkCyan - matches sea theme */
+  border: 2px solid #20B2AA; /* LightSeaGreen */
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+}
     </style>
 </head>
 <body>
