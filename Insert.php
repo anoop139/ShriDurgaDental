@@ -84,7 +84,8 @@ $age    = $_POST['age'];
 $gen    = $_POST['gen'];
 $pho    = $_POST['pho'];
 $date    = $_POST['date'];
-// echo"<h1>date $date  /</h1>";  
+// /echo"<h1>Name = $name</h1>";  
+// echo"<h1>Date = $date</h1>";  
 	
 	$insert = "insert into patient(date, name, age, gen, phoNo) 
 	values('$date','$name',$age, '$gen', '$pho')";
@@ -92,7 +93,7 @@ $date    = $_POST['date'];
 
 	if($query)
 	{
-	echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Record inseted succesfully </h1>";
+	echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Record inseted succesfully $date </h1>";
 	// echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Inseted succesfully $name</h1>";
 		
 
@@ -140,5 +141,6 @@ $date    = $_POST['date'];
     </form>
 
     </div>
+    <!-- <script src="./FormVali"></script> -->
 </body>
 </html>

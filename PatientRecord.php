@@ -65,7 +65,7 @@ $name = $_GET['n'];
 </div>
 </div>
 <div id="dis">     
-<form action="" id="dateForm">
+<form action="" id="dateForm" method="POST">
   
 <input type="hidden" name="toDate" id="date" value="he"/>
 <!-- <input type="hidden" name="ss" id="h" value="he"/> -->
@@ -74,9 +74,9 @@ $name = $_GET['n'];
   <?php
   
   // 
-  if (isset($_GET['fid1'])) {
+  if (isset($_GET['fid'])) {
     
-    $treamentInsert = $_GET['fid1'];
+    $treamentInsert = $_GET['fid'];
     if ($treamentInsert=="true") {
           echo"<h1 id='trefo'>Treatment Inseted </h1>";
 
@@ -85,7 +85,8 @@ $name = $_GET['n'];
   ?>
 <script>
   let date = new Date()
-     let today = date.getDate()+" - "+date.getMonth()+" - "+date.getFullYear()
+  let month =date.getMonth()+1
+     let today = date.getDate()+" - "+month+" - "+date.getFullYear()
   if (!window.localStorage.getItem("fomSubmited")) {
     window.localStorage.setItem("fomSubmited", "true");
     document.getElementById("date").value=today
@@ -109,7 +110,7 @@ $name = $_GET['n'];
 
  <?php
  //"17 - 3 - 2025";
-  $todayDate = $_GET['toDate'];
+  $todayDate = $_POST['toDate'];
   // echo"<h1>Testing". $todayDate."</h1>";
      $display ="SELECT * FROM patient where date = '$todayDate'";
    $query   =  mysqli_query($conn, $display);

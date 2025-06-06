@@ -1,4 +1,6 @@
-let errInfo = document.getElementById("errInfo") 
+       let errInfo = document.getElementById("errInfo") 
+
+      let errInfo1 = document.getElementById("errInfo1") 
 function insert() {
 	let pname = document.getElementById("name0").value;
 	let m = document.getElementById("Male");
@@ -6,14 +8,13 @@ let f = document.getElementById("Female");
 let value1 = document.getElementById("value")
 let date = new Date();
 let d = date.getDate()
-let mo = date.getMonth()
+let mo = date.getMonth()+1
 let y = date.getFullYear()
 let toDate = ""
 toDate=d.toString()+" - "+mo.toString()+" - "+y
 let date2 = document.getElementById("date2")
 
      
-      let errInfo1 = document.getElementById("errInfo1") 
 	let nameErr = document.getElementById("nameErr");
       let phoNo = document.getElementById("pho").value
       let age = document.getElementById("age").value
@@ -46,7 +47,7 @@ let date2 = document.getElementById("date2")
 
   if(age<0)
   {
-	  errInfo1.innerHTML="Enter positive number ";
+	  errInfo1.innerHTML="Enter positive number please ";
 	  errInfo1.style.backgroundColor="white"
 	  return false
   }
@@ -74,10 +75,10 @@ let date2 = document.getElementById("date2")
 	  return false;
 }
 	else{
-		
-		// errInfo.innerH///TML="All good "+date;
-		errInfo.style.backgroundColor="white"
-    	// return false;
+
+		date2.value=toDate;
+	    //  errInfo.innerHTML=date2.value;
+		//  return false
 	}
 
 }
@@ -91,16 +92,7 @@ function checkInput() {
 	// alert("Enter your name "+errInfo.innerHTML)
 		return false
 	}
-	// else{
-	
-	 
-	// 	console.log("localStorage");
-	// 	// let x = "Koraga Ajja";
-	// 	if (!localStorage.getItem(input)) {
-	// 		localStorage.setItem("name", input)
-			
-	// 	//  
-	//   }
+
 	// }
 }
 
@@ -123,9 +115,9 @@ oninput = ()=>{
 		 
 
   errInfo.innerHTML="";
+ errInfo1.innerHTML="";
+
 }
-
-
 
 
 
