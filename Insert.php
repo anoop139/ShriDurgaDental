@@ -93,7 +93,7 @@ $date    = $_POST['date'];
 
 	if($query)
 	{
-	echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Record inseted succesfully $date </h1>";
+	echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Record inseted succesfully </h1>";
 	// echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Inseted succesfully $name</h1>";
 		
 

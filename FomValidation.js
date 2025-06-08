@@ -82,31 +82,46 @@ let date2 = document.getElementById("date2")
 	}
 
 }
-
+	let input = document.getElementById("input1")
+    let input2 = document.getElementById("input2")///
 function checkInput() {
-	let input = document.getElementById("input1").value;
-    let input2 = document.getElementById("input2").value;
+	// let input = document.getElementById("input1").value//;
+    // let input2 = document.getElementById("input2").value;
 
-	if (!input) {
+	if (!input.value) {
       errInfo.innerHTML="<h1 style=''>Enter name </h1>"//
 	// alert("Enter your name "+errInfo.innerHTML)
 		return false
 	}
 
-	// }
+	else{
+    if (!window.localStorage.getItem("name")) {
+    window.localStorage.setItem("name", input.value);
+    input2.value = input.value
+	
+    document.getElementById("pateintInfo").submit()
+    
+  }
+ // else{
+	//alert(int2)
+  ///}
 }
+}
+ //onload=()=>{
+//     if (!window.localStorage.getItem("name")) {
+//     	let x = document.getElementById("input2").value =localStorage.getItem("name")
+//     input2.value = input.value
+	
+//     document.getElementById("pateintInfo").submit()
+    
+//   }
 
-// onsubmit=()=>{
+	//  alert("object "+x)
+	  //	errInfo.innerHTML=x
+    // doc//ument.getElementById("pateintInfo").submit()
 
-// 	let x = document.getElementById("input2").value =localStorage.getItem("name")
-// 	// alert("object "+x)
-// } 
+// }// 
 
-// onload=()=>{
-
-// 	let x = document.getElementById("input2").value =localStorage.getItem("name")
-// 	errInfo.innerHTML=x
-// } 
 
 	
 		

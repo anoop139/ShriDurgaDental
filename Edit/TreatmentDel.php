@@ -72,7 +72,7 @@ error_reporting(0);
     </style>
 </head>
 <body>
-<form id="mainFom" action="../TreatmentDetail.php?id="<?php echo $_GET['tid'];?>  method="GET">
+<form id="mainFom" action=""  method="GET">
 <input type="hidden" name="treatId" value="<?php echo $_GET['tid'];?>"> 
 <div id="main-div">
          <?php
@@ -103,7 +103,7 @@ error_reporting(0);
              $deleteTreat ="delete from treatment where tid=$treatId";
              $deleteTreatQuery = mysqli_query($conn, $deleteTreat);
              if ($deleteTreatQuery) {
-                //  echo"<h1>Delete/d id = ".$id."</h1>";
+                //  echo"<h1>Deleted</h1>";
              echo "<script>window.location.href='../TreatmentDetail.php?id=$id&Delete=$deleteTreatQuery';</script>"; //pass foreign key
               } else {
              # code...

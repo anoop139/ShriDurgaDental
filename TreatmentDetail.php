@@ -22,7 +22,7 @@ error_reporting(0);
 	}
 	#res1{
 		border:2px solid black;
-		height:400px;
+		height:auto;
 	}
 	
 	#res1{
@@ -32,7 +32,7 @@ error_reporting(0);
 	}
 	#res1{
 		
-		padding-top:100px;
+		padding-top:0px;
 		//text-align:center;
 	}
 	#Next button{
@@ -203,7 +203,7 @@ else if($no==0){
  <form action="./InsertTreatment.php" id="addTreatment">
 	<input type="hidden" name="id" value=<?php echo"$fid"?> />
 	<input type="hidden" name="tp" value=<?php echo"True"?> />
-	<input type="submit" value="Click here to add more treatment">
+	<input type="submit" value="Click here to add more treatment"><br>
  </form>
 </div>
 <!-- <div id="Back"><button class="Col">Back</button></div>

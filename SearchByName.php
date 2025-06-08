@@ -123,16 +123,19 @@ error_reporting(0);
 <h1>Search by Name :</h1>
 <form id="input"onsubmit="return checkInput()">
 <input type="text" id="input1" name="name" class="Col">&nbsp;
-<input type="text" id="input2" name="name4" class="Col"   hidden >&nbsp;
+<input type="text" id="input2" name="name4" class="Col">&nbsp;
 <input type="submit" name="Sub" class="Col" value="Click here" ><br>
 <div id="errInfo"></div><br><br>
 </form>
 
+
+	</script>
 <form id="pateintInfo">
+	
 <?php
 // echo"<h1>hee</h1>";
 $name = $_GET['name'];
-$name1 =  $_GET['name1'];
+
 // if (isset($_GET['id'])) {
 
 // 	# code...
@@ -143,11 +146,66 @@ if (isset($_GET['inserted'])) {
 	echo"<h1 id='TreatInserted'>Treatment inserted successfully</h1>";
 }
 // echo"<h1>name is  ".$nisset($_GET["id"])ame1."</h1>";
-if(isset($_GET['Sub']) ||  isset($_GET["pid"]))
+if(isset($_GET['Sub']))
 {
-		// $id = $_GET['pid'];
+	// $name1 =  $_GET['name'];
+
 // 
-    $patientInfo ="select *from patient where name like'$name%'";
+   $patientInfo = "SELECT * FROM patient WHERE name LIKE '$name%'";
+
+	$query       = mysqli_query($conn, $patientInfo);
+	$no           = mysqli_num_rows($query);
+	 
+	
+	
+	if($no>0)
+	{
+		
+		echo" <table border='2'>
+	 <tr>
+	 <th style='padding:3px;'>Date</th>
+	 <th style='padding:3px;'>Name</th>
+	 <th style='padding:5px;'>Age</th>
+	 <th style='padding:5px;'>Gender</th>
+	 <th style='padding:5px;'>No. of treatment</th>
+	 <th style='padding:5px;'>Treatment details</th>
+	 <th style='padding:5px;'>Phone Number</th>
+	 <th style='padding:5px;'>Edit</th>
+	 </tr>";
+      while($fetch =mysqli_fetch_assoc($query))
+	  { 
+        $id ="select * from treatment where sno=$fetch[sno]";
+		$query2       = mysqli_query($conn, $id);
+	    $no2           = mysqli_num_rows($query2);   
+		 ///  echo"hi $fetch[sno]";
+           		echo"<tr>
+		  <td class='td'>$fetch[date]</td>
+		  <td class='td'>$fetch[name]</td>
+	 <td style='text-align:center;' class='td'>$fetch[age]</td>
+	 <td style='text-align:center' class='td'>$fetch[gen]</td>
+	 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=$fetch[sno]'>$no2</a></td>
+	 <td style='text-align:center' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&sbm=True'>Click here to add treatment</a></td>
+	 <td class='td'>$fetch[phoNo]</td>
+	 <td class='td'><a href='Edit.php?id=$fetch[sno]'>Edit</a></td>
+	 </tr>";		  
+	  }
+       echo"</table>";
+	}
+	else
+	{
+		echo"<h1 style='padding-left:350px;'>No recod found</h1>";
+	}
+
+}
+else if(isset($_GET["pid"]))
+{
+	$name1 =  $_GET['name4'];
+
+	$pid = $_GET["pid"];
+echo"<h1>Now name is  $name1</h1>";
+// 
+   $patientInfo = "SELECT * FROM patient WHERE name LIKE '$name%'";
+
 	$query       = mysqli_query($conn, $patientInfo);
 	$no           = mysqli_num_rows($query);
 	 
@@ -210,7 +268,7 @@ if(isset($_GET['Sub']) ||  isset($_GET["pid"]))
 </div>
 </div>
 </div>
-<script src="./FomValidation.js?v=78"></script>
+<script src="./FomValidation.js?v=82"></script>
 <div id="Back"><button class="Col">Back</button></div>
 <div id="Next"><button class="Col">Next</button></div>
 </body>
