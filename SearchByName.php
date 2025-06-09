@@ -123,7 +123,7 @@ error_reporting(0);
 <h1>Search by Name :</h1>
 <form id="input"onsubmit="return checkInput()">
 <input type="text" id="input1" name="name" class="Col">&nbsp;
-<input type="text" id="input2" name="name4" class="Col">&nbsp;
+<input type="text" id="input2" name="name4" class="Col" hidden>&nbsp;
 <input type="submit" name="Sub" class="Col" value="Click here" ><br>
 <div id="errInfo"></div><br><br>
 </form>
@@ -204,7 +204,7 @@ else if(isset($_GET["pid"]))
 	$pid = $_GET["pid"];
 echo"<h1>Now name is  $name1</h1>";
 // 
-   $patientInfo = "SELECT * FROM patient WHERE name LIKE '$name%'";
+   $patientInfo = "SELECT * FROM patient WHERE sno =$pid";
 
 	$query       = mysqli_query($conn, $patientInfo);
 	$no           = mysqli_num_rows($query);
@@ -268,7 +268,7 @@ echo"<h1>Now name is  $name1</h1>";
 </div>
 </div>
 </div>
-<script src="./FomValidation.js?v=82"></script>
+<script src="./FomValidation.js?v=89"></script>
 <div id="Back"><button class="Col">Back</button></div>
 <div id="Next"><button class="Col">Next</button></div>
 </body>

@@ -107,20 +107,22 @@ function checkInput() {
   ///}
 }
 }
- //onload=()=>{
+ onsubmit=()=>{
 //     if (!window.localStorage.getItem("name")) {
-//     	let x = document.getElementById("input2").value =localStorage.getItem("name")
-//     input2.value = input.value
-	
-//     document.getElementById("pateintInfo").submit()
-    
+    	let x = document.getElementById("input2").value =localStorage.getItem("name")
+    input2.value = input.value
+	errInfo.innerHTML=x
+    document.getElementById("pateintInfo").submit()
+//      	
+//   } else{
+// 	return 
 //   }
 
-	//  alert("object "+x)
-	  //	errInfo.innerHTML=x
-    // doc//ument.getElementById("pateintInfo").submit()
+//	 alert("object "+x)
+	 
+    //doc//ument.getElementById("pateintInfo").submit()
 
-// }// 
+}// 
 
 
 	
