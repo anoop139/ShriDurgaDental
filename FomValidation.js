@@ -89,7 +89,7 @@ function checkInput() {
     // let input2 = document.getElementById("input2").value;
 
 	if (!input.value) {
-      errInfo.innerHTML="<h1 style=''>Enter name hi </h1>"//
+      errInfo.innerHTML="<h1 style=''>Enter name</h1>"//
 	// alert("Enter your name "+errInfo.innerHTML)
 		return false
 	}
