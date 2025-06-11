@@ -89,45 +89,24 @@ function checkInput() {
     // let input2 = document.getElementById("input2").value;
 
 	if (!input.value) {
-      errInfo.innerHTML="<h1 style=''>Enter name </h1>"//
+      errInfo.innerHTML="<h1 style=''>Enter name hi </h1>"//
 	// alert("Enter your name "+errInfo.innerHTML)
 		return false
 	}
 
 	else{
-    if (!window.localStorage.getItem("name")) {
-    window.localStorage.setItem("name", input.value);
-    input2.value = input.value
-	
-    document.getElementById("pateintInfo").submit()
+    if (!window.sessionStorage.getItem("name")) {
+    window.sessionStorage.setItem("name", input.value);
+	input2.value =window.sessionStorage.getItem("name")
+
     
   }
- // else{
-	//alert(int2)
-  ///}
+ else{
+		errInfo.innerHTML="hi "+input2.value
+  }
 }
 }
- onsubmit=()=>{
-//     if (!window.localStorage.getItem("name")) {
-    	let x = document.getElementById("input2").value =localStorage.getItem("name")
-    input2.value = input.value
-	errInfo.innerHTML=x
-    document.getElementById("pateintInfo").submit()
-//      	
-//   } else{
-// 	return 
-//   }
 
-//	 alert("object "+x)
-	 
-    //doc//ument.getElementById("pateintInfo").submit()
-
-}// 
-
-
-	
-		
-// }
 oninput = ()=>{
 		 
 

@@ -81,9 +81,16 @@ error_reporting(0);
 	#deleteInfo{
 		transition: transform 3s
 	}
-	/* #deleteInfo:hover {
-    transform: translateY(-50px)
-} */
+	#delF {
+      position: relative;
+	  left: 700px; 
+	  /* text-align:right; */
+    }
+	#delF input {
+      padding: 20px;
+	  /* text-align:right; */
+    }
+
 	</style>
     <link rel="stylesheet" href="Header.css?v=4">
 </head>
@@ -111,21 +118,19 @@ error_reporting(0);
  <?php 
  $fid= $_GET['id'];
  $tid= $_GET['tid'];
- if (isset($_GET['Delete'])) {
-
-	echo"<h1 id='del'>Deleted succesfully</h1>";
-
-	}
-	// else {
+ if (isset($_GET['treatInserted'])) {
+	// $deleted =$_GET['delete'];
+	echo"<h1 id='del'> Treament  inserted successfully </h1>";///
+}
+if (isset($_GET['Delete'])) {
+	// $deleted =$_GET['delete'];
+	echo"<h1 id='del'> Treament  deleted successfully </h1>";///
+}
+if (isset($_GET['DeleteAll'])) {
 	
-	// 	echo"<span id='del'>Deletion failed</span>";
-
-	//  }
- 
+	echo"<h1 id='del'> All treaments  deleted successfully </h1>";///
+}
 ?>
-<script>
-
-</script>
 <?php
 if (isset($fid)) {
  $showName ="select *from patient where sno=$fid";
@@ -146,16 +151,6 @@ echo"<h1>Treatment for "."$PatienName[name]"."</h1>";
 ?>
  </script>
  <?php
-if (isset($_GET['treatInserted'])) {
-	// $deleted =$_GET['delete'];
-	echo"<h1 id='del'> Treament  inserted successfully </h1>";///
-}
-if (isset($_GET['delete'])) {
-	$deleted =$_GET['delete'];
-	echo"<h1 id='del'> Treament  deleted successfully </h1>";///
-}
-?>
-<?php
  if($no>0) 
  {
 // echo"<h1>Treatment for ".$no."  </h1>";
@@ -187,7 +182,8 @@ echo"<th>Total</th>
 else if($no==0){
 
 	echo"<h1 id='no'> No treatment for "."$PatienName[name]"." recoded</h1>";
-}
+}  
+
 ?>
 <script>
 		let x = document.getElementById("del")
@@ -205,6 +201,11 @@ else if($no==0){
 	<input type="hidden" name="tp" value=<?php echo"True"?> />
 	<input type="submit" value="Click here to add more treatment"><br>
  </form>
+ <form action="Edit\TreatmentDel.php?"  method="GET" id="delF">
+	<input type="hidden" name="id" value=<?php echo"$PatienName[sno]"?> />
+
+ <input type="Submit" name="DeleteAll" value="Delete All" id="deleteAll"> 
+</form>
 </div>
 <!-- <div id="Back"><button class="Col">Back</button></div>
  <form action="./InsertTreatment.php" id="addTreatment" method="GET">

@@ -30,11 +30,17 @@ error_reporting(0);
     #main-div{
         height: 200px;
     }
-    #result-div{
+    .result-div{
         padding-top:40px;
     }
-    #result-div{
+    .result-div{
      text-align:center
+    }
+    .result-div2{
+      /* text-align/:center */
+    }
+    .result-div2{
+      margin-left: 100px;
     }
     #delRequ{
         text-align:right;
@@ -57,18 +63,31 @@ error_reporting(0);
         border: 2px solid black; 
     }
     #Yes{
-      float:right;
-      position: relative;
-      /* top:51px; */
+     position: absolute;
+      top:188px;
+      left: 1470px;
     }
     #back{
       /* ///float:right; */
       position: absolute;
       top:190px;
+    }   
+    #deleteAll{
+    position: absolute;
+      top:50px;
+      left: 200px;
     }
-    .dispArea{
-        /* color:lightblue; */
+
+     #delAll{
+    display:none;
+    } 
+    
+    #delAll{
+    position: absolute;
+      top:190px;
+      left:  1470px;
     }
+
     </style>
 </head>
 <body>
@@ -77,12 +96,8 @@ error_reporting(0);
 <div id="main-div">
          <?php
           $id = $_GET['id'];
-        
-
-            //  echo"<h1>Treatment id is $treatId</h1>";
-         
          ?>
-        <div id="result-div">
+        <div class="result-div">
             <?php
               if (isset($_GET['id']) && isset($_GET['tid'])) {
                $id = $_GET['id'];
@@ -92,18 +107,16 @@ error_reporting(0);
              where patient.sno=$id and treatment.tid=$tid"; 
               $query = mysqli_query($conn, $getName0);
              $showName = mysqli_fetch_assoc($query); 
-               echo"<h1 class='dispArea'>Are you sure you want to delete treatment record of  "."$showName[name]"."?</h1>";
+               echo"<h1 '>Are you sure you want to delete treatment record of  "."$showName[name]"."?</h1>";
                echo"<h1 class='dispArea'>Treatment name :  "."$showName[treatment]"."?</h1>";///
               }
+              
              if (isset($_GET['deleteTreatment'])) {
                 $treatId = $_GET['treatId'];
-        // //      $id = $_GET['id'];
-        //    echo"<h1> hello</h1>";
-        //   echo"<h1>tratmentt id is =".$treatId."</h1>";
              $deleteTreat ="delete from treatment where tid=$treatId";
              $deleteTreatQuery = mysqli_query($conn, $deleteTreat);
              if ($deleteTreatQuery) {
-                //  echo"<h1>Deleted</h1>";
+                 echo"+<h1>Deleted</h1>";//
              echo "<script>window.location.href='../TreatmentDetail.php?id=$id&Delete=$deleteTreatQuery';</script>"; //pass foreign key
               } else {
              # code...
@@ -120,10 +133,57 @@ error_reporting(0);
     <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
     <input type="hidden" name="primary" value="<?php echo$patName;?>">
     <input type="hidden" name="n" value="<?php echo$name5;?>">
+          </from>
+      <form action="">
+        <div id="deleteAll" class="result-div2">
+         
+           <?php
+            if (isset($_GET['DeleteAll'])) {
+           $id = $_GET['id'];
+            //   echo"<h2> Treatment i is $treatId/h2>";
+            $getName0 ="select patient.name from patient where sno=$id"; 
+              $query = mysqli_query($conn, $getName0);
+             $showName = mysqli_fetch_assoc($query); 
+               echo"<h1 >Are you sure you want to delete all treatment records of  "."$showName[name]"."?</h1>";
+        //\
+              }
+             if (isset($_GET['deleteAll'])) {
+                 $id = $_GET['id'];//use as forien key
+                $deleteAll ="Delete from treatment where sno=$id";
+                $deleteAllQuery = mysqli_query($conn, $deleteAll);
+                if ($deleteAllQuery) {
+                  // echo"<h1>Success</h1>";
+            echo "<script>window.location.href='../TreatmentDetail.php?id=$id&DeleteAll=$deleteAllQuery';</script>"; //pass foreign key
+//pass foreign key
+                }
+             else{
+                 echo"<h1>Deletion failed</h1>";
+             }
+                 
 
-    <div id="Yes"><input type="submit" name="deleteTreatment" value="Yes" class="btns"></div>
+             
+
+             }
+           
+           ?>
+          </div>
+         <div id="delAll"> <input type="submit" name="deleteAll" class="btns" value="Yes all"></div>
+        <input type="hidden" class="btns" id="da" value="<?php echo$_GET['DeleteAll'];?>">
+        <input type="hidden" class="btns" id="id" value="<?php echo$_GET['id'];?>">
+     
+      </form>
+    <div id="Yes"><input type="submit" name="deleteTreatment" value="Yes" class="btns"> </div>
    </form>
-    <form id="submitFom">
-</form>
+    <script>
+    // onload =()=>{
+     if (document.getElementById("da").value=="Delete All") {
+    //   alert("hi")//
+       document.getElementById("delAll").style.display="inline"    
+       document.getElementById("Yes").style.display="none" 
+    //  document.getElementById("back").style.display="none"
+    }
+
+    </script>
+        
 </body>
 </html>
