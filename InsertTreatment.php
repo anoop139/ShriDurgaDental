@@ -91,7 +91,7 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
     <h1>Enter Treatmemt </h1>
     <h1>Enter Amount </h1>
   </div>
-  <form action="" onsubmit="return Submit()">
+  <form action="" onsubmit="return Submit()" method="POST">
     <input type="text" name="treat" id="treat1" class="treat"><br>
    
      <div class="errorMessage" id="errorMessage1"> <?php
@@ -108,15 +108,16 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
 
 
  
-if(isset($_GET['sub']))
+if(isset($_POST['sub']))
 {  
-    $name=$_GET['name'];
-	$treat=$_GET['treat'];
-	$fid1=$_GET['fid'];
-	$amt=$_GET['amt'];	
-	$pr=$_GET['pr'];	
-	$sbm=$_GET['sbm'];	
-	$td1=$_GET['tp'];	
+   $name = $_POST['name'];
+$treat = $_POST['treat'];
+$fid1 = $_POST['fid'];
+$amt = $_POST['amt'];
+$pr = $_POST['pr'];
+$sbm = $_POST['sbm'];
+$td1 = $_POST['tp'];
+
 // echo"<h1 style='background:white;'>td =  $td1</h1>";///
 
   

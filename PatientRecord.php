@@ -111,7 +111,7 @@ $name = $_GET['n'];
  <?php
  //"17 - 3 - 2025";
   $todayDate = $_POST['toDate'];
-  // echo"<h1>Testing". $todayDate."</h1>";
+  // echo"<h1>Testing". $todayDate."</h1>";//
      $display ="SELECT * FROM patient where date = '$todayDate'";
    $query   =  mysqli_query($conn, $display);
    $dateQuery   =  mysqli_query($conn, $display);

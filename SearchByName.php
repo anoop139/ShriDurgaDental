@@ -38,7 +38,7 @@ error_reporting(0);
 		
 	#input{
 	    position:absolute;
-		left:800px;
+		left:740px;
 		top:140px
 	}
 	.Col{
@@ -75,7 +75,7 @@ error_reporting(0);
 	}
 	#res1
 	{
-//		background-color:lightblue
+/* //		background-color:lightblue */
 	}
 	#Number
 	{
@@ -92,12 +92,20 @@ error_reporting(0);
 	 }
      #TreatInserted
 	 {
-		transition:tranform, 3s 
+		transition:transform 3s 
 	}
 	/* #TreatInserted:hover
 	 {
 		transform:translateY(-50px) 
 	} */
+	  #resultDiv
+	 {
+		padding-left:330px ;
+	} 
+	 #errInfo
+	 {
+		text-align:center;
+	} 
 	.td{
 		padding: 5px;
 	}
@@ -121,37 +129,16 @@ error_reporting(0);
 </div>
 <div id="res1">
 <h1>Search by Name :</h1>
-<form id="input"onsubmit="return checkInput()">
+<form id="input"onsubmit="return checkInput()" method="POST">
 <input type="text" id="input1" name="name" class="Col">&nbsp;
-
 <input type="submit" name="Sub" class="Col" value="Click here" ><br>
-<div id="errInfo"></div><br><br>
 </form>
+<div id="resultDiv">
+		<?php
+	if(isset($_POST['Sub']))
 
-<form action="" id="hidden">
-   <input type="text" id="input2" name="name4" class="Col" hidden>&nbsp;
-
-</form>
-	</script>
-<form id="pateintInfo">
-	
-<?php
-// echo"<h1>hee</h1>";
-$name = $_GET['name'];
-
-// if (isset($_GET['id'])) {
-
-// 	# code...
-// 	$sno =$_GET['id'];
-// }
-if (isset($_GET['inserted'])) {
-    $x = $_GET['inserted'];
-	echo"<h1 id='TreatInserted'>Treatment inserted successfully</h1>";
-}
-// echo"<h1>name is  ".$nisset($_GET["id"])ame1."</h1>";
-if(isset($_GET['Sub']))
-{
-	// $name1 =  $_GET['name'];
+{    
+	$name =  $_POST['name'];
 
 // 
    $patientInfo = "SELECT * FROM patient WHERE name LIKE '$name%'";
@@ -250,27 +237,55 @@ else if(isset($_GET["pid"]))
 	{
 		echo"<h1 style='padding-left:350px;'>No recod found</h1>";
 	}
+	}
 
-}
 
 ?>
+</div>
+<!-- <input type="submit" name="Sub" class="Col" value="Click here" ><br> -->
+<h1 id="errInfo"></h1><br><br>
+<!-- </form> -->
 
+<form action="" id="hidden" method="POST">
+
+   <input type="text" id="input2" name="name4" class="Col" hidden>&nbsp;
+
+</form>
+	</script>
+<form id="pateintInfo">
+	
+<?php
+// echo"<h1>hee</h1>";
+// if (isset($_GET['id'])) {
+
+// 	# code...
+// 	$sno =$_GET['id'];
+// }
+if (isset($_GET['inserted'])) {
+    $x = $_GET['inserted'];
+	echo"<h1 id='TreatInserted'>Treatment inserted successfully</h1>";
+}
+// echo"<h1>name is  ".$nisset($_GET["id"])ame1."</h1>";
+
+?>
 <script>
     let name = document.getElementById("TreatInserted")   
-     onload=()=>{
+    window.onload=()=>{
       name.style.transform="translateY(100px)"
 	// alert(1)
-     };   
+   
        setTimeout(() => {
       name.style.transform="translateY(-85px)"
-     }, 5000);
+     }, 5000);  
+	
+};   
 
 </script>
 </form>
 </div>
 </div>
 </div>
-<script src="./FomValidation.js?v=33"></script>
+<script src="./FomValidation.js?v=4"></script>
 <div id="Back"><button class="Col">Back</button></div>
 <div id="Next"><button class="Col">Next</button></div>
 </body>

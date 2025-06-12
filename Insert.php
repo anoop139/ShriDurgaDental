@@ -7,10 +7,10 @@ error_reporting(0);
     #output{
        
         border: 2px solid black;
-      // height: 200px; 
+      /* // height: 200px; 
       // width: 400px;
-      //padding-top:40px;   
-    }
+      //padding-top:40px;*/   
+    } 
     #output{
      background-color:white;
     }
@@ -68,6 +68,7 @@ error_reporting(0);
      }
      #errMsg{
         background-color:white;
+        width: 800px;
      }
      
 
@@ -76,14 +77,15 @@ error_reporting(0);
 <body>
 <div>
 
-<div id="output" style="display:none">
+<div id="output" >
 <?php
 //echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insetion failed</h1>";
+$date    = $_POST['date'];
 $name   = $_POST['name'];
 $age    = $_POST['age'];
 $gen    = $_POST['gen'];
 $pho    = $_POST['pho'];
-$date    = $_POST['date'];
+
 // /echo"<h1>Name = $name</h1>";  
 // echo"<h1>Date = $date</h1>";  
 	
@@ -99,7 +101,7 @@ $date    = $_POST['date'];
 
 	}
     else{
-		echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insetion failed</h1>";
+		echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insertion failed</h1>";
 
     }
 	
@@ -108,25 +110,30 @@ $date    = $_POST['date'];
 </div>
 <?php
  if ($query!=1) {
-	
-    echo"<h1 style='color:red;'  id='errMsg'>As phone number or the patient record exists  </h1>".mysqli_connect_error();
+	$patientId ="select sno from patient where phoNo='$pho'";
+    $idQuery   = mysqli_query($conn, $patientId);
+    $showId    = mysqli_fetch_assoc($idQuery);
+
+    echo"<h1 style='color:red;'  id='errMsg'>As phone number or the patient record exists, to add treatment
+    <a href='./InsertTreatment.php?id=$showId[sno]&tp=True' >Click here  </a> 
+    </h1>".mysqli_connect_error();
     
  }
 ?>
 </div>
      <script>
 
-        function show() {
-           let out =  document.getElementById("output")
-           out.style.display="block";
-			setTimeout(() => {
-                // alert("testing")
-                out.style.transition="transform 3s"
-                out.style.transform="translateY(-85px)"
-            }, 5000);
-        }
-        window.onload=show
-     </script>
+    //     function show() {
+    //        let out =  document.getElementById("output")
+    //        out.style.display="block";
+	// 		setTimeout(() => {
+    //             // alert("testing")
+    //             out.style.transition="transform 3s"
+    //             out.style.transform="translateY(-85px)"
+    //         }, 5000);
+    //     }
+    //     window.onload=show
+    //  </script>
     <div id="result">
     </div>
     <div id="fomDiv">
