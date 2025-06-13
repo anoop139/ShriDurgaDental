@@ -16,15 +16,21 @@ error_reporting(0);
             background-repeat:no-repeat;
             background-size:cover
         }
+         #nameDiv{
+        position: absolute;
+        top: 40px;
+        left: 400px;
+    }
     #main-div{
-        padding: 0px;
-        margin: 0px;
+        padding-top: 0px;
+
     }
     #main-div{
              background-image:url("../Images/DentalPatient.jpg");
             background-repeat:no-repeat;
             background-size:cover
     }
+
     #main-div{
         height: 200px;
     }
@@ -44,13 +50,21 @@ error_reporting(0);
     //    left: 800px;
         bottom:30px;
     } 
-    #mainFom input{
-        padding: 10px;
-        margin-top:20px
+     #yesDiv{
+       
+        text-align:right;
+        /* margin-left:1000px ; */
+
     }
-      #delRequ input{
+    #yesDiv input{
         padding: 10px;
-    } 
+        margin-top:0px;
+        /* margin-left:1000px ; */
+
+    }
+      /* #mainFom input{
+        padding: 10px;
+    }  */
     .btns{
         border: 2px solid black; 
     }
@@ -67,11 +81,9 @@ error_reporting(0);
     </style>
 </head>
 <body>
-<form id="mainFom" action=""  method="GET">
-<div id="main-div">
-        <div id="result-div">
-            <?php
-           if (isset($_GET['id'])) {
+<div id="nameDiv">
+        <?php
+      if (isset($_GET['id'])) {
               $record = $_GET['id'];
             //   echo"<h1>Id is $record</h1>";
                $patName = "select name from patient where sno=$record";
@@ -81,14 +93,23 @@ error_reporting(0);
                echo"<h1>Are you sure you want to delete record of ".$getName["name"]." ? </h1>";
 
            }
+    
+    
+    ?>
+</div>
+<form id="mainFom" action=""  method="GET">
+<div id="main-div">
+        <div id="result-div">
+            <?php
+         
                if (isset($_GET['deleteRecord'])) {
                 $id = $_GET['id'];
                 $deleteRecord ="Delete from patient where sno=$id";
                 $deleteQuery = mysqli_query($conn, $deleteRecord);
                 if ($deleteQuery) {
-                //    echo"<h1>Deleted successfully</h1>";
+                   echo"<h1>Deleted successfully</h1>";
                 echo"<script>
-                 window.location.href='../DentalHomePage.html';
+                 window.location.href='../DentalHomePage.html?recordDeleted=true';
                 
                 </script>";
                 }
@@ -100,14 +121,10 @@ error_reporting(0);
             ?>
         </div>
     </div>
-    <input type="hidden" name="name" value="<?php echo$record;?>">
-    <input type="submit" class="btns" value="Back">
+    <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
+<div id="yesDiv"><input type="submit" name="deleteRecord" class="btns" value="yes"></div>
 </form>
-<form action="#" id="delRequ">
-    <input type="hidden" name="id" value="<?php echo$record;?>">
-    <input type="hidden" name="name3" value="<?php echo$getName['sno'];?>">
-    <input type="submit" name="deleteRecord" class="btns" value="yes">
-</form>
+
 </body>
 </html>
 </html>

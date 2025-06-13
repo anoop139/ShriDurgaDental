@@ -15,11 +15,17 @@
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patients List </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/SearchByName">Search by Name</a></li>
         </ul>
-        <!-- <h1>hello</h1> -->
-    </div>
+       </div>
+     <h1 id="DelMag">hello</h1>
     </div>
     <script>
-      
+        // 
+    //  
+   window.onload =()=>{
+    let a = window.location.search
+     let x = new URLSearchParams(a)
+     alert("x = "+x.get("recordDeleted"))
+   }
 
     </script>
 

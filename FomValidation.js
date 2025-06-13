@@ -101,9 +101,7 @@ function checkInput() {
 
     
   }
- else{
-		errInfo.innerHTML="hi "+input2.value
-  }
+// \
 }
 }
 
