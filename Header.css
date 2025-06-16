@@ -1,22 +1,32 @@
-      
+
 	  .ank{
 		  text-decoration:none;
 	  }
-    #header0{
-		background-color:white;
-	}
-	#header0{
-		padding-top:0px;
-		height:50px;
 
+    ul{
+    	height: 40px;
+	}   
+  ul {
+	 background-color: white;
+	 padding-left: 1210px;
+  }	 
+	ul li {
+    list-style-type: none;
 	}
-    #header0 #header ul li{
-		float:left;
-	}    
-	#header0 #header ul li a{
+	ul li {
+    line-height: 40px;
+	}
+	 ul li a{
+
 		text-decoration:none;
 	} 
-	#header0 #header ul li a:hover{
+      ul li {
+		float: left;
+	}    
+	ul li {
+		padding-left: 10px;
+	}   
+	ul li a:hover{
 		text-decoration:underline;
 	}    
 	a{
@@ -25,7 +35,7 @@
 	a:hover{
 		text-decoration:underline;
 	}    
-	#header0 #header ul li a{
+	/* #header0 #header ul li a{
 		font-size:20px;
 	}
 	#header{
@@ -33,7 +43,7 @@
 	 top:0px;
 	 right:10px;
 	 bottom:2px;
-	}
+	} */
 	#header0 #header ul li{
 		margin-left:10px;
 		padding-top:10px;
