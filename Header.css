@@ -7,14 +7,14 @@
     	height: 40px;
 	}   
   ul {
-	 background-color: white;
+	 /* background-color: white; */
 	 padding-left: 1210px;
   }	 
 	ul li {
     list-style-type: none;
 	}
 	ul li {
-    line-height: 40px;
+    line-height:40px;
 	}
 	 ul li a{
 

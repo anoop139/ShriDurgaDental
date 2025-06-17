@@ -9,11 +9,11 @@ error_reporting(0);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Treatment Details</title>
     <style>
-	 #header0{
+	 ul{
       background-color:lightblue;
      }
 	 
-     #header{
+     /* #header{
         position: absolute;
         top:0px;       
         right:20px;
@@ -26,7 +26,7 @@ error_reporting(0);
      }
 	 #header ul li{
      margin-left:20px
-     }
+     } */
    	
      body{
         background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBztpBXjR7M2C_AkcfV_0IWiQ48qGrmTgPLw&s");
@@ -61,10 +61,10 @@ error_reporting(0);
 		left: 700px;
 	}
     </style>
-	<link rel="stylesheet" href="Header.css?v=5">
+	<link rel="stylesheet" href="Header.css?v=6">
 </head>
 <body>
-<div id="header0" style="background-color:lightblue;">
+<div id="header0" >
 <?php
 $fid =$_GET['id'];
 $n   = "No name";
@@ -76,14 +76,11 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
  echo"<h1 id='del'>Treatment for  "."$queryName[name]"."</h1>";
 }
 
-?>  <div id="header">
-    <ul>
-      <li><a href="HomePage.html">Home</a></li>
-      <li><a href="http://localhost:8081/Shri/display.php">Patients List</a></li>
-      <li><a href="">Search by Name</a></li>
-    </ul>
-  </div><br><br>
-</div>
+?>    <ul id="ul">
+        <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patients List </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/SearchByName">Search by Name</a></li>
+        </ul>
 <?php
 
 ?>

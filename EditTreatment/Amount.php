@@ -75,7 +75,7 @@ error_reporting(0);
                     // echo"Treatment update";
                     echo"
                     <script>
-                    window.location.href='./EditTreatment.php?tid=$id&update=true';
+                    window.location.href='./EditTreatment.php?tid=$id&updateAmount=true';
                     </script>
                     
                     ";

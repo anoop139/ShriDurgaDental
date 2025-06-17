@@ -81,9 +81,13 @@ error_reporting(0);
             ?>
             <span id="message">
                 <?php
-                if (isset($_GET['update'])) {
+                if (isset($_GET['updateTreatment'])) {
                     # code...
                     echo"Treatment updated successfully";
+                }
+                if (isset($_GET['updateAmount'])) {
+                    # code...
+                    echo"Amount updated successfully";
                 }
                 
                 ?>

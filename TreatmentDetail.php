@@ -22,9 +22,12 @@ error_reporting(0);
 	}
 	#res1{
 		border:2px solid black;
-		height:auto;
+	    position: relative;
+		top: -100px;
 	}
-	
+	#res1{
+		height: auto;
+	}
 	#res1{
 		
 		margin-top:50px;
@@ -68,7 +71,7 @@ error_reporting(0);
 	}
 	#del{
 		position: absolute;
-		top:-50px;
+		top:-150px;
 		left: 700px;
 		transition: transform 3s;
 	}
@@ -95,15 +98,10 @@ error_reporting(0);
     <link rel="stylesheet" href="Header.css?v=4">
 </head>
 <body>
-<div id="header0" style="background-color:lightblue">
-
-<div id="header">
-
-        <ul>
-        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
-        <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
-        
-        <li><a href="SearchByName.php">Search by Name</a></li>
+  <ul id="Header0" style="background-color:lightblue;">
+        <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patients List </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/SearchByName">Search by Name</a></li>
         </ul>
 	
 </ul><br><br><br><br><br>

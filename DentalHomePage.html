@@ -4,16 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Welcom to Shri Durga Dental Clinic</title>
-    <link rel="stylesheet" href="Header.css?v=1">
+    <link rel="stylesheet" href="Header.css?v=4">
     <link rel="stylesheet" href="Styl.css">
     <style>
     #deleted{
-        margin: 0px;
-        padding: 0px;
+        margin-top: 0px;
     }
-      #header0{
-        margin: 0px;
-    } #deleted{
+  ul{
+     position:relative;
+     top:-20px
+    } 
+
+     #Header0{
+        transition: transform 3s;
+
+    }
+    #deleted{
         /* margin-left: 400px; */
         text-align: center;
        
@@ -22,30 +28,41 @@
         transition: transform 3s;
 
     }
-    #deleted:hover{
-     transform: translateY(100px);
-    }
+     /* #deleted:hover{
+     transform: translateY(-100px);
+    }  */
+   /* ul{
+     position: absolute;
+     top:-10px;      
+    } */
     </style>
 </head>
 <body>
-    <!-- <h1 style="background-color: white;" id="deleted">test</h1> -->
-    <ul id="Header0">
+    <h1 style="background-color: white;" id="deleted"></h1>
+    <ul id="Header0" style="background-color: white;">
         <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patients List </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/SearchByName">Search by Name</a></li>
         </ul>
-</div>
-
-</div>
     <script>
         // 
     //  
    window.onload =()=>{
-    let a = window.location.search
-     let x = new URLSearchParams(a)
-    //  alert("x = "+x.get("recordDeleted")//
-   }
+    let     a = window.location.search
+     let x   = new URLSearchParams(a)
+     let d   = document.getElementById("deleted")
+     let val = x.get("recordDeleted")
+     if (val==="true") {
+       d.innerHTML="Record deleted successfully"  
+     
 
+    //  alert("x = "+x.get("recordDeleted")//
+    setTimeout(() => {
+        d.style.transform="translateY(-100px)";
+             document.getElementById("Header0").style.transform="translateY(-50px)";
+    }, 4000);
+   }
+}
     </script>
 
 </body>
