@@ -90,15 +90,19 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
   </div>
   <form action="" onsubmit="return Submit()" method="POST">
     <input type="text" name="treat" id="treat1" class="treat"><br>
-   
+     <?php
+      
+    ?>
      <div class="errorMessage" id="errorMessage1"> <?php
     ?></div>
     <br><br>
     <input type="number" name="amt" id="" class="treat"><br>
+  
     <input type="text" name="name" hidden id="pname"  value="<?php echo$name; ?>" class="treat">
     <input type="number" name="fid" hidden id="pname1"   value="<?php echo$fid; ?>" class="treat">
     <input type="hidden" name="pname" value=<?php echo $n;?>/>
     <input type="hidden" name="pr" value=<?php echo $_GET['patientRecord'];?>>
+    <input type="hidden" name="tp" value=<?php echo $_GET['tp'];?>/>
     <input type="hidden" name="tp" value=<?php echo $_GET['tp'];?>/>
      <input type="hidden" name="sbm" value=<?php echo $_GET['sbm'];?>>
 	<?php
@@ -115,18 +119,20 @@ $pr = $_POST['pr'];
 $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
 
-// echo"<h1 style='background:white;'>td =  $td1</h1>";///
+// echo"<h1 style='background:white;'>treat =  $treat</h1>";///
+	$treatmentName = "Select treatment from treatment where treatment = '$treat' and sno=$fid1";
+	$query1 =  mysqli_query($conn, $treatmentName);
+	$treatCont   =  mysqli_num_rows($query1);
+	$fetch =  mysqli_fetch_assoc($query1); 
 
+ 
   
-	if (isset($name)) {
+	if (isset($name) && $treatCont==0) {
     # code...
     //  echo"hi ".$treat;
 	$insert ="insert into treatment(treatment, amount, sno) value('$treat',$amt,$fid1)";
 	$treatQuery =  mysqli_query($conn, $insert);
-	$treatmentName = "Select treatment from treatment where treatment = '$treat'";
-	$query1 =  mysqli_query($conn, $treatmentName);
-	$noOf   =  mysqli_num_rows($query1);
-	$fetch =  mysqli_fetch_assoc($query1); 
+
    if($treatQuery)
     {
        if ($pr=="true") {
@@ -138,7 +144,7 @@ $td1 = $_POST['tp'];
   
        }
      if ($td1=="True/") {
-      // echo"<h1 style='color:white;'> td is ".$td1."</h1>";
+  //    echo"<h1 style='color:red;'> Inserted  $noOf and $fid1</h1>";
 
         echo"
        <script>
@@ -157,27 +163,42 @@ $td1 = $_POST['tp'];
         window.location.href='SearchByName.php?pid=$fid1&inserted=True'
         </script>";
 }
+else if ($treatCont!=0) {
+  # code...
+  echo"<h3 style='position:absolute; top:0px; ; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient already exist</h3>";
+}
+
  
 }
 ?>
+
 <script>
    let msg = document.getElementById("errorMessage1")
-   let treat 
+   let treatExisted = document.getElementById("treatExisted")
+   let treat;
+      
    function Submit() {
      treat = document.getElementById("treat1").value 
+     ///////fid = document.getElementById("tn").value 
+       fid = document.getElementById("pname1").value 
     if (!treat) {
       // 
 
-        msg.innerHTML="Enter treatment";///
+        msg.innerHTML="Enter treatment "+fid;///
       // alert("obj/ect")
           return false 
     }
-    
+    else{
+      // msg.innerHTML="num is "+fid;
+      // alert(fid)
+      // return false
+    }
     // alert//
   }
  window.oninput=(()=>{
   // alert("testion")
   msg.innerHTML="";
+  treatExisted.innerHTML="";
  })
 </script>  
     <input type="submit" name="sub" id="sub" class="treat" ><br>
