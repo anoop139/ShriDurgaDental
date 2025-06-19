@@ -9,6 +9,10 @@ error_reporting(0);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search by name</title>
 	<style>
+	 #ul{
+		width: 100%;
+	 }   
+	 
 	body{
 		background-image:url("Images/SearchbyNames.jpeg");
 		background-repeat:no-repeat;
@@ -19,6 +23,10 @@ error_reporting(0);
 	}
 	ul li a{
 		color:white;
+	}
+	
+	ul li a{
+		padding: 0px;
 	}
 	#res1{
 		border:2px solid black;
@@ -73,7 +81,7 @@ error_reporting(0);
 	#pateintInfo{
 		padding-left:308px;
 	}
-	#res1
+	#re
 	{
 /* //		background-color:lightblue */
 	}
@@ -113,16 +121,14 @@ error_reporting(0);
     <link rel="stylesheet" href="Header.css?v=9">
 </head>
 <body>
-
-
-       <ul id="header0" style="background-color:black">
+  <div id="ul" style="background:black; ">
+	<ul>
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         
         <li><a href="SearchByName.php">Search by Name</a></li>
-        </ul>
-	
-</ul>
+      </ul>
+  </div>
 <div id="res1">
 <h1>Search by Name :</h1>
 <form id="input"onsubmit="return checkInput()" method="POST">

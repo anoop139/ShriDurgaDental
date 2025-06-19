@@ -4,19 +4,20 @@
 	  }
 
     ul{
-    padding: 0px;
-	margin: 0;
-	}    
+            
+		/* width: 400px; */
+		padding-left: 1200px;
+	}     
 	ul{
 		
 		height: 40px;
-		width: 320px;
+		/* width: 0///////////px/; */
 	}   
 	ul{
 		line-height: 40px;
 	}	
 	ul{
-		padding-left: 1200px;
+		/* padding-left: 1250px; */
 	}
    ul li {
 		padding-left: 10px;
@@ -43,14 +44,11 @@
 	a:hover{
 		text-decoration:underline;
 	}    
-	#header0{
-	width: 100px;
-	}
+	
 	#dis{
      margin-bottom: 20px;
 	} 
-	#header0 #header ul li{
-	}
+
 	 #Result{
 		 position:absolute;
 		 top:100px;
