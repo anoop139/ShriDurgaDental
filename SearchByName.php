@@ -113,20 +113,16 @@ error_reporting(0);
     <link rel="stylesheet" href="Header.css?v=9">
 </head>
 <body>
-<div id="header0" style="background-color:black">
 
-<div id="header">
 
-       <ul>
+       <ul id="header0" style="background-color:black">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         
         <li><a href="SearchByName.php">Search by Name</a></li>
         </ul>
 	
-</ul><br><br><br><br><br>
-</div>
-</div>
+</ul>
 <div id="res1">
 <h1>Search by Name :</h1>
 <form id="input"onsubmit="return checkInput()" method="POST">

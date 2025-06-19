@@ -10,11 +10,9 @@ $name = $_GET['n'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Information page</title>
 	<style>
-	#header0{
-		background-color:black
-
+  	ul{
+		padding-left: 0px;
 	}
-  
   #patientName{
     background-color:white; 
   }
@@ -43,27 +41,22 @@ $name = $_GET['n'];
 
   
 	</style>
-    <link rel="stylesheet" href="Header.css?v=8">
+    <link rel="stylesheet" href="Header.css?v=9">
 </head>
 <body id="body">
 <?php
 
 
 ?>
-<div id="header0" style="background-color:lightblue">
 
-<div id="header">
-
-        <ul>
+        <ul id="header0" style="background-color:lightblue">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         
         <li><a href="SearchByName.php">Search by Name</a></li>
         </ul>
 	
-</ul><br><br><br><br><br>
-</div>
-</div>
+</ul>
 <div id="dis">     
 <form action="" id="dateForm" method="POST">
   
