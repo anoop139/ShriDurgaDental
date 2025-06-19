@@ -105,12 +105,15 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
     <input type="hidden" name="tp" value=<?php echo $_GET['tp'];?>/>
     <input type="hidden" name="tp" value=<?php echo $_GET['tp'];?>/>
      <input type="hidden" name="sbm" value=<?php echo $_GET['sbm'];?>>
+     <input type="text" name="date" id="date2"  hidden>
+    <input type="submit" name="sub" id="sub" class="treat" ><br>
 	<?php
 
 
  
 if(isset($_POST['sub']))
 {  
+   $date = $_POST['date'];
    $name = $_POST['name'];
 $treat = $_POST['treat'];
 $fid1 = $_POST['fid'];
@@ -130,7 +133,7 @@ $td1 = $_POST['tp'];
 	if (isset($name) && $treatCont==0) {
     # code...
     //  echo"hi ".$treat;
-	$insert ="insert into treatment(treatment, amount, sno) value('$treat',$amt,$fid1)";
+	$insert ="insert into treatment(date, treatment, amount, sno) value('$date','$treat',$amt,$fid1)";
 	$treatQuery =  mysqli_query($conn, $insert);
 
    if($treatQuery)
@@ -144,9 +147,10 @@ $td1 = $_POST['tp'];
   
        }
      if ($td1=="True/") {
-  //    echo"<h1 style='color:red;'> Inserted  $noOf and $fid1</h1>";
+      
+      echo"<h1 style='color:red;'> Inserted  $noOf and $date</h1>";
 
-        echo"
+      echo"
        <script>
        window.location.href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'
         </script>";
@@ -176,32 +180,43 @@ else if ($treatCont!=0) {
    let msg = document.getElementById("errorMessage1")
    let treatExisted = document.getElementById("treatExisted")
    let treat;
-      
+         
    function Submit() {
+ let date4 = document.getElementById("date2")
      treat = document.getElementById("treat1").value 
      ///////fid = document.getElementById("tn").value 
        fid = document.getElementById("pname1").value 
     if (!treat) {
       // 
 
-        msg.innerHTML="Enter treatment "+fid;///
+        msg.innerHTML="Enter treatment "
       // alert("obj/ect")
           return false 
     }
     else{
-      // msg.innerHTML="num is "+fid;
-      // alert(fid)
-      // return false
+         let date = new Date();
+let d = date.getDate()
+let mo = date.getMonth()+1
+let y = date.getFullYear()
+let toDate = ""
+
+
+toDate=d.toString()+" - "+mo.toString()+" - "+y
+	date2.value=toDate;
+// alert("The date is "+date4)
     }
-    // alert//
+
   }
  window.oninput=(()=>{
-  // alert("testion")
+
+
+
   msg.innerHTML="";
   treatExisted.innerHTML="";
  })
 </script>  
-    <input type="submit" name="sub" id="sub" class="treat" ><br>
+
+     
   </form>
 
 </body>

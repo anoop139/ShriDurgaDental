@@ -156,6 +156,7 @@ echo"<h1>Treatment for "."$PatienName[name]"."</h1>";
 echo"<center>
 <table border='1' id='myTable' cellpadding='4px' style='text-align:center'>
    <tr>
+   <th>Date</th>
    <th>Treatment</th>
    <th>Amount</th>
    <th>Edit</th>
@@ -164,6 +165,7 @@ echo"<center>
 while( $fect= mysqli_fetch_assoc($query))
 {
 	echo"<tr>
+   <td>$fect[date]</td>
    <td>$fect[treatment]</td>
    <td>$fect[amount]</td>
   <td><a href='EditTreatment\EditTreatment.php?tid=$fect[tid]'>Edit</a></td>
@@ -171,7 +173,8 @@ while( $fect= mysqli_fetch_assoc($query))
     </tr>";
 
 }
-echo"<th>Total</th>
+echo"<th></th>
+   <th>Total</th>
    <th> $fect0[amt]</th>
       </table>
       </center>";
