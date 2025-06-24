@@ -9,6 +9,12 @@ error_reporting(0);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search by name</title>
 	<style>
+	ul ul li{
+		background:black;
+	}
+	ul ul li a{
+		color:white;
+	}
 	 #ul{
 		/* width:  */
 		padding-left:1480px ;
@@ -85,6 +91,7 @@ error_reporting(0);
 	{
 /* //		background-color:lightblue */
 	}
+
 	#Number
 	{
 		text-docoration:none;
@@ -125,17 +132,17 @@ error_reporting(0);
     <link rel="stylesheet" href="Header.css?v=9">
 </head>
 <body>
-       <ul style=" padding-left:1400px; background-color: black; height: 40px;">
+        <ul style=" padding-left:1200px; background-color:black; height: 40px;">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
-        <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         
         <li><a href="">Search by</a>
-        <ul >
-            <li ><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
+        <ul>
+            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
             <li><a href="">Date</a></li>
         </ul>
         </li>
-      </ul>
+</ul>
    <!-- </div> -->
    <!-- </di> -->
 <div id="res1">

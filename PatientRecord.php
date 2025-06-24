@@ -9,20 +9,28 @@ $name = $_GET['n'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Information page</title>
-    <link rel="stylesheet" href="Header.css?v=14">
+    <link rel="stylesheet" href="Header.css?v=17">
+    <style>
+      ul ul li{
+        background:lightblue;
+      }
+    </style>
 </head>
 <body id="body">
 <?php
 
 
 ?>
-   <ul id="ul" style="background-color:lightblue">
+   <ul style=" padding-left:1200px; background-color:lightblue; height: 40px;">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
-        <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         
-        <li><a href="SearchByName.php">Search</a></li>
+        <li><a href="">Search by</a>
+        <ul>
+            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li>
         </ul>
-	
+        </li>
 </ul>
 <div id="dis">     
 <form action="" id="dateForm" method="POST">

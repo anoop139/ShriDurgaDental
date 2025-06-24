@@ -21,7 +21,7 @@
 		text-decoration: underline;
 	  }
 	 ul ul li{
-		display: none;
+		/* display: none; */
 	 }
 	#dis{
      margin-bottom: 20px;
@@ -36,10 +36,10 @@
 		margin: 0px;
 	}
 	  #dis{
-		margin-top: 100px;
+		margin-top: 10px;
         }	
 		  	  #dis{
-            border:2px solid black;
+            /* border:2px solid black; */
 			height:400px;
         }	
 		#body{
