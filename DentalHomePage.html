@@ -10,15 +10,6 @@
     #deleted{
         margin-top: 0px;
     }
-  ul{
-     position:relative;
-     top:-20px
-    } 
-
-     #Header0{
-        transition: transform 3s;
-
-    }
     #deleted{
         /* margin-left: 400px; */
         text-align: center;
@@ -28,7 +19,9 @@
         transition: transform 3s;
 
     }
-     /* #deleted:hover{
+    ul li a{
+        color:blue
+    }    /* #deleted:hover{
      transform: translateY(-100px);
     }  */
    /* ul{
@@ -38,12 +31,22 @@
     </style>
 </head>
 <body>
-    <h1 style="background-color: white;" id="deleted"></h1>
-    <ul id="Header0" style="background-color: white;">
-        <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patients List </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/SearchByName">Search by Name</a></li>
+    <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
+   <!-- <di> -->
+    <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
+       <ul style=" padding-left:1200px; background-color: white; height: 40px;">
+        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
+        
+        <li><a href="">Search by</a>
+        <ul style="">
+            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
+            <li><a href="">Date</a></li>
         </ul>
+        </li>
+      </ul>
+   <!-- </div> -->
+   <!-- </di> -->
     <script>
         // 
     //  

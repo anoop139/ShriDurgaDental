@@ -103,7 +103,7 @@ error_reporting(0);
                $id = $_GET['id'];
                 $tid = $_GET['tid'];
             //   echo"<h2> Treatment i is $treatId/h2>";
-             $getName0 ="select patient.name, treatment.treatment from patient natural join treatment
+             $getName0 ="select patient.name, treatment.treatment from patient join treatment
              where patient.sno=$id and treatment.tid=$tid"; 
               $query = mysqli_query($conn, $getName0);
              $showName = mysqli_fetch_assoc($query); 

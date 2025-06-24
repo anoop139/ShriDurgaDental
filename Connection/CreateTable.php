@@ -44,6 +44,7 @@ include("Connect.php")
        
        else if (isset($_GET['c'])) {
          $ct ="create table treatment(
+              date varchar(255),
               tid int(255) primary key auto_increment,
               treatment varchar(255),  
                amount int(255),

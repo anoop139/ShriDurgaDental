@@ -10,9 +10,9 @@ error_reporting(0);
     <title>Search by name</title>
 	<style>
 	 #ul{
-		width: 100%;
+		/* width:  */
+		padding-left:1480px ;
 	 }   
-	 
 	body{
 		background-image:url("Images/SearchbyNames.jpeg");
 		background-repeat:no-repeat;
@@ -117,18 +117,27 @@ error_reporting(0);
 	.td{
 		padding: 5px;
 	}
+	ul ul a{
+		background-color:black;
+		color:yellow;
+	}
 	</style>
     <link rel="stylesheet" href="Header.css?v=9">
 </head>
 <body>
-  <div id="ul" style="background:black; ">
-	<ul>
+       <ul style=" padding-left:1400px; background-color: black; height: 40px;">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         
-        <li><a href="SearchByName.php">Search by Name</a></li>
+        <li><a href="">Search by</a>
+        <ul >
+            <li ><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
+            <li><a href="">Date</a></li>
+        </ul>
+        </li>
       </ul>
-  </div>
+   <!-- </div> -->
+   <!-- </di> -->
 <div id="res1">
 <h1>Search by Name :</h1>
 <form id="input"onsubmit="return checkInput()" method="POST">

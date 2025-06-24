@@ -76,14 +76,17 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
  echo"<h1 id='del'>Treatment for  "."$queryName[name]"."</h1>";
 }
 
-?>    <ul id="ul">
-        <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patients List </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/SearchByName">Search by Name</a></li>
+?>  <ul style=" padding-left:1208px; background-color:lightblue; height: 40px;">
+        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
+        
+        <li><a href="">Search by</a>
+        <ul>
+            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
+            <li><a href="">Date</a></li>
         </ul>
-<?php
-
-?>
+        </li>
+      </ul>
   <div id="div1">
     <h1>Enter Treatmemt </h1>
     <h1>Enter Amount </h1>

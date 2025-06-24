@@ -22,8 +22,7 @@ error_reporting(0);
 	}
 	#res1{
 		border:2px solid black;
-	    position: relative;
-		top: -100px;
+	    
 	}
 	#res1{
 		height: auto;
@@ -95,17 +94,20 @@ error_reporting(0);
     }
 
 	</style>
-    <link rel="stylesheet" href="Header.css?v=4">
+    <link rel="stylesheet" href="Header.css?v=5">
 </head>
 <body>
-  <ul id="Header0" style="background-color:lightblue;">
-        <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patients List </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/SearchByName">Search by Name</a></li>
+        <ul style=" padding-left:1200px; background-color:lightblue; height: 40px;">
+        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
+        
+        <li><a href="">Search by</a>
+        <ul style="">
+            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
+            <li><a href="">Date</a></li>
         </ul>
-	
-</ul><br><br><br><br><br>
-</div>
+        </li>
+      </ul><br><br><br><br>
 </div>
 <div id="res1" style="padding-top:0px;">
  <?php
@@ -189,7 +191,7 @@ else if($no==0){
 <script>
 		let x = document.getElementById("del")
 	onload=()=>{
-		x.style.transform="translateY(100px)"
+		x.style.transform="translateY(200px)"
 
 	}
 	setTimeout(() => {

@@ -9,52 +9,18 @@ $name = $_GET['n'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Information page</title>
-	<style>
-	#header0{
-		width: 500px;
-
-	}
-  
-  #patientName{
-    background-color:white; 
-  }
-  .res{
-    background-color:white;
-     font-size:32px; margin-left:500px; 
-     font-weight:bold;
-  
-  }
-  
-   .res:hover{
-    top:-50px
-   }
-   #trefo{
-    position: absolute;
-    top:-40px;
-    margin-left:80px;
-    background:white
-   }
-   #trefo{
-    transition:transform, 3s
-   }
-   /* #trefo:hover{
-    transform:translateY(-80px)
-   } */
-
-  
-	</style>
-    <link rel="stylesheet" href="Header.css?v=8">
+    <link rel="stylesheet" href="Header.css?v=14">
 </head>
 <body id="body">
 <?php
 
 
 ?>
-   <ul id="header0" style="background-color:lightblue">
+   <ul id="ul" style="background-color:lightblue">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         
-        <li><a href="SearchByName.php">Search by Name</a></li>
+        <li><a href="SearchByName.php">Search</a></li>
         </ul>
 	
 </ul>
