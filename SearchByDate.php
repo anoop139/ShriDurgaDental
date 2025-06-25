@@ -32,8 +32,24 @@ error_reporting(0);
         #dateInput{
          margin-top:70px;
         } 
+        .disp{
+            margin-left:400px;
+        }
+        .disp h1{
+            text-align:center;
+        }
+        #err{
+            color:red;
+            position: relative;
+            top:0px;
+        }
+        .disp{
+            width: 800px;
+            height: auto;
+             background:white;
+        }
     </style>
-    <title>Document</title>
+    <title>Seach By Date</title>
 <link rel="stylesheet" href="./Header.css?v=1">
 </head>
 <body>
@@ -54,9 +70,81 @@ error_reporting(0);
    <!-- </div> -->
    <!-- </di> -->
 <h1 id="inputAra">Seach by Date</h1>
-<form id="dateInput">
-    <input type="date" name="" id="">
-    <input type="submit" value="Click here">
+<form id="dateInput" method="POST" onsubmit="return changeFomat()">
+    <input type="date" name="Date" id="date">   
+     <input type="submit" name="Sub"value="Click here">
+    <h1 id="err"></h1>
+
 </form>
+<div class="disp">
+   		<?php
+	if(isset($_POST['Sub']))
+
+{    
+	$date =  $_POST['Date'];
+    echo"<h1>Date is ".$date."</h1>";
+   
+
+   $patientInfo = "SELECT * FROM patient WHERE date= '$date'";
+
+	$query       = mysqli_query($conn, $patientInfo);
+	$no           = mysqli_num_rows($query);
+	 
+	
+	
+	if($no>0)
+	{
+		
+		echo" <table border='2'>
+	 <tr>
+	 <th style='padding:3px;'>Date</th>
+	 <th style='padding:3px;'>Name</th>
+	 <th style='padding:5px;'>Age</th>
+	 <th style='padding:5px;'>Gender</th>
+	 <th style='padding:5px;'>No. of treatment</th>
+	 <th style='padding:5px;'>Treatment details</th>
+	 <th style='padding:5px;'>Phone Number</th>
+	 <th style='padding:5px;'>Edit</th>
+	 </tr>";
+      while($fetch =mysqli_fetch_assoc($query))
+	  { 
+        $id ="select * from treatment where sno=$fetch[sno]";
+		$query2       = mysqli_query($conn, $id);
+	    $no2           = mysqli_num_rows($query2);   
+		 ///  echo"hi $fetch[sno]";
+           		echo"<tr>
+		  <td class='td'>$fetch[date]</td>
+		  <td class='td'>$fetch[name]</td>
+	 <td style='text-align:center;' class='td'>$fetch[age]</td>
+	 <td style='text-align:center' class='td'>$fetch[gen]</td>
+	 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=$fetch[sno]'>$no2</a></td>
+	 <td style='text-align:center' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&sbm=True'>Click here to add treatment</a></td>
+	 <td class='td'>$fetch[phoNo]</td>
+	 <td class='td'><a href='Edit.php?id=$fetch[sno]'>Edit</a></td>
+	 </tr>";		  
+	  }
+       echo"</table><br>";
+	}
+	else
+	{
+		echo"<h1 >No recod found</h1>";
+	}
+
+}
+
+?>
+<script>
+    let dateVal;
+    let error = document.getElementById("err")
+    function changeFomat() {
+        dateVal = document.getElementById("date").value
+        if (!dateVal) {
+           error.innerHTML="HI";
+            return false
+            
+        }
+    }
+</script>
+</div>
 </body>
 </html>

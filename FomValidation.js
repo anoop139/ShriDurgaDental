@@ -24,7 +24,7 @@ let date2 = document.getElementById("date2")
        let match2 = reg2.test(name);
    let cap = pname[0].toUpperCase();
    if (pname[0]!=cap) {
-	nameErr.innerHTML="The first letter should be in capital letter ";
+	nameErr.innerHTML="The first letter should be in capital letter "
 	nameErr.style.background="white";
 	return false
 
@@ -77,8 +77,8 @@ let date2 = document.getElementById("date2")
 	else{
 
 		date2.value=toDate;
-	    //  errInfo.innerHTML=date2.value;
-		//  return false
+	     errInfo.innerHTML=toDate
+		 return false
 	}
 
 }
@@ -89,7 +89,7 @@ function checkInput() {
     // let input2 = document.getElementById("input2").value;
 
 	if (!input.value) {
-      errInfo.innerHTML="Enter name"//
+      errInfo.innerHTML="Enter name"+typeof(mo)//
 	// alert("Enter your name "+errInfo.innerHTML)
 		return false
 	}

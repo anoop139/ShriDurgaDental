@@ -9,7 +9,9 @@ $name = $_GET['n'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Edit Page</title>
 	<style>
-        
+        ul ul li a{
+            background-color: lightblue;
+        }
 	#header0{
 		background-color:black
 
@@ -29,16 +31,21 @@ $name = $_GET['n'];
     <link rel="stylesheet" href="StlyEdit.css?v=9">
 	<div id="header0" style="background-color:lightblue">
 
-<div id="header">
-
-        <ul>
-        <li><a href="HomePage.html">Home </a></li>&nbsp;
-        <li><a href="Fom.html">Add Patient </a></li>&nbsp;
+  <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
+   <!-- <di> -->
+    <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
+       <ul style=" padding-left:1200px; background-color: lightblue; height: 40px;">
+        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         
-        <li><a href="">Search by Name</a></li>
+        <li><a href="">Search by</a>
+        <ul style="">
+            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
+            
         </ul>
-	
-</ul><br><br><br><br><br>
+        </li>
+      </ul>
 </div>
 </div>
 <body id="editBody">

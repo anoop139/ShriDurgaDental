@@ -303,7 +303,7 @@ if (isset($_GET['inserted'])) {
 </div>
 </div>
 </div>
-<script src="./FomValidation.js?v=5"></script>
+<script src="./FomValidation.js?v=6"></script>
 <div id="Back"><button class="Col">Back</button></div>
 <div id="Next"><button class="Col">Next</button></div>
 </body>
