@@ -41,7 +41,7 @@ error_reporting(0);
         #err{
             color:red;
             position: relative;
-            top:0px;
+            top:-10px;
         }
         .disp{
             width: 800px;
@@ -71,7 +71,8 @@ error_reporting(0);
    <!-- </di> -->
 <h1 id="inputAra">Seach by Date</h1>
 <form id="dateInput" method="POST" onsubmit="return changeFomat()">
-    <input type="date" name="Date" id="date">   
+    <input type="date" name="Date0" id="date0">   
+    <input type="hidden" name="Date" id="date">   
      <input type="submit" name="Sub"value="Click here">
     <h1 id="err"></h1>
 
@@ -137,12 +138,22 @@ error_reporting(0);
     let dateVal;
     let error = document.getElementById("err")
     function changeFomat() {
-        dateVal = document.getElementById("date").value
+        dateVal = document.getElementById("date0").value
+        dateVal2 = document.getElementById("date")
+       let x;
         if (!dateVal) {
-           error.innerHTML="HI";
+           error.innerHTML="Please choose a date";
             return false
             
         }
+        else{
+            x = dateVal.split("-").reverse().join("-")
+            dateVal2.value=x
+
+        }
+    }
+    window.oninput = ()=>{
+        error.innerHTML="";
     }
 </script>
 </div>
