@@ -87,11 +87,12 @@ error_reporting(0);
 	#pateintInfo{
 		padding-left:308px;
 	}
-	#re
-	{
-/* //		background-color:lightblue */
+	a{
+		text-decoration:none
 	}
-
+	a:hover{
+		text-decoration:underline
+	}
 	#Number
 	{
 		text-docoration:none;
@@ -129,7 +130,7 @@ error_reporting(0);
 		color:yellow;
 	}
 	</style>
-    <link rel="stylesheet" href="Header.css?v=9">
+    <link rel="stylesheet" href="Header.css?v=10">
 </head>
 <body>
         <ul style=" padding-left:1200px; background-color:black; height: 40px;">
@@ -138,8 +139,7 @@ error_reporting(0);
         
         <li><a href="">Search by</a>
         <ul>
-            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="">Date</a></li>
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li>
         </ul>
         </li>
 </ul>

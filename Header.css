@@ -35,6 +35,17 @@
 		padding: 0px;
 		margin: 0px;
 	}
+	ul ul li a {
+		font-size: 20px;
+		padding: 10px;
+	}
+	ul li ul li{
+ 		display:none
+	}
+	ul li:hover ul li{
+		display: block;
+	}
+
 	  #dis{
 		margin-top: 10px;
         }	

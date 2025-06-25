@@ -34,7 +34,7 @@ error_reporting(0);
         } 
     </style>
     <title>Document</title>
-<link rel="stylesheet" href="./Header.css">
+<link rel="stylesheet" href="./Header.css?v=1">
 </head>
 <body>
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
