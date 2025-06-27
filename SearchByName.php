@@ -87,12 +87,7 @@ error_reporting(0);
 	#pateintInfo{
 		padding-left:308px;
 	}
-	a{
-		text-decoration:none
-	}
-	a:hover{
-		text-decoration:underline
-	}
+	
 	#Number
 	{
 		text-docoration:none;
@@ -130,7 +125,7 @@ error_reporting(0);
 		color:yellow;
 	}
 	</style>
-    <link rel="stylesheet" href="Header.css?v=10">
+    <link rel="stylesheet" href="Header.css?v=13">
 </head>
 <body>
         <ul style=" padding-left:1200px; background-color:black; height: 40px;">
@@ -303,7 +298,7 @@ if (isset($_GET['inserted'])) {
 </div>
 </div>
 </div>
-<script src="./FomValidation.js?v=6"></script>
+<script src="./FomValidation.js?v=7"></script>
 <div id="Back"><button class="Col">Back</button></div>
 <div id="Next"><button class="Col">Next</button></div>
 </body>

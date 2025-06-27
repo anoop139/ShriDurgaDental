@@ -14,9 +14,9 @@
 	  ul li {
 		float: left;
 	  }
-	  ul li a{
+	  /* ul li a{
 		text-decoration: none;
-	  }
+	  } */
 	  ul li a:hover{
 		text-decoration: underline;
 	  }
@@ -99,15 +99,7 @@
             font-size: 20px;
 
         }
-         .mobErr
-        {
-           // padding: 0px;
-        }
-       .mobErr{
-       // background-color: white;
-        color: red;
-		padding-right:40px;
-       }
+   
 	   #nameError{
 		   padding-right:40px;
 	   }
@@ -117,7 +109,12 @@
 	#d1 ul li a{
 	 color:green
 	}
-	
+	a{
+		text-decoration:none
+	}
+	a:hover{
+		text-decoration:underline
+	}
 	#sub{
 		margin-top:20px;
 		margin-left:40px;

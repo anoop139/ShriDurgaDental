@@ -48,15 +48,19 @@ error_reporting(0);
             height: auto;
              background:white;
         }
+        .disp{
+            padding: 40px;
+        }
     </style>
     <title>Seach By Date</title>
-<link rel="stylesheet" href="./Header.css?v=1">
+<link rel="stylesheet" href="./Header.css?v=3">
 </head>
 <body>
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
    <!-- <di> -->
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style=" padding-left:1200px; background-color: white; height: 40px;">
+       <ul style=" padding-left:1200px; background-color: white; height: 40px;" id="ul">
+        <!-- <h1>hello</h1> -->
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         
@@ -77,13 +81,14 @@ error_reporting(0);
     <h1 id="err"></h1>
 
 </form>
-<div class="disp">
+<div id="seeMsg" class="disp">
+    <!-- <h1>hello</h1> -->
    		<?php
 	if(isset($_POST['Sub']))
 
 {    
 	$date =  $_POST['Date'];
-    echo"<h1>Date is ".$date."</h1>";
+    // echo"<h1>Date is ".$date."</h1>";
    
 
    $patientInfo = "SELECT * FROM patient WHERE date= '$date'";
@@ -137,20 +142,25 @@ error_reporting(0);
 <script>
     let dateVal;
     let error = document.getElementById("err")
+   
     function changeFomat() {
         dateVal = document.getElementById("date0").value
         dateVal2 = document.getElementById("date")
        let x;
+       let v = "0"
         if (!dateVal) {
            error.innerHTML="Please choose a date";
             return false
             
         }
         else{
-            x = dateVal.split("-").reverse().join("-")
-            dateVal2.value=x
+       x = dateVal.split("-").reverse().join(" - ").replace(v, "") 
+        dateVal2.value=x
+        
+        //   alert(""+x)
 
         }
+        
     }
     window.oninput = ()=>{
         error.innerHTML="";

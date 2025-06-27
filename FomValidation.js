@@ -78,7 +78,8 @@ let date2 = document.getElementById("date2")
 
 		date2.value=toDate;
 	     errInfo.innerHTML=toDate
-		 return false
+		//  console.log("hello")
+		//  return false
 	}
 
 }
@@ -89,7 +90,7 @@ function checkInput() {
     // let input2 = document.getElementById("input2").value;
 
 	if (!input.value) {
-      errInfo.innerHTML="Enter name"+typeof(mo)//
+      errInfo.innerHTML="Enter name"; 
 	// alert("Enter your name "+errInfo.innerHTML)
 		return false
 	}
