@@ -48,8 +48,8 @@ error_reporting(0);
             height: auto;
              background:white;
         }
-        .disp{
-            padding: 40px;
+        table{
+         margin-left:40px ;
         }
     </style>
     <title>Seach By Date</title>
@@ -88,7 +88,7 @@ error_reporting(0);
 
 {    
 	$date =  $_POST['Date'];
-    echo"<h1>Date is ".$date."</h1>";
+    echo"<h1>Patient recod for ".$date."</h1>";
    
 
    $patientInfo = "SELECT * FROM patient WHERE date= '$date'";
@@ -102,8 +102,7 @@ error_reporting(0);
 	{
 		
 		echo" <table border='2'>
-	 <tr>
-	 <th style='padding:3px;'>Date</th>
+	 <tr cellpadding;4px>
 	 <th style='padding:3px;'>Name</th>
 	 <th style='padding:5px;'>Age</th>
 	 <th style='padding:5px;'>Gender</th>
@@ -119,14 +118,13 @@ error_reporting(0);
 	    $no2           = mysqli_num_rows($query2);   
 		 ///  echo"hi $fetch[sno]";
            		echo"<tr>
-		  <td class='td'>$fetch[date]</td>
-		  <td class='td'>$fetch[name]</td>
+		  <td class='td' style='padding:7px'>$fetch[name]</td>
 	 <td style='text-align:center;' class='td'>$fetch[age]</td>
 	 <td style='text-align:center' class='td'>$fetch[gen]</td>
 	 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=$fetch[sno]'>$no2</a></td>
-	 <td style='text-align:center' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&sbm=True'>Click here to add treatment</a></td>
-	 <td class='td'>$fetch[phoNo]</td>
-	 <td class='td'><a href='Edit.php?id=$fetch[sno]'>Edit</a></td>
+	 <td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&sbm=True'>Click here to add treatment</a></td>
+	 <td class='td'style='padding:7px'>$fetch[phoNo]</td>
+	 <td class='td'style='padding:7px'><a href='Edit.php?id=$fetch[sno]'>Edit</a></td>
 	 </tr>";		  
 	  }
        echo"</table><br>";
