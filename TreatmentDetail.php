@@ -16,7 +16,9 @@ error_reporting(0);
 
 		 
 	 }
-	
+	ul li ul li{
+		background:lightblue;
+	}
 	#res1{
 		background-color:white;
 	}
@@ -107,7 +109,7 @@ error_reporting(0);
             <li><a href="">Date</a></li>
         </ul>
         </li>
-      </ul><br><br><br><br>
+      </ul><br>
 </div>
 <div id="res1" style="padding-top:0px;">
  <?php

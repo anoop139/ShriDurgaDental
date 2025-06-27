@@ -12,7 +12,9 @@ error_reporting(0);
 	 ul{
       background-color:lightblue;
      }
-	 
+	 	ul li ul li{
+		background:lightblue;
+	}
      /* #header{
         position: absolute;
         top:0px;       
@@ -165,14 +167,14 @@ $td1 = $_POST['tp'];
      
         if ($sbm=="True"){
         // echo"<h1>Search by name  smb=".$fid1."</h1>";
-        echo"
-        <script>
-        window.location.href='SearchByName.php?pid=$fid1&inserted=True'
-        </script>";
+        echo"in
+        // <script>
+        // window.location.href='SearchByName.php?pid=$fid1&inserted=True'
+        // </script>";
 }
-else if ($treatCont!=0) {
+if ($treatCont!=0) {
   # code...
-  echo"<h3 style='position:absolute; top:0px; ; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient already exist</h3>";
+  echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient already exist</h3>";
 }
 
  
@@ -196,12 +198,12 @@ else if ($treatCont!=0) {
       // alert("obj/ect")
           return false 
     }
-    else{
+  else{
          let date = new Date();
-let d = date.getDate()
-let mo = date.getMonth()+1
-let y = date.getFullYear()
-let toDate = ""
+         let d = date.getDate()
+         let mo = date.getMonth()+1
+        let y = date.getFullYear()
+        let toDate = ""
 
 
 toDate=d.toString()+" - "+mo.toString()+" - "+y

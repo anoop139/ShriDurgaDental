@@ -19,6 +19,9 @@
         transition: transform 3s;
 
     }
+    ul{
+        /* margin-top: -10px; */
+    }
     ul ul li{
         background-color: white;
     }
@@ -34,12 +37,12 @@
     </style>
 </head>
 <body>
-    <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
+
    <!-- <di> -->
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style=" padding-left:1200px; background-color: white; height: 40px;">
-        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+       <ul style=" padding-left:1200px; background-color: white; height: 40px;" id="ul">
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul style="">
@@ -48,8 +51,7 @@
         </ul>
         </li>
       </ul>
-   <!-- </div> -->
-   <!-- </di> -->
+      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
     <script>
         // 
     //  
@@ -60,12 +62,13 @@
      let val = x.get("recordDeleted")
      if (val==="true") {
        d.innerHTML="Record deleted successfully"  
-     
+        //   document.getElementById("ul").style.marginTop="-10px";
 
     //  alert("x = "+x.get("recordDeleted")//
     setTimeout(() => {
         d.style.transform="translateY(-100px)";
              document.getElementById("Header0").style.transform="translateY(-50px)";
+        
     }, 4000);
    }
 }
