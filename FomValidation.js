@@ -76,8 +76,8 @@ let date2 = document.getElementById("date2")
 }
 	else{
 
-		date2.value=toDate;
-	     errInfo.innerHTML=toDate
+	//	date2.value=toDate;
+	  //   errInfo.innerHTML=toDate
 		//  console.log("hello")
 		//  return false
 	}
