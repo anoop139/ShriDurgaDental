@@ -88,7 +88,7 @@ error_reporting(0);
 
 {    
 	$date =  $_POST['Date'];
-    // echo"<h1>Date is ".$date."</h1>";
+    echo"<h1>Date is ".$date."</h1>";
    
 
    $patientInfo = "SELECT * FROM patient WHERE date= '$date'";
