@@ -151,11 +151,12 @@ error_reporting(0);
             return false
             
         }
-        else{
+        else{ 
+        alert(""+dateVal.charAt)
        x = dateVal.split("-").reverse().join(" - ").replace(v, "") 
         dateVal2.value=x
         
-        //   alert(""+x)
+         
 
         }
         
