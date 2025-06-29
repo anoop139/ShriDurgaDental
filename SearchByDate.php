@@ -17,6 +17,9 @@ error_reporting(0);
             background-attachment: fixed;
             background-size: 100% 100%;  
         }
+        ul{
+            padding-left:10px
+        }
         ul ul li a{
             background-color: white;
         }
@@ -26,7 +29,7 @@ error_reporting(0);
             margin-top:0px ;
         }
         #inputAra{
-            margin-top:30px;
+            margin-top:4px;
             float: left;
         }
         #dateInput{
@@ -59,11 +62,11 @@ error_reporting(0);
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
    <!-- <di> -->
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style=" padding-left:1200px; background-color: white; height: 40px;" id="ul">
+       <ul style=" padding-left:1110px; background-color: white; height: 40px;" id="ul">
         <!-- <h1>hello</h1> -->
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
-        
+        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         <li><a href="">Search by</a>
         <ul style="">
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
@@ -71,8 +74,7 @@ error_reporting(0);
         </ul>
         </li>
       </ul>
-   <!-- </div> -->
-   <!-- </di> -->
+      <br><br>
 <h1 id="inputAra">Seach by Date</h1>
 <form id="dateInput" method="POST" onsubmit="return changeFomat()">
     <input type="date" name="Date0" id="date0">   
