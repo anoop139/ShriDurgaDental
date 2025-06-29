@@ -152,8 +152,13 @@ error_reporting(0);
             
         }
         else{ 
-        alert(""+dateVal.charAt)
-       x = dateVal.split("-").reverse().join(" - ").replace(v, "") 
+      
+       x = dateVal.split("-").reverse().join(" - ")
+       let index = x.indexOf('0')
+       if (index<10) {
+        // alert("If called ")
+          x = x.replace(v, "")
+       }
         dateVal2.value=x
         
          
