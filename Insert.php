@@ -87,7 +87,7 @@ $gen    = $_POST['gen'];
 $pho    = $_POST['pho'];
 
 // /echo"<h1>Name = $name</h1>";  
-// echo"<h1>Date = $date</h1>";  
+// echo"<>Date = $date<///h1>";  
 	
 	$insert = "insert into patient(date, name, age, gen, phoNo) 
 	values('$date','$name',$age, '$gen', '$pho')";
