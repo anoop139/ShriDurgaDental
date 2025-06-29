@@ -106,7 +106,7 @@ error_reporting(0);
         <li><a href="">Search by</a>
         <ul style="">
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="">Date</a></li>
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li>
         </ul>
         </li>
       </ul><br>
