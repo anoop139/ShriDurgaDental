@@ -33,7 +33,7 @@ error_reporting(0);
             float: left;
         }
         #dateInput{
-         margin-top:70px;
+         /* margin-top:70px; */
         } 
         .disp{
             margin-left:400px;
@@ -62,7 +62,7 @@ error_reporting(0);
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
    <!-- <di> -->
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style=" padding-left:1110px; background-color: white; height: 40px;" id="ul">
+       <ul style="padding-left:980px; background-color: white; height: 40px;" id="ul">
         <!-- <h1>hello</h1> -->
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;

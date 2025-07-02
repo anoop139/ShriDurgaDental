@@ -128,7 +128,7 @@ error_reporting(0);
     <link rel="stylesheet" href="Header.css?v=13">
 </head>
 <body>
-        <ul style=" padding-left:1200px; background-color:black; height: 40px;">
+        <ul style=" padding-left:1050px; background-color:black; height: 40px;">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         

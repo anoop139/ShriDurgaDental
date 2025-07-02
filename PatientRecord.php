@@ -9,7 +9,7 @@ $name = $_GET['n'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Information page</title>
-    <link rel="stylesheet" href="Header.css?v=18">
+    <link rel="stylesheet" href="Header.css?v=19">
     <style>
       ul ul li{
         background:lightblue;
@@ -21,7 +21,7 @@ $name = $_GET['n'];
 
 
 ?>
-   <ul style=" padding-left:1200px; background-color:lightblue; height: 40px;">
+   <ul style="padding-left:1050px;  background-color:lightblue; height: 40px;">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient</a></li>&nbsp;
         
@@ -182,9 +182,9 @@ $name = $_GET['n'];
 </div>
 <div>
 <div id="button">
- <button class="btn">Back</button>
+ <!-- <button class="btn">Back</button>
  <button id="next" class="btn">Next</button>
- 
+  -->
 </div>
 </div>
 </body>
