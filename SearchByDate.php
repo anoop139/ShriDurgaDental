@@ -156,11 +156,12 @@ error_reporting(0);
         else{ 
       
        x = dateVal.split("-").reverse().join(" - ")
-       let index = x.indexOf('0')
-       if (index<10) {
-        // alert("If called ")
+       let index = x.indexOf('0', 1)
+    //    if (index<10) {
+        alert("index is "+index)///
           x = x.replace(v, "")
-       }
+          alert(x)
+    //    }/
         dateVal2.value=x
         
          
