@@ -7,7 +7,7 @@ function insert() {
 let f = document.getElementById("Female");
 let value1 = document.getElementById("value")
 let date = new Date();
-let d = date.getDate()
+let d = "0"+date.getDate()
 let mo = date.getMonth()+1
 let y = date.getFullYear()
 let toDate = ""
@@ -76,9 +76,9 @@ let date2 = document.getElementById("date2")
 }
 	else{
 
-	//	date2.value=toDate;
-	  //   errInfo.innerHTML=toDate
-		//  console.log("hello")
+		// date2.value=toDate;
+	    errInfo.innerHTML=d
+		 console.log("hello")
 		//  return false
 	}
 

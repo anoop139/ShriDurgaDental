@@ -54,7 +54,7 @@ $name = $_GET['n'];
 <script>
   let date = new Date()
   let month =date.getMonth()+1
-     let today = date.getDate()+" - "+month+" - "+date.getFullYear()
+     let today = "0"+date.getDate()+" - "+month+" - "+date.getFullYear()
   if (!window.localStorage.getItem("fomSubmited")) {
     window.localStorage.setItem("fomSubmited", "true");
     document.getElementById("date").value=today
@@ -79,7 +79,7 @@ $name = $_GET['n'];
  <?php
  //"17 - 3 - 2025";
   $todayDate = $_POST['toDate'];
-  // echo"<h1>Testing". $todayDate."</h1>";//
+  // echo"<h1>Date is ". $todayDate."</h1>";//
      $display ="SELECT * FROM patient where date = '$todayDate'";
    $query   =  mysqli_query($conn, $display);
    $dateQuery   =  mysqli_query($conn, $display);
