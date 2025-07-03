@@ -156,16 +156,17 @@ error_reporting(0);
         else{ 
       
        x = dateVal.split("-").reverse().join(" - ")
-       let index = x.indexOf('0', 1)
-    //    if (index<10) {
-        alert("index is "+index)///
-          x = x.replace(v, "")
-          alert(x)
-    //    }/
-        dateVal2.value=x
+    let z = x.slice(1, x.length)
+      if (x.charAt(0)=="0") {
+        z = z.replace(v, "")
+        dateVal2.value=z
         
          
-
+      }
+      else{
+        x = x.replace(v, "")
+        dateVal2.value=x
+      }
         }
         
     }
