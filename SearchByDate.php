@@ -62,7 +62,7 @@ error_reporting(0);
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
    <!-- <di> -->
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style="padding-left:980px; background-color: white; height: 40px;" id="ul">
+       <ul style="padding-left:1100px; background-color: white; height: 40px;" id="ul">
         <!-- <h1>hello</h1> -->
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
@@ -156,23 +156,38 @@ error_reporting(0);
         else{ 
       
        x = dateVal.split("-").reverse().join(" - ")
-    let z = x.slice(1, x.length)
-      if (x.charAt(0)=="0") {
-        z = z.replace(v, "")
-        dateVal2.value=z
-        
-         
-      }
-      else{
-        x = x.replace(v, "")
-        dateVal2.value=x
-      }
+    let date = x.slice(0,7)
+    if (Number(x.slice(0,2))<10 && Number(x.slice(5,8))<10) 
+    {    
+        alert("yes if part get ready ")
+       date=date.replace(v, "")
+      date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
+     dateVal2.value=date//date
+
+    }   
+    else if (Number(x.slice(0,2))>10 && Number(x.slice(5,8))<10) 
+    {
+       date=date.replace(v, "")
+      date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
+     dateVal2.value=date//date
+    alert("you r else part get ready ")
+    }   
+else if (Number(x.slice(5, 8))>=10) 
+    {   
+        if (Number(x.slice(0, 2))<10) {
+       dateVal2.value=x.replace(v, "");
+        }       
+        else if (Number(x.slice(0, 2))>=10) {
+       dateVal2.value=x
         }
-        
-    }
+    } 
+   }
+ }
     window.oninput = ()=>{
         error.innerHTML="";
     }
+    //  x = x.replace(v, "")
+      //  dateVal2.value=x
 </script>
 </div>
 </body>
