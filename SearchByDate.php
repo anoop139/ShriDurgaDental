@@ -62,7 +62,7 @@ error_reporting(0);
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
    <!-- <di> -->
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style="padding-left:1100px; background-color: white; height: 40px;" id="ul">
+       <ul style="padding-left:990px; background-color: white; height: 40px;" id="ul">
         <!-- <h1>hello</h1> -->
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
@@ -90,7 +90,7 @@ error_reporting(0);
 
 {    
 	$date =  $_POST['Date'];
-    echo"<h1>Patient recod for ".$date."</h1>";
+    echo"<h1>Patient recod on ".$date."</h1>";
    
 
    $patientInfo = "SELECT * FROM patient WHERE date= '$date'";
@@ -157,27 +157,42 @@ error_reporting(0);
       
        x = dateVal.split("-").reverse().join(" - ")
     let date = x.slice(0,7)
-    if (Number(x.slice(0,2))<10 && Number(x.slice(5,8))<10) 
+    if (Number(x.slice(0,2))<10 && Number(x.slice(5,8))<10) //date less than 10 and moth
     {    
-        alert("yes if part get ready ")
+        // alert("yes if part get ready date "+x.slice(1,2))
        date=date.replace(v, "")
       date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
      dateVal2.value=date//date
 
     }   
-    else if (Number(x.slice(0,2))>10 && Number(x.slice(5,8))<10) 
+    else if (x.slice(1, 2)==0 && Number(x.slice(5,8))<10) 
+    { 
+    
+      x1 = x.split("-")
+      x2 = x1[1]*1
+      //if (x[1]=='0')
+       {
+        dateVal2.value=x.slice(0, x.indexOf("-")+1)+" "+x2+" "+x.slice(x.lastIndexOf("-"))
+    //   alert(dateVal2.value)/
+       }  
+      //
+ 
+    }    
+    else if (Number(x.slice(0, 2))>10 && Number(x.slice(5,8))<10) 
     {
        date=date.replace(v, "")
-      date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
-     dateVal2.value=date//date
-    alert("you r else part get ready ")
+     date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
+      dateVal2.value=date//date
+    // alert("you r else part get ready date "+Number(x.slice(0,2)))
     }   
 else if (Number(x.slice(5, 8))>=10) 
     {   
         if (Number(x.slice(0, 2))<10) {
-       dateVal2.value=x.replace(v, "");
+       dateVal2.value=x.replace(v, ""); 
+    //    alert("you r else part get ready date<10 and mmont >=10 ")
         }       
-        else if (Number(x.slice(0, 2))>=10) {
+        else if (Number(x.slice(0, 2))>=10) { 
+            //  alert("you r else part get ready date>=10 and mmont >=10 ")
        dateVal2.value=x
         }
     } 
