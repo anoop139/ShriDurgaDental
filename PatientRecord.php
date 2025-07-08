@@ -9,7 +9,7 @@ $name = $_GET['n'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Information page</title>
-    <link rel="stylesheet" href="Header.css?v=19">
+    <link rel="stylesheet" href="Header.css">
     <style>
       ul ul li{
         background:lightblue;
@@ -54,7 +54,7 @@ $name = $_GET['n'];
 <script>
   let date = new Date()
   let month =date.getMonth()+1
-     let today = "0"+date.getDate()+" - "+month+" - "+date.getFullYear()
+     let today = date.getDate()+" - "+month+" - "+date.getFullYear()
   if (!window.localStorage.getItem("fomSubmited")) {
     window.localStorage.setItem("fomSubmited", "true");
     document.getElementById("date").value=today

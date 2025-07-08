@@ -1,9 +1,4 @@
-       body{
-            background-image: url("Images/image1s.jpg");
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;
-        }
+      
         #d1 {
         margin-left:400px;
         }
@@ -43,8 +38,62 @@
       .mobErr{
         padding-left: 4px;
       }
+    #formEle{
+      float: left;
+      }
+	    #formInput{
+            padding-top: 40px;
+          text-align:center
+        }a{
+		text-decoration:none
+	}   form #Submit{
+            padding: 40px;
+            margin-left: 300px;
+        background-color: green;
+            border: 2px solid white;
+            color: white;
+            font-size: 20px;
+
+        }
+	a:hover{
+		text-decoration:underline
+	}
+	#sub{
+		margin-top:20px;
+		margin-left:40px;
+	}
+	#sub{
+		padding:20px;
+		background-color:blue;
+		color:white;
+		font-size:20px;
+	}  #fomEle{
+        /* position; */
+      }
 	  
-	  
+	
+
+	#patientName{
+		position: absolute;
+		top:0px;
+	    transition: transform 4s linear 1s;  
+	  }
+	 .res{
+		position: absolute;
+		top:0px;
+	    transition: transform 4s linear 1s;  
+	  }
+	  #patientName:hover{
+		transform: translateY(-80px);
+	 }
+
+ 
+ 
+ 
+ 
+ 
+
+	
 	  #editBody{
 		  background-color:black
 	  }

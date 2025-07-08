@@ -60,10 +60,10 @@ error_reporting(0);
      #del{
 		position: absolute;
 		top:-10px;
-		left: 700px;
+		left: 600px;
 	}
     </style>
-	<link rel="stylesheet" href="Header.css?v=6">
+	<link rel="stylesheet" href="Header.css?v=7">
 </head>
 <body>
 <div id="header0" >
@@ -78,17 +78,18 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
  echo"<h1 id='del'>Treatment for  "."$queryName[name]"."</h1>";
 }
 
-?>  <ul style=" padding-left:1208px; background-color:lightblue; height: 40px;">
+?> 
+   <ul style="padding-left:1050px;  background-color:lightblue; height: 40px;">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
-        <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient</a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul>
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="">Date</a></li>
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li>
         </ul>
         </li>
-      </ul>
+</ul>
   <div id="div1">
     <h1>Enter Treatmemt </h1>
     <h1>Enter Amount </h1>

@@ -9,16 +9,10 @@ error_reporting(0);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search by name</title>
 	<style>
-	ul ul li{
-		background:black;
-	}
-	ul ul li a{
-		color:white;
-	}
-	 #ul{
-		/* width:  */
-		padding-left:1480px ;
-	 }   
+	ul li:hover ul li{
+	
+     background-color: black;
+	} 
 	body{
 		background-image:url("Images/SearchbyNames.jpeg");
 		background-repeat:no-repeat;
@@ -53,7 +47,7 @@ error_reporting(0);
 	#input{
 	    position:absolute;
 		left:740px;
-		top:140px
+		top:120px
 	}
 	.Col{
 		border:2px solid black;
@@ -63,6 +57,7 @@ error_reporting(0);
 		position:relative;
 		top:-20px;
 		
+
 	}
 	#Next Button{
 		float:right;
@@ -120,15 +115,11 @@ error_reporting(0);
 	.td{
 		padding: 5px;
 	}
-	ul ul a{
-		background-color:black;
-		color:yellow;
-	}
 	</style>
-    <link rel="stylesheet" href="Header.css?v=13">
+    <link rel="stylesheet" href="Header2.css">
 </head>
 <body>
-        <ul style=" padding-left:1050px; background-color:black; height: 40px;">
+        <ul style="background:black; height: 40px; width:250px"  >
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         
@@ -145,7 +136,7 @@ error_reporting(0);
 <form id="input"onsubmit="return checkInput()" method="POST">
 <input type="text" id="input1" name="name" class="Col">&nbsp;
 <input type="submit" name="Sub" class="Col" value="Click here" ><br>
-</form>
+</form><br><br>
 <div id="resultDiv">
 		<?php
 	if(isset($_POST['Sub']))

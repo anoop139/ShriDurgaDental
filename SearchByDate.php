@@ -20,9 +20,9 @@ error_reporting(0);
         ul{
             padding-left:10px
         }
-        ul ul li a{
-            background-color: white;
-        }
+       ul ul li{
+        background:white;
+      }
         #dateInput
         {
             margin-left:800px;
@@ -56,24 +56,22 @@ error_reporting(0);
         }
     </style>
     <title>Seach By Date</title>
-<link rel="stylesheet" href="./Header.css?v=3">
+<link rel="stylesheet" href="./Header2.css">
 </head>
 <body>
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
-   <!-- <di> -->
-    <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style="padding-left:990px; background-color: white; height: 40px;" id="ul">
-        <!-- <h1>hello</h1> -->
+   <     <ul style="background:white; height: 40px; width:250px"  >
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
-        <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
+        
         <li><a href="">Search by</a>
-        <ul style="">
+   <ul>
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li>
         </ul>
         </li>
-      </ul>
+        </li>
+</ul>
       <br><br>
 <h1 id="inputAra">Seach by Date</h1>
 <form id="dateInput" method="POST" onsubmit="return changeFomat()">

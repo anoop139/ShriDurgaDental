@@ -1,52 +1,47 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+ul{
+    margin-top: 10px;
+    padding-left: 1080px;
+}
+ul li{
+    margin-top: 10px;
+    padding-left: 10px;
+}
 
-	  .ank{
-		  text-decoration:none;
-	  }
-	  ul {
-		margin-left: 400px;
-	  }
-	  ul li{
-      list-style-type: none;
-	  }
-	  ul li{
-		padding: 10px;
-	  }
-	  ul li {
-		float: left;
-	  }
-	  /* ul li a{
-		text-decoration: none;
-	  } */
-	  ul li a:hover{
-		text-decoration: underline;
-	  }
-	 ul ul li{
-		/* display: none; */
-	 }
-	#dis{
-     margin-bottom: 20px;
-	} 
+ul li {
+    line-height: 20px;
+}
 
-	 #Result{
-		 position:absolute;
-		 top:100px;
-	}
-	ul{
-		padding: 0px;
-		margin: 0px;
-	}
-
-	ul ul li a {
-		font-size: 20px;
-		padding: 10px;
-	}
-	ul li ul li{
- 		display:none
-	}
-	ul li:hover ul li{
+ul li{
+    float: left;
+}
+ul ul{
+    padding-left: 0px;
+}
+ul li{
+    list-style-type: none;
+}
+ul li a{
+    text-decoration: none;
+}
+ul ul li{
+    display: none;
+}
+ul li a:hover{
+  text-decoration: underline;
+}
+ul li:hover ul li{
 		display: block;
+        color: white;
+     /* //   background-color: black; */
+        padding-right: 10px;
 	}
-
+    ul ul a{
+        font-size: 20px;
+    }
 	  #dis{
 		margin-top: 10px;
         }	
@@ -120,8 +115,12 @@
 		background-color:blue;
 		color:white;
 		font-size:20px;
-	} 
+	}  #fomEle{
+        /* position; */
+      }
+	  
 	
+
 	#patientName{
 		position: absolute;
 		top:0px;

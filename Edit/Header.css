@@ -10,23 +10,18 @@
 		height:50px;
 
 	}
-    #header0 #header ul li{
-		float:left;
-	}    
-	#header0 #header ul li a{
-		text-decoration:none;
-	} 
+
 	#header0 #header ul li a:hover{
 		text-decoration:underline;
 	}    
-	a{
-		text-decoration:none;
+    ul{
+	padding-left: 1020px;
 	}
 	a:hover{
 		text-decoration:underline;
 	}    
-	#header0 #header ul li a{
-		font-size:20px;
+        ul li a{
+		font-size:200px;
 	}
 	#header{
      position:absolute;
@@ -34,10 +29,10 @@
 	 right:10px;
 	 bottom:2px;
 	}
-	#header0 #header ul li{
+	/* ul li{
 		margin-left:10px;
 		padding-top:10px;
-	}
+	} */
 	 #Result{
 		 position:absolute;
 		 top:100px;
@@ -50,13 +45,13 @@
             border:2px solid black;
 			height:400px;
         }	  
-		#body{
+		/* #body{
             background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV5tegbIR32oDRVB_qdMazaa-KJwDX04xfiA&s");
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: 100% 100%;  
 			
-        }
+        } */
 		#dis{
             padding-top:120px;
            padding-left:400px;
@@ -96,21 +91,13 @@
             font-size: 20px;
 
         }
-         .mobErr
+         /* .mobErr
         {
            // padding: 0px;
         }
-       .mobErr{
-       // background-color: white;
-        color: red;
-		padding-right:40px;
-       }
-	   #nameError{
-		   padding-right:40px;
-	   }
 	#d1 ul li a:hover{
 	 text-decoration:underline
-	}
+	} */
 	#d1 ul li a{
 	 color:green
 	}
