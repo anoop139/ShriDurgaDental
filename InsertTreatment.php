@@ -144,7 +144,7 @@ $td1 = $_POST['tp'];
 
    if($treatQuery)
     {
-       if ($pr=="true") {
+       if ($pr=="true" && $treatCont==0) {
         echo"
         <script>
         window.location.href='PatientRecord.php?fid=true'
@@ -154,7 +154,7 @@ $td1 = $_POST['tp'];
        }
      if ($td1=="True/") {
       
-      echo"<h1 style='color:red;'> Inserted  $noOf and $date</h1>";
+      // echo"<h1 style='color:red;'> Inserted  $noOf and $date</h1>";
 
       echo"
        <script>
@@ -166,12 +166,12 @@ $td1 = $_POST['tp'];
         // echo"<span class='errorMessage'>Treatment /nserted".$td."</span><br>";
       }
      
-        if ($sbm=="True"){
-        // echo"<h1>Search by name  smb=".$fid1."</h1>";
-        echo"in
-        // <script>
-        // window.location.href='SearchByName.php?pid=$fid1&inserted=True'
-        // </script>";
+        if ($sbm=="True" && $treatCont==0){
+        // echo"<h1>TRATMENT ".$treatCont."</h1>";
+        echo"
+        <script>
+        window.location.href='SearchByName.php?pid=$fid1&inserted=True'
+        </script>";
 }
 if ($treatCont!=0) {
   # code...

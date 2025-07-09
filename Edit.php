@@ -16,6 +16,9 @@ $name = $_GET['n'];
 		background-color:black
 
 	}
+    	table th, td{
+		padding: 5px;
+	}
     #updateMessage{
         position: absolute;
         top:-80px;
@@ -27,14 +30,14 @@ $name = $_GET['n'];
     }
    
 	</style>
-    <link rel="stylesheet" href="Header.css?v=7">
-    <link rel="stylesheet" href="StlyEdit.css?v=9">
+    <link rel="stylesheet" href="Header2.css">
+    <link rel="stylesheet" href="StlyEdit.css?v=11">
 	<div id="header0" style="background-color:lightblue">
 
   <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
    <!-- <di> -->
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style=" padding-left:1200px; background-color: lightblue; height: 40px;">
+       <ul style=" background-color: lightblue; height: 40px;  b">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         

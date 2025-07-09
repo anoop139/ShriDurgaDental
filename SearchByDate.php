@@ -44,7 +44,8 @@ error_reporting(0);
         #err{
             color:red;
             position: relative;
-            top:-10px;
+            top:0px;
+            left:-100px;
         }
         .disp{
             width: 800px;
@@ -77,7 +78,7 @@ error_reporting(0);
 <form id="dateInput" method="POST" onsubmit="return changeFomat()">
     <input type="date" name="Date0" id="date0">   
     <input type="hidden" name="Date" id="date">   
-     <input type="submit" name="Sub"value="Click here">
+     <input type="submit" name="Sub"value="Click here"><br><br><br><br>
     <h1 id="err"></h1>
 
 </form>
@@ -88,7 +89,7 @@ error_reporting(0);
 
 {    
 	$date =  $_POST['Date'];
-    echo"<h1>Patient recod on ".$date."</h1>";
+    echo"<h1>Patient recod on ".$date."</h1><br>";
    
 
    $patientInfo = "SELECT * FROM patient WHERE date= '$date'";
@@ -122,7 +123,7 @@ error_reporting(0);
 	 <td style='text-align:center;' class='td'>$fetch[age]</td>
 	 <td style='text-align:center' class='td'>$fetch[gen]</td>
 	 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=$fetch[sno]'>$no2</a></td>
-	 <td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&sbm=True'>Click here to add treatment</a></td>
+	 <td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&tp=True'>Click here to add treatment</a></td>
 	 <td class='td'style='padding:7px'>$fetch[phoNo]</td>
 	 <td class='td'style='padding:7px'><a href='Edit.php?id=$fetch[sno]'>Edit</a></td>
 	 </tr>";		  

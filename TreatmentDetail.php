@@ -21,6 +21,7 @@ error_reporting(0);
 	}
 	#res1{
 		background-color:white;
+		padding: 40px;
 	}
 	#res1{
 		border:2px solid black;
@@ -53,9 +54,9 @@ error_reporting(0);
 		
 	}	
 	#Back button{
-		
+/* 		
 		padding-left:30px;
-		padding-right:30px;
+		padding-right:30px; */
 		
 	}
 	
@@ -76,6 +77,9 @@ error_reporting(0);
 		left: 700px;
 		transition: transform 3s;
 	}
+	table th, td{
+		padding: 5px;
+	}
 
 	#del{
 		background-color:white;
@@ -87,8 +91,8 @@ error_reporting(0);
 	}
 	#delF {
       position: relative;
-	  left: 700px; 
-	  /* text-align:right; */
+	  top: 40px;
+	  left: 35px;
     }
 	#delF input {
       padding: 20px;
@@ -96,11 +100,12 @@ error_reporting(0);
     }
 
 	</style>
-    <link rel="stylesheet" href="Header.css?v=5">
+    <!-- <link rel="stylesheet" href="Header.css">/ -->
+	    <link rel="stylesheet" href="Header2.css">
 </head>
 <body>
-        <ul style=" padding-left:1200px; background-color:lightblue; height: 40px;">
-        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <ul style="background-color:lightblue; height: 40px; width:auto;">
+        <li style="text-align:right"><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
@@ -148,6 +153,7 @@ if (isset($fid)) {
  if($no>0) 
  {
 echo"<h1>Treatment for "."$PatienName[name]"."</h1>";
+echo"<br>";
  }
 }
 ?>
@@ -158,7 +164,7 @@ echo"<h1>Treatment for "."$PatienName[name]"."</h1>";
 // echo"<h1>Treatment for ".$no."  </h1>";
 // echo"<h1>You are here</h1>";
 echo"<center>
-<table border='1' id='myTable' cellpadding='4px' style='text-align:center'>
+<table border='1' id='myTable' cellpadding='10px' style='text-align:center;'>
    <tr>
    <th>Date</th>
    <th>Treatment</th>
@@ -209,7 +215,7 @@ else if($no==0){
  <form action="Edit\TreatmentDel.php?"  method="GET" id="delF">
 	<input type="hidden" name="id" value=<?php echo"$PatienName[sno]"?> />
 
- <input type="Submit" name="DeleteAll" value="Delete All" id="deleteAll"> 
+<div style="text-align:right;"> <input type="Submit" name="DeleteAll" value="Delete All" id="deleteAll"> </div>
 </form>
 </div>
 <!-- <div id="Back"><button class="Col">Back</button></div>

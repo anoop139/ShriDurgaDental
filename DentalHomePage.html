@@ -24,6 +24,10 @@
     #deleted{
         transition: transform 3s;
 
+    } 
+     #ul{
+        transition: transform 3s;
+
     }
     ul{
         /* margin-top: -10px; */
@@ -43,10 +47,10 @@
     </style>
 </head>
 <body>
+      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
 
-   <!-- <di> -->
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style="padding-left:950px; background-color: white; height: 40px; width: 350px;">
+       <ul id="ul" style="padding-left:950px; background-color: white; height: 40px; width: 350px;">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
@@ -58,7 +62,6 @@
         </ul>
         </li>
       </ul>
-      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
     <script>
         // 
     //  
@@ -74,7 +77,7 @@
     //  alert("x = "+x.get("recordDeleted")//
     setTimeout(() => {
         d.style.transform="translateY(-100px)";
-             document.getElementById("Header0").style.transform="translateY(-50px)";
+    document.getElementById("ul").style.transform="translateY(-50px)";  
         
     }, 4000);
    }

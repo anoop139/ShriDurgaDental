@@ -65,7 +65,8 @@ error_reporting(0);
     #Yes{
      position: relative;
       top:0px;
-      text-align:right
+      text-align:right;
+      
     }
     #back{
       /* ///float:right; */
