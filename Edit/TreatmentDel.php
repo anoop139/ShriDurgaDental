@@ -63,9 +63,9 @@ error_reporting(0);
         border: 2px solid black; 
     }
     #Yes{
-     position: absolute;
-      top:188px;
-      left: 1470px;
+     position: relative;
+      top:0px;
+      text-align:right
     }
     #back{
       /* ///float:right; */
