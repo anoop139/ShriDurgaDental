@@ -26,70 +26,46 @@ error_reporting(0);
     }
     #main-div{
         border: 2px solid black;
-    }
-    #main-div{
-        height: 200px;
-    }
-    .result-div{
-        padding-top:40px;
-    }
-    .result-div{
-     text-align:center
-    }
-    .result-div2{
-      /* text-align/:center */
-    }
-    .result-div2{
-      margin-left: 100px;
-    }
-    #delRequ{
-        text-align:right;
+        height:200px;
+    }     
+    #result-div{
+        padding-left:40px
     } 
-    
-     
-    #delRequ input{
-        position: relative;
-    //    left: 800px;
-        bottom:30px;
-    } 
-    #mainFom input{
-        padding: 10px;
-        margin-top:20px
-    }
-      #delRequ input{
-        padding: 10px;
-    } 
-    .btns{
-        border: 2px solid black; 
-    }
-    #Yes{
-     position: relative;
-      top:0px;
-      text-align:right;
-      
-    }
-    #back{
-      /* ///float:right; */
-      position: absolute;
-      top:190px;
-    }   
-    #deleteAll{
-    position: absolute;
-      top:50px;
-      left: 200px;
-    }
-
-     #delAll{
-    display:none;
-    } 
-    
-    #delAll{
-    position: absolute;
-      top:190px;
-      left:  1470px;
-    }
-
-    </style>
+     .output{
+      padding: 20px;
+     }
+    .output{
+    text-align:center;
+     }
+  #Yes{
+     text-align:right;
+   } 
+ #Yes{
+   position: relative;
+   top: -40px;    
+   }
+   .submit{
+    padding: 10px;
+   }
+.submit{
+    border:2px solid black
+   }
+#deleteAll{
+  text-align:center
+}
+#deleteAll{
+  position: absolute;
+  top:0px;
+  left:25px;
+}
+#deleteAll{
+  padding: 50px;
+}
+#delAll{
+  padding-left:1280px;
+  margin-top: -105px;
+}
+ </style>
 </head>
 <body>
 <form id="mainFom" action=""  method="GET">
@@ -98,7 +74,7 @@ error_reporting(0);
          <?php
           $id = $_GET['id'];
          ?>
-        <div class="result-div">
+        <div class="result-div output">
             <?php
               if (isset($_GET['id']) && isset($_GET['tid'])) {
                $id = $_GET['id'];
@@ -117,71 +93,58 @@ error_reporting(0);
              $deleteTreat ="delete from treatment where tid=$treatId";
              $deleteTreatQuery = mysqli_query($conn, $deleteTreat);
              if ($deleteTreatQuery) {
-                 echo"+<h1>Deleted</h1>";//
-             echo "<script>window.location.href='../TreatmentDetail.php?id=$id&Delete=$deleteTreatQuery';</script>"; //pass foreign key
+                 echo"+<h1>Deleted only 1</h1>";//
+            //  echo "<script>window.location.href='../TreatmentDetail.php?id=$id&Delete=$deleteTreatQuery';</script>"; //pass foreign key
               } else {
              # code...
              echo"<h1>Deletion failed </h1>";
                }
             }//
-            ?>
-
-
-    </div>
-
-    <input type="hidden" name="name" value="<?php echo$fid;?>">
-    <div id="back"><input type="submit" class="btns" value="Back"></div>
-    <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
-    <input type="hidden" name="primary" value="<?php echo$patName;?>">
-    <input type="hidden" name="n" value="<?php echo$name5;?>">
-          </from>
-      <form action="">
-        <div id="deleteAll" class="result-div2">
-         
-           <?php
-            if (isset($_GET['DeleteAll'])) {
-           $id = $_GET['id'];
+            else if (isset($_GET['id']) && isset($_GET['DeleteAll'])) {
+             
+              echo"<h2> you are in else $id  </h2>";
+            // $id = $_GET['id'];
             //   echo"<h2> Treatment i is $treatId/h2>";
             $getName0 ="select patient.name from patient where sno=$id"; 
               $query = mysqli_query($conn, $getName0);
              $showName = mysqli_fetch_assoc($query); 
                echo"<h1 >Are you sure you want to delete all treatment records of  "."$showName[name]"."?</h1>";
-        //\
-              }
-             if (isset($_GET['deleteAll'])) {
+             if (isset($_GET['deleteTreatment'])) {
                  $id = $_GET['id'];//use as forien key
-                $deleteAll ="Delete from treatment where sno=$id";
+                $deleteAll ="Delete from treatment where sno=11";
                 $deleteAllQuery = mysqli_query($conn, $deleteAll);
                 if ($deleteAllQuery) {
-                  // echo"<h1>Success</h1>";
-            echo "<script>window.location.href='../TreatmentDetail.php?id=$id&DeleteAll=$deleteAllQuery';</script>"; //pass foreign key
+                  echo"<h1>Success all</h1>";
+            // echo "<script>window.location.href='../TreatmentDetail.php?id=$id&DeleteAll=$deleteAllQuery';</script>"; //pass foreign key
 //pass foreign key
                 }
              else{
-                 echo"<h1>Deletion failed</h1>";
+                 
+                 echo"<h1>Deletion failed  $id </h1>";
              }
                  
+            }
+          }
+            ?>
 
-             
 
-             }
-           
-           ?>
-          </div>
-         <div id="delAll"> <input type="submit" name="deleteAll" class="btns" value="Yes all"></div>
-        <input type="hidden" class="btns" id="da" value="<?php echo$_GET['DeleteAll'];?>">
-        <input type="hidden" class="btns" id="id" value="<?php echo$_GET['id'];?>">
-     
-      </form>
-    <div id="Yes"><input type="submit" name="deleteTreatment" value="Yes" class="btns"> </div>
-   </form>
+    </div>
+
+    <!-- <input type="hidden" name="name" value="//<?php ///echo$fid;?>"> -->
+
+    <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
+    <input type="hidden" name="primary" value="<?php echo$patName;?>">
+    <input type="hidden" name="n" value="<?php echo$name5;?>">
+          </div>   
+    <span id="back"><input type="submit" class="submit" value="Back"></span>
+<div id="Yes"><input type="submit" class="submit" name="deleteTreatment" value="Yes" class="btns"> </div>
+ </form>
     <script>
     // onload =()=>{
      if (document.getElementById("da").value=="Delete All") {
     //   alert("hi")//
-       document.getElementById("delAll").style.display="inline"    
-       document.getElementById("Yes").style.display="none" 
-    //  document.getElementById("back").style.display="none"
+//       document.getElementById("delAll").style.display="inline"    
+  //     document.getElementById("Yes").style.display="none" //
     }
 
     </script>
