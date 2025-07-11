@@ -179,7 +179,7 @@ while( $fect= mysqli_fetch_assoc($query))
    <td>$fect[treatment]</td>
    <td>$fect[amount]</td>
   <td><a href='EditTreatment\EditTreatment.php?tid=$fect[tid]'>Edit</a></td>
-  <td><a href='Edit\TreatmentDel.php?id=$PatienName[sno]&tid=$fect[tid]'>Delete</a></td>
+  <td><a href='Edit\TreatmentDel.php?id=$PatienName[sno]&treatId=$fect[tid]'>Delete</a></td>
     </tr>";
 
 }
@@ -213,7 +213,7 @@ else if($no==0){
 	<input type="submit" value="Click here to add more treatment"><br>
  </form>
  <form action="Edit\TreatmentDel.php?"  method="GET" id="delF">
-	<input type="hidden" name="id" value=<?php echo"$PatienName[sno]"?> />
+	<input type="hidden" name="fid" value=<?php echo"$PatienName[sno]"?> />
 
 <div style="text-align:right;"> <input type="Submit" name="DeleteAll" value="Delete All" id="deleteAll"> </div>
 </form>
