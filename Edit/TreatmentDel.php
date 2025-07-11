@@ -69,63 +69,58 @@ error_reporting(0);
 </head>
 <body>
 <form id="mainFom" action=""  method="GET">
-<input type="hidden" name="treatId" value="<?php echo $_GET['tid'];?>"> 
+<input type="hidden" name="treatId" value="<?php echo $_GET['treatId'];?>"> 
+<input type="hidden" name="fid1" value="<?php echo $_GET['fid'];?>"> 
 <div id="main-div">
          <?php
           $id = $_GET['id'];
          ?>
         <div class="result-div output">
             <?php
-              if (isset($_GET['id']) && isset($_GET['tid'])) {
+              if (isset($_GET['id']) && isset($_GET['treatId'])) {
                $id = $_GET['id'];
-                $tid = $_GET['tid'];
+                $tid = $_GET['treatId'];
             //   echo"<h2> Treatment i is $treatId/h2>";
              $getName0 ="select patient.name, treatment.treatment from patient join treatment
              where patient.sno=$id and treatment.tid=$tid"; 
               $query = mysqli_query($conn, $getName0);
              $showName = mysqli_fetch_assoc($query); 
-               echo"<h1 '>Are you sure you want to delete treatment record of  "."$showName[name]"."?</h1>";
+               echo"<h1>Are you sure you want to delete treatment record of  "."$showName[name]"."?</h1>";
                echo"<h1 class='dispArea'>Treatment name :  "."$showName[treatment]"."?</h1>";///
               }
-              
-             if (isset($_GET['deleteTreatment'])) {
-                $treatId = $_GET['treatId'];
+              if (isset($_GET['treatId'])) {
+               $id = $_GET['treatId'];
+                // $tid = $_GET['tid'];  
+          $getName0 ="select patient.name from patient where patient.sno=$id"; 
+              $query = mysqli_query($conn, $getName0);
+             $showName = mysqli_fetch_assoc($query);
+              } 
+              else if (isset($_GET['fid'])) {
+            
+                echo"else ";
+               }
+               if (isset($_GET['deleteTreatment'])) {
+             if (isset($_GET['treatId'])) {
+              $treatId = $_GET['treatId'];
              $deleteTreat ="delete from treatment where tid=$treatId";
              $deleteTreatQuery = mysqli_query($conn, $deleteTreat);
              if ($deleteTreatQuery) {
-                 echo"+<h1>Deleted only 1</h1>";//
-            //  echo "<script>window.location.href='../TreatmentDetail.php?id=$id&Delete=$deleteTreatQuery';</script>"; //pass foreign key
-              } else {
+                 echo"<h1>Deleted only 1 new inside treatid</h1>";//
+            //  echo "<script>window.location.hr//ef='../TreatmentDetail.php?id=$id&Delete=$deleteTreatQuery';</script>"; //pass foreign key
+              } 
+              else {
              # code...
              echo"<h1>Deletion failed </h1>";
                }
-            }//
-            else if (isset($_GET['id']) && isset($_GET['DeleteAll'])) {
-             
-              echo"<h2> you are in else $id  </h2>";
-            // $id = $_GET['id'];
-            //   echo"<h2> Treatment i is $treatId/h2>";
-            $getName0 ="select patient.name from patient where sno=$id"; 
-              $query = mysqli_query($conn, $getName0);
-             $showName = mysqli_fetch_assoc($query); 
-               echo"<h1 >Are you sure you want to delete all treatment records of  "."$showName[name]"."?</h1>";
-             if (isset($_GET['deleteTreatment'])) {
-                 $id = $_GET['id'];//use as forien key
-                $deleteAll ="Delete from treatment where sno=11";
-                $deleteAllQuery = mysqli_query($conn, $deleteAll);
-                if ($deleteAllQuery) {
-                  echo"<h1>Success all</h1>";
-            // echo "<script>window.location.href='../TreatmentDetail.php?id=$id&DeleteAll=$deleteAllQuery';</script>"; //pass foreign key
-//pass foreign key
-                }
-             else{
-                 
-                 echo"<h1>Deletion failed  $id </h1>";
              }
-                 
-            }
-          }
-            ?>
+             else {
+              # code...
+              echo"hello";
+             }
+      }
+             
+        
+?>
 
 
     </div>
