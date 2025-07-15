@@ -9,7 +9,7 @@ $name = $_GET['n'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Information page</title>
-    <link rel="stylesheet" href="Header2.css">
+    <link rel="stylesheet" href="Header2.css?v=1">
     <style>
       ul ul li{
         background:lightblue;
