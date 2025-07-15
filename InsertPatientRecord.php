@@ -79,7 +79,7 @@ error_reporting(0);
 
 <div id="output" >
 <?php
-//echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insetion failed</h1>";
+// echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insetion failed</h1>";
 $date    = $_POST['date'];
 $name   = $_POST['name'];
 $age    = $_POST['age'];
