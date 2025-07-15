@@ -57,18 +57,19 @@ error_reporting(0);
         }
     </style>
     <title>Seach By Date</title>
-<link rel="stylesheet" href="./Header2.css">
+<link rel="stylesheet" href="./Header2.css?v=1">
 </head>
 <body>
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
-   <     <ul style="background:white; height: 40px; width:250px"  >
+   <     <ul style="background:white; height: 40px; width:320px"  >
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientFom.html"> Add Patient </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         
         <li><a href="">Search by</a>
    <ul>
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li>
+    
         </ul>
         </li>
         </li>
