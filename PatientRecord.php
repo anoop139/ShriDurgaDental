@@ -9,10 +9,23 @@ $name = $_GET['n'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Information page</title>
-    <link rel="stylesheet" href="Header.css">
+    <link rel="stylesheet" href="Header2.css">
     <style>
       ul ul li{
         background:lightblue;
+      }
+      table tr th, td{
+        padding: 5px;
+      }
+      #trefo{
+        position: absolute;
+        top: -28px;
+      }
+       #trefo{
+        background-color:white;
+      } 
+      #trefo{
+        transition: transform, 3s
       }
     </style>
 </head>
@@ -21,7 +34,7 @@ $name = $_GET['n'];
 
 
 ?>
-   <ul style="padding-left:1050px;  background-color:lightblue; height: 40px;">
+        <ul style="background:lightblue; height: 40px; width:250px"  >
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient</a></li>&nbsp;
         
@@ -67,10 +80,10 @@ $name = $_GET['n'];
     }
   }
   onload = ()=>{
-      document.getElementById("trefo").style.transform="translateY(80px)"
+      document.getElementById("trefo").style.transform="translateY(50px)"
   }
     setTimeout(() => {
-      document.getElementById("trefo").style.transform="translateY(-80px)"
+      document.getElementById("trefo").style.transform="translateY(-100px)"
     }, 5000);
 
 
@@ -91,7 +104,7 @@ $name = $_GET['n'];
  if($no>0 && !isset($_GET['name']))
 {
   //  echo"<h1>Today is ".$todayDate."</h1>";
-	echo"<table border='2' cellpadding='4'>
+	echo"<table border='2'>
   <th>Name</th>
   <th>Age</th>
   <th>Gender</th>
@@ -131,7 +144,7 @@ $name = $_GET['n'];
    {
      $name = $_GET['name'];
      echo"<h1 id='patientName'> Treatment for '$name has been inserted successfully'</h1>";
-    echo"<table border='2' cellpadding='4'> 
+    echo"<table border='2'> 
   <th>Name</th>
   <th>Age</th>
   <th>Gender</th>
