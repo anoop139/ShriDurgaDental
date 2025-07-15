@@ -7,7 +7,7 @@ error_reporting(0);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <link rel="stylesheet" href="../Header.css?v=7">
+       <link rel="stylesheet" href="../Header2.css">
     <style>
        
        body {
@@ -38,22 +38,28 @@ error_reporting(0);
         #message{
             transition:transform, 3s 
         }
-    
+     table tr th, td{
+        padding: 5px;
+     }
     </style>
     <title>Edit Page</title>
 </head>
 <body>
-
-<div id="header0" style="background-color:lightblue">
 <div id="header">
 
-        <ul>
-        <li><a href="../DentalHomePage.html">Home </a></li>&nbsp;
-        <li><a href="../PatientFom.html">Add Patient </a></li>&nbsp;
+           <ul style="background:lightblue; height: 40px; width:320px"  >
+        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientFom.html"> Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         
-        <li><a href="../SearchByName.php">Search by Name</a></li>
+        <li><a href="">Search by</a>
+   <ul>
+            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
+    
         </ul>
-    </div>
+        </li>
+        </li>
+</ul>
 
     </div>
     <div id="main">

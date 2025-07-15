@@ -32,25 +32,20 @@ $name = $_GET['n'];
 	</style>
     <link rel="stylesheet" href="Header2.css">
     <link rel="stylesheet" href="StlyEdit.css?v=11">
-	<div id="header0" style="background-color:lightblue">
+	< id="header0" style="background-color:lightblue">
 
   <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
-   <!-- <di> -->
-    <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style=" background-color: lightblue; height: 40px;  b">
+      <ul style="background:lightblue; height: 40px; width:150px"  >
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
-        <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient</a></li>&nbsp;
         
         <li><a href="">Search by</a>
-        <ul style="">
+        <ul>
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
-            
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li>
         </ul>
         </li>
-      </ul>
-</div>
-</div>
+</ul>
 <body id="editBody">
 
 <div id="EidtSection">
