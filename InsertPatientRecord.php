@@ -79,14 +79,14 @@ error_reporting(0);
 
 <div id="output" >
 <?php
-// echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insetion failed</h1>";
+//echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insetion failed</h1>";
 $date    = $_POST['date'];
 $name   = $_POST['name'];
 $age    = $_POST['age'];
 $gen    = $_POST['gen'];
 $pho    = $_POST['pho'];
 
-// /echo"<h1>Name = $name</h1>";  //
+// /echo"<h1>Name = $name</h1>";  
 // echo"<>Date = $date<///h1>";  
 	
 	$insert = "insert into patient(date, name, age, gen, phoNo) 
