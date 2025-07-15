@@ -18,8 +18,10 @@
      }
 		 ul li a{
 		  color:white;
-		}	
- 	
+		}
+    .mobErr{
+      color: red;
+    }
     </style>
 	<link rel="stylesheet" href="Header.css">
   <link rel="stylesheet" href="./FormStyle.css">
@@ -51,8 +53,8 @@
  </div>
  
  <div id="formInput">
-    <form action="http://localhost:8081/Shri/Insert.php" method="POST" onsubmit="return insert()">    
-    <input type="text" name="name" id="name0" required><br> 
+    <form action="http://localhost:8081/Shri/InsertPatientRecord.php" method="POST" onsubmit="return insert()">    
+    <input type="text" name="name" id="name0" class="error" required><br> 
     <span class="mobErr" id="nameErr"></span><br><br>
     <input type="number" name="age" id="age" required><br>
 	   <span class="mobErr" id="errInfo1"></span><br><br><br>
@@ -63,10 +65,10 @@
     <!-- <input type="date" name="date" id="date" required><br><br><br> -->
     <!-- <input type="number" name="amount" id="amount"><br><br><br> -->
     <input type="text" name="gen" id="value" value="no" hidden><br><br><br>
-    <input type="text" name="date" id="date2" value="today1" hidden><br><br><br>
+    <input type="text" name="date" id="date2" value="today" hidden><br><br><br>
     <input type="submit" value="Submit" id="Submit">
  </div>
- <script src="./FomValidation.js?v=3"></script>
+ <script src="./FomValidation.js"></script>
  </form>
 </div>
 </div>

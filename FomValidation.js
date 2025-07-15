@@ -75,10 +75,10 @@ let date2 = document.getElementById("date2")
 	  return false;
 }
 	else{
-
+/////
 		date2.value=toDate;
 	    errInfo.innerHTML=date2.value
-		 console.log("hello")
+		//  alert("hello "+date2.value)
 		//  return false
 	}
 

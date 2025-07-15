@@ -1,0 +1,38 @@
+<form action="">
+        <div id="deleteAll" class="result-div2">
+         
+           <?php
+            if (isset($_GET['DeleteAll'])) {
+           $id = $_GET['id'];
+            //   echo"<h2> Treatment i is $treatId/h2>";
+            $getName0 ="select patient.name from patient where sno=$id"; 
+              $query = mysqli_query($conn, $getName0);
+             $showName = mysqli_fetch_assoc($query); 
+               echo"<h1 >Are you sure you want to delete all treatment records of  "."$showName[name]"."?</h1>";
+        //\
+              }
+             if (isset($_GET['deleteAll'])) {
+                 $id = $_GET['id'];//use as forien key
+                $deleteAll ="Delete from treatment where sno=$id";
+                $deleteAllQuery = mysqli_query($conn, $deleteAll);
+                if ($deleteAllQuery) {
+                  // echo"<h1>Success</h1>";
+            echo "<script>window.location.href='../TreatmentDetail.php?id=$id&DeleteAll=$deleteAllQuery';</script>"; //pass foreign key
+//pass foreign key
+                }
+             else{
+                 echo"<h1>Deletion failed</h1>";
+             }
+                 
+
+             
+
+             }
+           
+           ?>
+          </div>
+         <div id="delAll"> <input type="submit" name="deleteAll" class="btns" value="Yes all"></div>
+        <input type="hidden" class="btns" id="da" value="<?php echo$_GET['DeleteAll'];?>">
+        <input type="hidden" class="btns" id="id" value="<?php echo$_GET['id'];?>">
+     
+      </form>
