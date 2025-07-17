@@ -26,9 +26,10 @@ error_reporting(0);
     <div id="Main-div">
      <div style="text-align:center" id="sub-div">
         <?php
-        $sono = $_GET['oldName'];// THIS IS IS SNO
-        $newAge = $_GET['newAge'];
-        $updateGen ="update patient set gen='$newAge' where sno=$sono";
+        $sno = $_POST['id'];// THIS IS IS SNO
+        $gender = $_POST['gender'];
+        // echo"<h1> id is $sno</h1>";
+        $updateGen ="update patient set gen='$gender' where sno=$sno";
         $query1 = mysqli_query($conn, $updateGen);
         if ($query1) {
             # code...
@@ -44,7 +45,7 @@ error_reporting(0);
 
       <script>
       var up = setTimeout(() => {
-       window.location.href=`../Edit.php?newName=<?php echo$sono;?>`
+       window.location.href=`../Edit.php?id=<?php echo$sno;?>`
         }, 5000);
 
         </script>

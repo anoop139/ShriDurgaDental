@@ -8,12 +8,14 @@ error_reporting(0);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Name Update Page</title>
     <style>
         #Main-div{
             border:2px solid black
         }
-		
+		 #Main-div{
+            background:green;
+        }
        
     </style>
 </head>
@@ -22,13 +24,13 @@ error_reporting(0);
     <div id="Main-div">
      <div style="text-align:center">
         <?php
-        $oldName = $_GET['oldName'];
-        $newName =$_GET['newName'];
-		echo"ID  ".$oldName; 
+        $id = $_POST['id'];
+        $newName =$_POST['newName'];
+		echo"ID  ".$id; 
 		// echo"<br> New name is ".$newName; 
         
 
-		$update ="update patient set name='$newName' where sno=$oldName";
+		$update ="update patient set name='$newName' where sno=$id";
         $query  = mysqli_query($conn, $update);
 		if($query)
 		{
@@ -40,9 +42,9 @@ error_reporting(0);
         ?>
 
         <script>
-    //   var up = setTimeout(() => {
-    //    window.location.href=`../Edit.php?newName=<?php echo$oldName;?>`
-    //     }, 5000);
+      var up = setTimeout(() => {
+       window.location.href=`../Edit.php?newName=<?php echo$id;?>`
+        }, 5000);
 
         </script>
      </div>

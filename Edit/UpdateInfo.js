@@ -1,13 +1,8 @@
-window.onload =()=>{
-   // alert ("test")
-}
-
 const parameters = window.location.search;
 console.log(parameters);
 
 const search = new URLSearchParams(parameters);
-let id = search.get("id");
-var holdId = document.getElementById("Id")
+let oldName = search.get("id");
 var message = document.getElementById("messageArea")
    
 function updateName() {
@@ -19,12 +14,17 @@ function updateName() {
    if(!newName)
    {
 	   // alert(parameters+" hi");
-      message.innerHTML="Enter new name";
+      message.innerHTML="Enter new name new code  ";
 	   return false
    }
+    if (oldName.length==0) {
+        alert("Sorry some problem occured refresh page and try again ")
+      
+    }
    else{
-   //  //   alert("Are you sure you want to update "+oldName)
-    holdId.value=id  
+    //   alert("Are you sure you want to update "+oldName)
+      //     window.location.href=`./UpdateName.php?oldName=${oldName}&newName=${newName}`
+      //  return  false
    }
 	
 }
@@ -36,38 +36,35 @@ function updateAge() {
    if (!newAge) {
    //   alert("Enter new age")      
     message.innerHTML="Enter your age";
-     return false
+   //  message.style.backgroundColor="bla//ck"
    }
    else if (newAge<0) {
       message.innerHTML="Enter valid age";
-      return false
    }
    else{
-   
-      holdId.value=id
+      alert(oldName)
+   //   window.location.href=`./UpdateAge.php?oldName=${oldName}&newAge=${newAge}`
+
+   false
    }
 }
 function updateGen() {
-   // let male = document.getElementById("olf");
    let male = document.getElementById("Male");
    let female = document.getElementById("Female");
-   let gender = document.getElementById("gen")
-   if (male.checked==false && female.checked==false) {//
-      message.innerHTML="Select one option please  "
-      // message.innerHTML="yes my baby"
-      return false     
+   let gender = document.getElementById("gen").value;
+   if (male.checked==true) {
+       gender = male.value[0]
+     window.location.href=`./UpdateGen.php?oldName=${oldName}&newAge=${gender}`
+      console.log(gender)
    }
-   if(male.checked==true){
-      gender.value = "M"
-      holdId.value = id
-      // message.innerHTML="The value of id is "+holdId.value
-      // return false
+
+   else if (female.checked==true) {
+      gender = female.value[0]
+      window.location.href=`./UpdateGen.php?oldName=${oldName}&newAge=${gender}`
+     
    }
-   else if(female.checked==true){
-      gender.value ="F"
-        holdId.value = id
-      // message.innerHTML="The value of id is "+holdId.value
-      // return false
+   else{
+       message.innerHTML="Select one one option "     
    }
 }
 
