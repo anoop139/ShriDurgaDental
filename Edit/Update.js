@@ -35,7 +35,7 @@ function updateAge() {
 
    if (!newAge) {
    //   alert("Enter new age")      
-    message.innerHTML="Enter your age";
+    message.innerHTML="Enter your age please";
      return false
    }
    else if (newAge<0) {
@@ -77,20 +77,25 @@ function updatePhone() {
    let phone = document.getElementById("phoneNumber").value
    if (!phone) {
       message.innerHTML="Enter new phone number";
+      return false
    }
    else if(phone.length<10)
       {
          message.innerHTML="Number should have 10 digits "
+         return false
       }  
       else if(phone.charAt(0)!=9 && phone.charAt(0)!=8 && phone.charAt(0)!=7)
          {
           message.innerHTML="Number should start from 9 or 8 7";
+          return false
       
          }
 
          else{
-            window.location.href=`./UpdatePhone.php?oldName=${oldName}&newPhone=${phone}`//
-            // message.innerHTML=oldName
+        
+             holdId.value=id      
+            // message.innerHTML="good to go id ="+id+"<br> hold == "+holdId.value;
+            // return false
          }
 }
 window.oninput =()=>{

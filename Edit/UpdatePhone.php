@@ -31,11 +31,11 @@ error_reporting(0);
     <div id="Main-div">
      <div style="text-align:center">
         <?php
-        $oldName = $_GET['oldName'];
-        $newPhone =$_GET['newPhone'];
-		// echo"ID  ".$oldPhone; 
+        $sno= $_POST['id'];
+        $newPhone =$_POST['newNumber'];
+		// echo"ID  ".$sno; 
 		// echo"<br> New name is ".$newPhone; 
-		$update ="update patient set phoNo='$newPhone' where sno=$oldName";
+		$update ="update patient set phoNo='$newPhone' where sno=$sno";
         $query1  = mysqli_query($conn, $update);
 		if($query1)
 		{
@@ -48,7 +48,7 @@ error_reporting(0);
 
         <script>
       var up = setTimeout(() => {
-       window.location.href=`../Edit.php?newName=<?php echo$oldName;?>`
+       window.location.href=`../Edit.php?newName=<?php echo$sno;?>`
         }, 5000);
 
         </script>

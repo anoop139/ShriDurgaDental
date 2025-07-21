@@ -38,14 +38,15 @@
     <div id="mainPhone">
       <div id="subPhone">
         <h1>Enter new Nunber :</h1>
-        <form action="" id="phoneFom">
-            <input type="text" id="phoneNumber"><br>
+        <form action="./UpdatePhone.php" id="phoneFom" method="POST" onsubmit="return updatePhone()">
+            <input type="hidden" id="Id"  name="id"><br>
+            <input type="text" id="phoneNumber" name="newNumber"><br>
             <span style="color: red;" id="messageArea" class="h"></span><br>
             <input type="text" id="phone" hidden>
-            <div id="phonebtn"><input type="button" value="Update" onclick="updatePhone()"/></div>
+            <div id="phonebtn"><input type="submit" value="Update" /></div>
         </form>
       </div>
     </div>
-    <script src="./Script1.js"></script>
+    <script src="./Update.js?v=3"></script>
 </body>
 </html>
