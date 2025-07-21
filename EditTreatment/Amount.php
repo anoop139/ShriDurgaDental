@@ -59,16 +59,16 @@ error_reporting(0);
     <div id="main-div">
      <div class="treatDiv">
         <h1>Enter new amount :</h1>
-        <form action="" class="inputDiv" onsubmit="return checkInput()" method="get">
+        <form action="" class="inputDiv" onsubmit="return checkInput()" method="POST">
             <input type="number" name="amount" id="input">
             <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
             <h2 id="Error">
                 <?php
                  $id = $_GET['id'];
                    
-              if (isset($_GET['Submit']))
+              if (isset($_POST['Submit']))
                  {
-                   $amount = $_GET['amount'];
+                   $amount = $_POST['amount'];
                    $update ="update treatment set amount=$amount where tid=$id";//
                    $treatQuery = mysqli_query($conn, $update);
                    if ($treatQuery) {
