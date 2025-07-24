@@ -32,10 +32,10 @@ $name = $_GET['n'];
 	</style>
     <link rel="stylesheet" href="Header2.css">
     <link rel="stylesheet" href="StlyEdit.css?v=11">
-	< id="header0" style="background-color:lightblue">
+	
 
   <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
-      <ul style="background:lightblue; height: 40px; width:150px"  >
+      <ul style="background:lightblue; height: 40px; width:250px"  >
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient</a></li>&nbsp;
         
