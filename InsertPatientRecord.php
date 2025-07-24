@@ -79,31 +79,36 @@ error_reporting(0);
   $gender = $_POST['gen'];
   $phone = $_POST['pho'];
   // echo"<h1>Age = $date</h1>";
-$fetch = "select phoNo from  patient where phoNo='$phone'";
+$fetch = "select sno, name,  phoNo from  patient where phoNo='$phone'";
 $fetchQuery   = mysqli_query($conn, $fetch);
 $num   = mysqli_num_rows($fetchQuery);
-// echo"no ".$num;
+$queryId = mysqli_fetch_assoc($fetchQuery);
+// echo"$queryId[sno]";
 if ($num>0) {
-   echo"<h1 style='color:red; margin-top:100px'>As phone number or the patient record exists, to add treatment
-    <a href='./InsertTreatment.php?id=1&tp=True' >Click here  </a> 
+   echo"<h1 style='color:red; margin-top:100px'>$queryId[name]'s recod exists, to add treatment
+    <a href='./InsertTreatment.php?id=$queryId[sno]&tp=True' >Click here  </a> 
     </h1>".mysqli_connect_error();
 }
 else{
  
-$insert ="insert into patient(name, age, gen, phoNo) values('$name', $age, '$gender', '$phone' )";
+$insert ="insert into patient(date, name, age, gen, phoNo) values('$date','$name', $age, '$gender', '$phone' )";
 $insertQuery = mysqli_query($conn, $insert);
 
 if ($insertQuery) {
     # code...
-    echo"<h1 style='margin-top:0px; margin-left:50px; color:grreen'>Record inserted successfully</h1>";
+    echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully</h1>";
 }
 }
+
+//    echo"<h1 style='color:red; margin-top:100px'>As phone number or the patient record exists, to add treatment
+//     <a href='./InsertTreatment.php?id=$queryId[sno]&tp=True' >Click here  </a> 
+//     </h1>".mysqli_connect_error();
 ?>
 
 </div>
 <div id="blank">
   </div>
-  <form action="" id="back">
+  <form action="./PatientFom.html" id="back">
     <input type="submit" value="Back" class="btn">
   </form>
   <form action="./PatientRecord.php" id="next">
