@@ -20,18 +20,13 @@ error_reporting(0);
     #output{
        padding-top:0px
     }
-    // #output{
-        // position: absolute;
-        // top: 50px;
-        // left: 400px;
-    // }
 </style>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insert Page</title>
     <style>
         body{
@@ -39,17 +34,28 @@ error_reporting(0);
             background-repeat: no-repeat;
             background-size:cover
         }
-     #result{
+        #output{
+        background:white;
+        padding-left: 5px;
+        text-align:center;
+     }
+     #output{
+       width: auto;
+       height: 40px;
+       margin-left: 100px;
+
+     }
+     #blank{
         border: 2px solid black; 
-        /* padding-t; */
         padding: 200px;
      }
-      #fomDiv{
-        /* padding-left:890px ; */
-        text-align:right;
-     }
-    #form1{
+     
+    #back{
         float: left;
+     }
+  #next{
+        
+    text-align:right
      }
 
     
@@ -61,93 +67,46 @@ error_reporting(0);
         /* padding-right:30px ; */
      }
 
-     #errMsg{
-        position: absolute;
-        top: 200px;
-        left: 300px;
-     }
-     #errMsg{
-        background-color:white;
-        width: 800px;
-     }
-     
 
     </style>
 </head>
 <body>
-<div>
-
-<div id="output" >
-<?php
-//echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insetion failed</h1>";
-$date    = $_POST['date'];
-$name   = $_POST['name'];
-$age    = $_POST['age'];
-$gen    = $_POST['gen'];
-$pho    = $_POST['pho'];
-
-// /echo"<h1>Name = $name</h1>";  
-// echo"<>Date = $date<///h1>";  
-	
-	$insert = "insert into patient(date, name, age, gen, phoNo) 
-	values('$date','$name',$age, '$gen', '$pho')";
-  $query = mysqli_query($conn, $insert);
-
-	if($query)
-	{
-	echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Record inseted succesfully </h1>";
-	// echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:green; padding-top:0px' >Inseted succesfully $name</h1>";
-		
-
-	}
-    else{
-		echo"<style>#output{background-color:white; text-align:center;}</style><h1 style='color:red; padding-top:0px' >Insertion failed </h1>";
-
-    }
-	
-
-?>
-</div>
-<?php
- if ($query!=1) {
-	$patientId ="select sno from patient where phoNo='$pho'";
-    $idQuery   = mysqli_query($conn, $patientId);
-    $showId    = mysqli_fetch_assoc($idQuery);
-
-    echo"<h1 style='color:red;'  id='errMsg'>As phone number or the patient record exists, to add treatment
-    <a href='./InsertTreatment.php?id=$showId[sno]&tp=True' >Click here  </a> 
+    <div id="output">
+ <?php
+  $date = $_POST['date'];
+  $name = $_POST['name'];
+  $age = $_POST['age'];
+  $gender = $_POST['gen'];
+  $phone = $_POST['pho'];
+  // echo"<h1>Age = $date</h1>";
+$fetch = "select phoNo from  patient where phoNo='$phone'";
+$fetchQuery   = mysqli_query($conn, $fetch);
+$num   = mysqli_num_rows($fetchQuery);
+// echo"no ".$num;
+if ($num>0) {
+   echo"<h1 style='color:red; margin-top:100px'>As phone number or the patient record exists, to add treatment
+    <a href='./InsertTreatment.php?id=1&tp=True' >Click here  </a> 
     </h1>".mysqli_connect_error();
-    
- }
+}
+else{
+ 
+$insert ="insert into patient(name, age, gen, phoNo) values('$name', $age, '$gender', '$phone' )";
+$insertQuery = mysqli_query($conn, $insert);
+
+if ($insertQuery) {
+    # code...
+    echo"<h1 style='margin-top:0px; margin-left:50px; color:grreen'>Record inserted successfully</h1>";
+}
+}
 ?>
+
 </div>
-     <script>
-
-    //     function show() {
-    //        let out =  document.getElementById("output")
-    //        out.style.display="block";
-	// 		setTimeout(() => {
-    //             // alert("testing")
-    //             out.style.transition="transform 3s"
-    //             out.style.transform="translateY(-85px)"
-    //         }, 5000);
-    //     }
-    //     window.onload=show
-    //  </script>
-    <div id="result">
-    </div>
-    <div id="fomDiv">
-    <form action="Fom.html" id="form1">
-    
-        <input type="submit" value="Back" class="btn">&nbsp;
-		
-    </form>
-
-    <form action="PatientRecord.php" method="post" >
-        <input type="submit" value="Next" class="btn">
-    </form>
-
-    </div>
-    <!-- <script src="./FormVali"></script> -->
-</body>
+<div id="blank">
+  </div>
+  <form action="" id="back">
+    <input type="submit" value="Back" class="btn">
+  </form>
+  <form action="./PatientRecord.php" id="next">
+    <input type="submit" value="Next" class="btn">
+  </form>
 </html>
