@@ -90,17 +90,13 @@ $name = $_GET['n'];
 </script>
 
  <?php
- //"17 - 3 - 2025";
+
   $todayDate = $_POST['toDate'];
-  // echo"<h1>Date is ". $todayDate."</h1>";//
+
      $display ="SELECT * FROM patient where date = '$todayDate'";
    $query   =  mysqli_query($conn, $display);
    $dateQuery   =  mysqli_query($conn, $display);
   $no    = mysqli_num_rows($query);
-  // $no2    = mysqli_num_rows($query2);//////////
-  // $recodedDate   = mysqli_fetch_assoc($dateQuery)/;
-  // echo"<h1>The patient till "."$recodedDate[date]"." has been recoded</h1>";
-  // echo"<h1>Todzay i"."$todayDate</h1>";
  if($no>0 && !isset($_GET['name']))
 {
   //  echo"<h1>Today is ".$todayDate."</h1>";
