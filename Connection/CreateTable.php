@@ -24,11 +24,11 @@ include("Connect.php")
        <?php
         if (isset($_GET['p'])) {
           $pt =" date VARCHAR(20),
-    sno INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(20),
-    age INT,
-    gen VARCHAR(10),
-    phoNo VARCHAR(10) UNIQUE
+               sno INT PRIMARY KEY AUTO_INCREMENT,
+              name VARCHAR(20),
+              age INT,
+             gen VARCHAR(10),
+            phoNo VARCHAR(10) UNIQUE
 
             )";
 			$query = mysqli_query($conn, $pt);
