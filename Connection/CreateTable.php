@@ -23,13 +23,12 @@ include("Connect.php")
     <div id="contain">
        <?php
         if (isset($_GET['p'])) {
-          $pt ="create table patient(
-                date varchar(255),
-                sno int(255) primary key auto_increment,
-                name varchar(255),
-                age int(255),
-                gen varchar(255),
-                phoNo varchar(255) unique
+          $pt =" date VARCHAR(20),
+    sno INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(20),
+    age INT,
+    gen VARCHAR(10),
+    phoNo VARCHAR(10) UNIQUE
 
             )";
 			$query = mysqli_query($conn, $pt);
@@ -43,13 +42,12 @@ include("Connect.php")
         }
        
        else if (isset($_GET['c'])) {
-         $ct ="create table treatment(
-              date varchar(255),
-              tid int(255) primary key auto_increment,
-              treatment varchar(255),  
-               amount int(255),
-               sno int(255),
-             foreign key(sno) references patient(sno)on delete cascade
+         $ct ="  date varchar(20),                  
+                tid int primary key auto_increment,  
+                treatment varchar(20),               
+                 amount int,                          
+                  sno int,                           
+               foreign key(sno) references patient(sno) on delete cascade
            );";
 		   $query1 = mysqli_query($conn, $ct);
 			if($query1)
