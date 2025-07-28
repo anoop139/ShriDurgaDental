@@ -34,17 +34,21 @@ $name = $_GET['n'];
 
 
 ?>
-        <ul style="background:lightblue; height: 40px; width:250px"  >
-        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient</a></li>&nbsp;
+       <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
+
+    <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
+       <ul id="ul" style="padding-left:1000px; background-color:lightblue; height: 40px; width: 255px; ">
+        <li><a href="./DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="PatientFom.html">Add Patient</a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul>
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li>
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
+            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">number</a></li>
         </ul>
         </li>
-</ul>
+      </ul>
 <div id="dis">     
 <form action="" id="dateForm" method="POST">
   

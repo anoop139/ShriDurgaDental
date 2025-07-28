@@ -14,7 +14,7 @@ error_reporting(0);
      background-color: black;
 	} 
 	body{
-		background-image:url("Images/SearchbyNames.jpeg");
+		/* background-image:url("Images/SearchbyNames.jpeg"); */
 		background-repeat:no-repeat;
 		background-size:cover;
 	}
@@ -127,7 +127,7 @@ error_reporting(0);
         <li><a href="">Search by</a>
    <ul>
             <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li>
+            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li>
     
         </ul>
         </li>
@@ -135,9 +135,9 @@ error_reporting(0);
 </ul>
    <!-- </di> -->
 <div id="res1">
-<h1>Search by Name :</h1>
-<form id="input"onsubmit="return checkInput()" method="POST">
-<input type="text" id="input1" name="name" class="Col">&nbsp;
+<h1>Search by Number :</h1>
+<form id="input"onsubmit="return checkNumberInput()" method="POST">
+<input type="text" id="input1" name="number" class="Col">&nbsp;
 <input type="submit" name="Sub" class="Col" value="Click here" ><br>
 </form><br><br>
 <div id="resultDiv">
@@ -145,10 +145,10 @@ error_reporting(0);
 	if(isset($_POST['Sub']))
 
 {    
-	$name =  $_POST['name'];
+	$number =  $_POST['number'];
 
 // 
-   $patientInfo = "SELECT * FROM patient WHERE name LIKE'$name%'";
+   $patientInfo = "SELECT * FROM patient WHERE phoNo='$number'";
 
 	$query       = mysqli_query($conn, $patientInfo);
 	$no           = mysqli_num_rows($query);
@@ -200,7 +200,7 @@ else if(isset($_GET["pid"]))
 	$pid = $_GET["pid"];
 
 // 
-   $patientInfo = "SELECT * FROM patient WHERE name like $name1%";
+   $patientInfo = "SELECT * FROM patient WHERE sno =$pid";
 
 	$query       = mysqli_query($conn, $patientInfo);
 	$no           = mysqli_num_rows($query);

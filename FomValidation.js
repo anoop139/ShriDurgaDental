@@ -104,8 +104,26 @@ function checkInput() {
   }
 // \
 }
-}
+}function checkNumberInput() {
+	// let input = document.getElementById("input1").value//;
+    // let input2 = document.getElementById("input2").value;
 
+	if (!input.value) {
+      errInfo.innerHTML="Enter number"; 
+	// alert("Enter your name "+errInfo.innerHTML)
+		return false
+	}
+
+	else{
+    if (!window.sessionStorage.getItem("name")) {
+    window.sessionStorage.setItem("name", input.value);
+	input2.value =window.sessionStorage.getItem("name")
+
+    
+  }
+// \
+}
+}
 oninput = ()=>{
 		 
 
