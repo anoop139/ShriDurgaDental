@@ -104,14 +104,15 @@ error_reporting(0);
 	    <link rel="stylesheet" href="Header2.css">
 </head>
 <body>
-        <ul style="background-color:lightblue; height: 40px; width:auto;">
+        <ul style="background-color:lightblue; height: 40px; padding-left:1070px;">
         <li style="text-align:right"><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul style="">
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li>
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
+            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li><br>
         </ul>
         </li>
       </ul><br>
