@@ -102,7 +102,7 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
      <div class="errorMessage" id="errorMessage1"> <?php
     ?></div>
     <br><br>
-    <input type="number" name="amt" id="" class="treat"><br>
+    <input type="number" name="amt" id="" class="treat" required><br>
   
     <input type="text" name="name" hidden id="pname"  value="<?php echo$name; ?>" class="treat">
     <input type="number" name="fid" hidden id="pname1"   value="<?php echo$fid; ?>" class="treat">
