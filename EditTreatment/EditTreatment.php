@@ -13,6 +13,9 @@ error_reporting(0);
        body {
         background: grey
        }
+       ul li ul li{
+        background-color:lightblue;
+       }
        #main{
             border: 2px solid black;
             padding: 200px; 
@@ -47,20 +50,21 @@ error_reporting(0);
 <body>
 <div id="header">
 
-           <ul style="background:lightblue; height: 40px; width:320px"  >
+                <ul style="background:lightblue; height: 40px; width:340px; padding-left:1000px"  >
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.html"> Add Patient </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
    <ul>
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
+            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li><br>
     
         </ul>
         </li>
         </li>
-</ul>
-
+</ul
     </div>
     <div id="main">
         <table border="2" cellpadding="5px" style='text-align:center'>
