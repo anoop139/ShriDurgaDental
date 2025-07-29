@@ -119,7 +119,7 @@ error_reporting(0);
     <link rel="stylesheet" href="Header2.css">
 </head>
 <body>
-       <ul style="background:black; height: 40px; width:340px; padding-left:1000px"  >
+       <ul style="background:black; height: 40px; width:340px; padding-left:1000px">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient </a></li>&nbsp;
@@ -198,9 +198,9 @@ else if(isset($_GET["pid"]))
 {
 	$name1 =  $_GET['name4'];
 	$pid = $_GET["pid"];
-
+//    echo"<h1>$pid</h1>";
 // 
-   $patientInfo = "SELECT * FROM patient WHERE name like $name1%";
+   $patientInfo = "SELECT * FROM patient WHERE sno=$pid";
 
 	$query       = mysqli_query($conn, $patientInfo);
 	$no           = mysqli_num_rows($query);
@@ -293,7 +293,6 @@ if (isset($_GET['inserted'])) {
 </div>
 </div>
 <script src="./FomValidation.js?v=8"></script>
-<div id="Back"><button class="Col">Back</button></div>
-<div id="Next"><button class="Col">Next</button></div>
+
 </body>
 </html>

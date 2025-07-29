@@ -7,7 +7,7 @@ error_reporting(0);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search by name</title>
+    <title>Search by number</title>
 	<style>
 	ul li:hover ul li{
 	
