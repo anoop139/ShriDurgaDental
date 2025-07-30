@@ -95,7 +95,7 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
     <h1>Enter Amount </h1>
   </div>
   <form action="" onsubmit="return Submit()" method="POST">
-    <input type="text" name="treat" id="treat1" class="treat"><br>
+    <input type="textarea" name="treat" id="treat1" class="treat"><br>
      <?php
       
     ?>
@@ -195,8 +195,8 @@ if ($treatCont!=0) {
     if (!treat) {
       // 
 
-        msg.innerHTML="Enter treatment "
-      // alert("obj/ect")
+        // msg.innerHTML="Enter treatment "+date4.value
+      // alert("date is "+date)
           return false 
     }
   else{
@@ -209,7 +209,8 @@ if ($treatCont!=0) {
 
 toDate=d.toString()+" - "+mo.toString()+" - "+y
 	date2.value=toDate;
-// alert("The date is "+date4)
+  // alert("The date is "+date2.value)
+  // return false
     }
 
   }
