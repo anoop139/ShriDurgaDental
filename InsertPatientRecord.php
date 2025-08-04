@@ -88,6 +88,10 @@ if ($num>0) {
    echo"<h1 style='color:red; margin-top:100px'>$queryId[name]'s recod exists, to add treatment
     <a href='./InsertTreatment.php?id=$queryId[sno]&tp=True' >Click here  </a> 
     </h1>".mysqli_connect_error();
+    echo"<h1>OR</h1>";
+       echo"<h1 style='color:red; margin-top:100px'>$queryId[name]'s recod exists, to view treatment details
+    <a href='./TreatmentDetail.php?id=$queryId[sno]&tp=True' >Click here  </a> 
+    </h1>".mysqli_connect_error();
 }
 else{
  
