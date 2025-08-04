@@ -15,20 +15,7 @@ error_reporting(0);
 	 	ul li ul li{
 		background:lightblue;
 	}
-     /* #header{
-        position: absolute;
-        top:0px;       
-        right:20px;
-     }
-     #header ul li{
-      list-style-type:none;
-     }
-	 #header ul li{
-     float:left;
-     }
-	 #header ul li{
-     margin-left:20px
-     } */
+
    	
      body{
         background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBztpBXjR7M2C_AkcfV_0IWiQ48qGrmTgPLw&s");
@@ -62,8 +49,19 @@ error_reporting(0);
 		top:-10px;
 		left: 600px;
 	}
+  #navFom{
+    position: absolute;
+    top: 450px;
+   left: 1210px;
+   
+  }
+  #navFom input{
+    padding: 20px;
+    background:lightblue;
+    
+  }
     </style>
-	<link rel="stylesheet" href="Header.css?v=7">
+	<link rel="stylesheet" href="Header.css?v=8">
 </head>
 <body>
 <div id="header0" >
@@ -156,10 +154,7 @@ $td1 = $_POST['tp'];
       
       // echo"<h1 style='color:red;'> Inserted  $noOf and $date</h1>";
 
-      echo"
-       <script>
-       window.location.href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'
-        </script>";
+     echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment</h3>";
        }
 
        
@@ -170,12 +165,12 @@ $td1 = $_POST['tp'];
         // echo"<h1>TRATMENT ".$treatCont."</h1>";
         echo"
         <script>
-        window.location.href='SearchByName.php?pid=$fid1&inserted=True'
+        window.location.href='SearchByName.php?pid=$fid1'
         </script>";
 }
 if ($treatCont!=0) {
   # code...
-  echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient already exist</h3>";
+  echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient already exis<a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a></h3>";
 }
 
  
@@ -222,9 +217,9 @@ toDate=d.toString()+" - "+mo.toString()+" - "+y
   treatExisted.innerHTML="";
  })
 </script>  
-
-     
   </form>
-
+<!-- <form action="" id="navFom">
+  <input type="submit" value="Click here">
+</form> -->
 </body>
 </html>
