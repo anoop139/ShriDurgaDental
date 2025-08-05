@@ -181,7 +181,7 @@ error_reporting(0);
 	 <td style='text-align:center;' class='td'>$fetch[age]</td>
 	 <td style='text-align:center' class='td'>$fetch[gen]</td>
 	 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=$fetch[sno]'>$no2</a></td>
-	 <td style='text-align:center' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&sbm=True'>Click here to add treatment</a></td>
+	 <td style='text-align:center' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&pr=true'>Click here to add treatment</a></td>
 	 <td class='td'>$fetch[phoNo]</td>
 	 <td class='td'><a href='Edit.php?id=$fetch[sno]'>Edit</a></td>
 	 </tr>";		  
