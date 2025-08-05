@@ -65,7 +65,7 @@ error_reporting(0);
 </head>
 <body>
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
-   <     <ul style="background:white; height: 40px; width:340px; padding-left:1060px"  >
+   <     <ul style="background:white; height: 40px; padding-left:1010px; width:340px"  >
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient </a></li>&nbsp;
@@ -73,6 +73,7 @@ error_reporting(0);
         <li><a href="">Search by</a>
    <ul>
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
+            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li><br>
     
         </ul>
         </li>
