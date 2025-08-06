@@ -143,10 +143,12 @@ $td1 = $_POST['tp'];
    if($treatQuery)
     {
        if ($pr=="true" && $treatCont==0) {
-        echo"
-        <script>
-        window.location.href='PatientRecord.php?fid=true'
-        </script>";
+        // echo"
+        // <script>
+        // window.location.href='PatientRecord.php?fid=true'
+        // </script>";
+        
+     echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment</h3>";
        }
   
        }
@@ -160,14 +162,6 @@ $td1 = $_POST['tp'];
        
         // echo"<span class='errorMessage'>Treatment /nserted".$td."</span><br>";
       }
-     
-        if ($sbm=="True" && $treatCont==0){
-        // echo"<h1>TRATMENT ".$treatCont."</h1>";
-        echo"
-        <script>
-        window.location.href='SearchByName.php?pid=$fid1'
-        </script>";
-}
 if ($treatCont!=0) {
   # code...
   echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient already exis<a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a></h3>";
