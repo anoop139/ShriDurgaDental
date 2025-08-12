@@ -169,6 +169,8 @@ echo"<center>
    <tr>
    <th>Date</th>
    <th>Treatment</th>
+   <th>Advance Amount</th>
+   <th>Pending Amount</th>
    <th>Amount</th>
    <th>Edit</th>
    <th>Delete</th>
@@ -178,15 +180,20 @@ while( $fect= mysqli_fetch_assoc($query))
 	echo"<tr>
    <td>$fect[date]</td>
    <td style='padding: 10px;'>$fect[treatment]</td>
-   <td>$fect[amount]</td>
+   <td style='padding: 10px;'>$fect[advance]</td>
+   <td>0</td>  
+    <td >$fect[amount]</td>
+
   <td><a href='EditTreatment\EditTreatment.php?tid=$fect[tid]'>Edit</a></td>
   <td><a href='Edit\TreatmentDelete.php?id=$PatienName[sno]&treatId=$fect[tid]'>Delete</a></td>
     </tr>";
 
 }
 echo"<th></th>
+   <th></th>
+   <th></th><br>
    <th>Total</th>
-   <th> $fect0[amt]</th>
+   <th style='margin-left:450px'> $fect0[amt]</th>
       </table>
       </center>";
 }
