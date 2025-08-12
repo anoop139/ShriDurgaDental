@@ -90,7 +90,8 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
 </ul>
   <div id="div1">
     <h1>Enter Treatmemt </h1>
-    <h1>Enter Amount </h1>
+    <h1>Enter Advance Amount if any </h1>
+    <h1>Enter total Amount </h1>
   </div>
   <form action="" onsubmit="return Submit()" method="POST">
     <input type="textarea" name="treat" id="treat1" class="treat"><br>
@@ -100,6 +101,7 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
      <div class="errorMessage" id="errorMessage1"> <?php
     ?></div>
     <br><br>
+    <input type="number" name="advanceAmount0" id="" class="treat" ><br><br><br>
     <input type="number" name="amt" id="" class="treat" required><br>
   
     <input type="text" name="name" hidden id="pname"  value="<?php echo$name; ?>" class="treat">
