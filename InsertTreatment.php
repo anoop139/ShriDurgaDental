@@ -101,8 +101,8 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
      <div class="errorMessage" id="errorMessage1"> <?php
     ?></div>
     <br><br>
-    <input type="number" name="advanceAmount0" id="" class="treat" ><br><br><br>
-    <input type="number" name="amt" id="" class="treat" required><br>
+    <input type="number" name="advanceAmount" id="Advance" class="treat" ><br><br><br>
+    <input type="number" name="amt" id="receivedAmount" class="treat" ><br>
   
     <input type="text" name="name" hidden id="pname"  value="<?php echo$name; ?>" class="treat">
     <input type="number" name="fid" hidden id="pname1"   value="<?php echo$fid; ?>" class="treat">
@@ -123,6 +123,7 @@ if(isset($_POST['sub']))
    $name = $_POST['name'];
 $treat = $_POST['treat'];
 $fid1 = $_POST['fid'];
+$advance = $_POST['advanceAmount'];
 $amt = $_POST['amt'];
 $pr = $_POST['pr'];
 $sbm = $_POST['sbm'];
@@ -139,13 +140,13 @@ $td1 = $_POST['tp'];
 	if (isset($name) && $treatCont==0) {
     # code...
     //  echo"hi ".$treat;
-	$insert ="insert into treatment(date, treatment, amount, sno) value('$date','$treat',$amt,$fid1)";
+	$insert ="insert into treatment(date, treatment, advance, amount, sno) value('$date','$treat',$advance,$amt,$fid1)";
 	$treatQuery =  mysqli_query($conn, $insert);
 
    if($treatQuery)
     {
        if ($pr=="true" && $treatCont==0) {
-        // echo"
+        // echo"/
         // <script>
         // window.location.href='PatientRecord.php?fid=true'
         // </script>";
@@ -181,8 +182,12 @@ if ($treatCont!=0) {
    function Submit() {
  let date4 = document.getElementById("date2")
      treat = document.getElementById("treat1").value 
-     ///////fid = document.getElementById("tn").value 
+     advance = document.getElementById("Advance") 
+     cashReceived = document.getElementById("receivedAmount") 
        fid = document.getElementById("pname1").value 
+      
+    let advan =  Number(advance.value) 
+let tot =  Number(cashReceived.value)  
     if (!treat) {
       // 
 
@@ -190,6 +195,7 @@ if ($treatCont!=0) {
       // alert("date is "+date)
           return false 
     }
+    
   else{
          let date = new Date();
          let d = date.getDate()
@@ -202,8 +208,14 @@ toDate=d.toString()+" - "+mo.toString()+" - "+y
 	date2.value=toDate;
   // alert("The date is "+date2.value)
   // return false
+  
     }
-
+if (advan> 0 && tot==0) {
+  
+  cashReceived.value = advance.value
+  alert("cash is converted "+cashReceived.value)
+  // return false
+}
   }
  window.oninput=(()=>{
 
