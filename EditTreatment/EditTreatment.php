@@ -71,6 +71,8 @@ error_reporting(0);
             <tr>
             <th>Treatment name</th>
             <th>Edit Treatment name</th>
+            <th>Advance Amount</th>
+            <th>Edit Advance Amont</th>
             <th>Amount</th>
             <th>Edit Amount</th>
             </tr>
@@ -82,7 +84,10 @@ error_reporting(0);
                     echo"<tr>
                   <td>$fetch[treatment]</td>
                   <td><a href='Treatment.php?id=$treatId' class='num'>Click here to edit treatment</a></td>
+                 <td>$fetch[advance]</td>
+                        <td><a href='AdvanceAmount.php?id=$treatId' class='num'>Click here to edit advance amount</a></td>
                  <td>$fetch[amount]</td>
+
                 <td><a href='Amount.php?id=$treatId'>Click here to edit amount</a></td>
               </tr>";
               }
@@ -98,6 +103,11 @@ error_reporting(0);
                 if (isset($_GET['updateAmount'])) {
                     # code...
                     echo"Amount updated successfully";
+                }
+                
+                if (isset($_GET['updatAdvance'])) {
+                    # code...
+                    echo"Advance amount updated successfully";
                 }
                 
                 ?>
