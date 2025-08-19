@@ -34,6 +34,9 @@ error_reporting(0);
      .errorMessage{
       background-color:white;
      }
+      #errorMessage1{
+      color:red
+     }
      .errorMessage{
       height: auto;
       font-weight:bold;
@@ -101,7 +104,7 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
      <div class="errorMessage" id="errorMessage1"> <?php
     ?></div>
     <br><br>
-    <input type="number" name="advanceAmount" id="Advance" class="treat" ><br><br><br>
+    <input type="text" name="advanceAmount" id="Advance" class="treat" ><br><br><br>
     <input type="number" name="amt" id="receivedAmount" class="treat" ><br>
   
     <input type="text" name="name" hidden id="pname"  value="<?php echo$name; ?>" class="treat">
@@ -180,54 +183,48 @@ if ($treatCont!=0) {
    let treat;
          
    function Submit() {
- let date4 = document.getElementById("date2")
+ let date2 = document.getElementById("date2")
      treat = document.getElementById("treat1").value 
-     advance = document.getElementById("Advance") 
-     cashReceived = document.getElementById("receivedAmount") 
-       fid = document.getElementById("pname1").value 
-      
-    let advan =  Number(advance.value) 
-let tot =  Number(cashReceived.value)  
+ let  advance = document.getElementById("Advance") 
+ let cashReceived = document.getElementById("receivedAmount")
+  let advan =  Number(advance.value) 
+  let tot =  Number(cashReceived.value)  
     if (!treat) {
-      // 
-
-        // msg.innerHTML="Enter treatment "+date4.value
+      
+      msg.innerHTML="Enter treatment "
       // alert("date is "+date)
           return false 
     }
-    
+ if (isNaN(advan) || advance.value.trim() === "") {
+    alert("Enter number");
+    return false;
+}
+
   else{
          let date = new Date();
          let d = date.getDate()
          let mo = date.getMonth()+1
         let y = date.getFullYear()
         let toDate = ""
-
-
-toDate=d.toString()+" - "+mo.toString()+" - "+y
+        toDate=d.toString()+" - "+mo.toString()+" - "+y
 	date2.value=toDate;
-  // alert("The date is "+date2.value)
-  // return false
+  // alert(""+typeof advance)
+  //return false
   
     }
 if (advan> 0 && tot==0) {
   
   cashReceived.value = advance.value
-  alert("cash is converted "+cashReceived.value)
+  // alert("cash is converted "+cashReceived.value)
   // return false
 }
+
   }
- window.oninput=(()=>{
+document.getElementById("treat1").oninput = () => msg.innerHTML = "";
+document.getElementById("Advance").oninput = () => treatExisted.innerHTML = "";
 
-
-
-  msg.innerHTML="";
-  treatExisted.innerHTML="";
- })
 </script>  
   </form>
-<!-- <form action="" id="navFom">
-  <input type="submit" value="Click here">
-</form> -->
+
 </body>
 </html>
