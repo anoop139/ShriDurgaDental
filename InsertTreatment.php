@@ -97,10 +97,7 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
     <h1>Enter total Amount </h1>
   </div>
   <form action="" onsubmit="return Submit()" method="POST">
-    <input type="textarea" name="treat" id="treat1" class="treat"><br>
-     <?php
-      
-    ?>
+    <textarea name="treat" id="treat1" class="treat"></textarea><br>
      <div class="errorMessage" id="errorMessage1"> <?php
     ?></div>
     <br><br>
@@ -191,12 +188,16 @@ if ($treatCont!=0) {
   let tot =  Number(cashReceived.value)  
     if (!treat) {
       
-      msg.innerHTML="Enter treatment "
+      msg.innerHTML="Enter treatment"
       // alert("date is "+date)
           return false 
     }
+    if (tot<0) {
+        alert("Enter valid number");
+         return false;
+    }
  if (isNaN(advan) || advance.value.trim() === "") {
-    alert("Enter number");
+    alert("Enter advance number");
     return false;
 }
 
@@ -220,9 +221,11 @@ if (advan> 0 && tot==0) {
 }
 
   }
-document.getElementById("treat1").oninput = () => msg.innerHTML = "";
-document.getElementById("Advance").oninput = () => treatExisted.innerHTML = "";
-
+ window.oninput=(()=>{
+  // alert("testion")
+  msg.innerHTML="";
+  treatExisted.innerHTML="";
+ })
 </script>  
   </form>
 
