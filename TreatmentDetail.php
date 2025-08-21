@@ -177,11 +177,12 @@ echo"<center>
    </tr>";
 while( $fect= mysqli_fetch_assoc($query))
 {
+	$pending ="$fect0[amt]"-"$fect[amount]";
 	echo"<tr>
    <td>$fect[date]</td>
    <td style='padding: 10px;'>$fect[treatment]</td>
    <td style='padding: 10px;'>$fect[advance]</td>
-   <td>0</td>  
+   <td>$pending</td>  
     <td >$fect[amount]</td>
 
   <td><a href='EditTreatment\EditTreatment.php?tid=$fect[tid]'>Edit</a></td>
