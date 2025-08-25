@@ -23,7 +23,8 @@ include("Connect.php")
     <div id="contain">
        <?php
         if (isset($_GET['p'])) {
-          $pt =" date VARCHAR(20),
+          $pt =" create table patient(
+           date VARCHAR(20),
                sno INT PRIMARY KEY AUTO_INCREMENT,
               name VARCHAR(20),
               age INT,
@@ -42,7 +43,9 @@ include("Connect.php")
         }
        
        else if (isset($_GET['c'])) {
-         $ct ="  date varchar(20),                  
+         $ct =" create table treatment(
+           date varchar(20),                  
+           advanceDate varchar(20),                  
                 tid int primary key auto_increment,  
                 treatment varchar(20),               
                  amount int,                          
@@ -55,7 +58,7 @@ include("Connect.php")
 				echo"Child table created succesfully ";
 			}
 			else{
-				echo"Failed";
+				echo "Failed: " . mysqli_error($conn);
 			}
        }
        ?>
