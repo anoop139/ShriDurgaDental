@@ -45,9 +45,10 @@ include("Connect.php")
        else if (isset($_GET['c'])) {
          $ct =" create table treatment(
            date varchar(20),                  
-           advanceDate varchar(20),                  
+           /*advanceDate varchar(20),      */            
                 tid int primary key auto_increment,  
                 treatment varchar(20),               
+               advance int,               
                  amount int,                          
                   sno int,                           
                foreign key(sno) references patient(sno) on delete cascade
