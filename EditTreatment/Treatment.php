@@ -60,7 +60,8 @@ error_reporting(0);
      <div class="treatDiv">
         <h1>Enter new name :</h1>
         <form action="" class="inputDiv" onsubmit="return checkInput()" method="POST">
-            <input type="text" name="treatment" id="input">
+            <textarea name="treatment" id="input"></textarea>
+            <!-- <input type="date" name="////" id=""> -->
             <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
             <h2 id="Error">
                 <?php

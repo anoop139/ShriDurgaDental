@@ -93,13 +93,15 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
 </ul>
   <div id="div1">
     <h1>Enter Treatmemt </h1>
+    <h1> Enter due date </h1>
     <h1>Enter Advance Amount if any </h1>
     <h1>Enter total Amount </h1>
   </div>
   <form action="" onsubmit="return Submit()" method="POST">
-    <textarea name="treat" id="treat1" class="treat"></textarea><br>
-     <div class="errorMessage" id="errorMessage1"> <?php
-    ?></div>
+    <textarea name="treat" id="treat1" class="treat"></textarea><br><br>
+    <div class="errorMessage" id="errorMessage1"></div> 
+   &nbsp; <input type="date" name="dueDate" id="dueDate">
+    
     <br><br>
     <input type="text" name="advanceAmount" id="Advance" class="treat" ><br><br><br>
     <input type="number" name="amt" id="receivedAmount" class="treat" ><br>
@@ -119,7 +121,9 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
  
 if(isset($_POST['sub']))
 {  
+  
    $date = $_POST['date'];
+   $dueDate = $_POST['dueDate'];
    $name = $_POST['name'];
 $treat = $_POST['treat'];
 $fid1 = $_POST['fid'];
@@ -137,33 +141,35 @@ $td1 = $_POST['tp'];
 
  
   
-	if (isset($name) && $treatCont==0) {
-    # code...
-    //  echo"hi ".$treat;
-	$insert ="insert into treatment(date, treatment, advance, amount, sno) value('$date','$treat',$advance,$amt,$fid1)";
+	if(isset($name) && $treatCont==0) {
+if ($dueDate!="") {
+    
+	$insert ="insert into treatment(date, dueDate, treatment, advance, amount, sno) value('$date','$dueDate','$treat',$advance,$amt,$fid1)";
 	$treatQuery =  mysqli_query($conn, $insert);
-
+   
    if($treatQuery)
     {
-       if ($pr=="true" && $treatCont==0) {
-        // echo"/
-        // <script>
-        // window.location.href='PatientRecord.php?fid=true'
-        // </script>";
-        
-     echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment</h3>";
-       }
-  
-       }
-     if ($td1=="True/") {
-      
-      // echo"<h1 style='color:red;'> Inserted  $noOf and $date</h1>";
-
-     echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment</h3>";
-       }
-
        
+        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment</h3>";
+
+}
+
         // echo"<span class='errorMessage'>Treatment /nserted".$td."</span><br>";
+      }
+      else{
+	$insert ="insert into treatment(date, treatment, advance, amount, sno) value('$date', '$treat',$advance,$amt,$fid1)";
+	$treatQuery =  mysqli_query($conn, $insert);
+   
+   if($treatQuery)
+    {
+       
+        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment </h3>";
+
+}
+
+        // echo"<span class='errorMessage'>Treatment /nserted".$td."</span><br>";
+      }
+
       }
 if ($treatCont!=0) {
   # code...
@@ -181,6 +187,7 @@ if ($treatCont!=0) {
          
    function Submit() {
  let date2 = document.getElementById("date2")
+ let dueDat = document.getElementById("dueDate")
      treat = document.getElementById("treat1").value 
  let  advance = document.getElementById("Advance") 
  let cashReceived = document.getElementById("receivedAmount")
@@ -200,8 +207,7 @@ if ($treatCont!=0) {
     alert("Enter advance number");
     return false;
 }
-
-  else{
+ else{
          let date = new Date();
          let d = date.getDate()
          let mo = date.getMonth()+1
@@ -209,8 +215,8 @@ if ($treatCont!=0) {
         let toDate = ""
         toDate=d.toString()+" - "+mo.toString()+" - "+y
 	date2.value=toDate;
-  // alert(""+typeof advance)
-  //return false
+  // alert(""+dueDate.value.length)
+//  return false
   
     }
 if (advan> 0 && tot==0) {
@@ -220,6 +226,17 @@ if (advan> 0 && tot==0) {
   // return false
 }
 
+if (dueDate.value.length==0) {
+  alert("no due")
+  dueDate.value="None"
+  
+}
+else{
+
+  
+  alert("Date is "+dueDate.value)
+  return false
+}
   }
  window.oninput=(()=>{
   // alert("testion")

@@ -168,6 +168,7 @@ echo"<center>
 <table border='1' id='myTable' cellpadding='10px' style='text-align:center;'>
    <tr>
    <th>Date</th>
+   <th>Due Date</th>
    <th>Treatment</th>
    <th>Advance Amount</th>
    <th>Pending Amount</th>
@@ -180,6 +181,7 @@ while( $fect= mysqli_fetch_assoc($query))
 	$pending ="$fect0[amt]"-"$fect[amount]";
 	echo"<tr>
    <td>$fect[date]</td>
+   <td>$fect[dueDate]</td>
    <td style='padding: 10px;'>$fect[treatment]</td>
    <td style='padding: 10px;'>$fect[advance]</td>
    <td>$pending</td>  
