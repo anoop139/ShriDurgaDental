@@ -187,7 +187,7 @@ if ($treatCont!=0) {
          
    function Submit() {
  let date2 = document.getElementById("date2")
- let dueDat = document.getElementById("dueDate")
+ let dueDate = document.getElementById("dueDate")
      treat = document.getElementById("treat1").value 
  let  advance = document.getElementById("Advance") 
  let cashReceived = document.getElementById("receivedAmount")
@@ -228,14 +228,15 @@ if (advan> 0 && tot==0) {
 
 if (dueDate.value.length==0) {
   alert("no due")
-  dueDate.value="None"
+  dueDate.value="No/ne"
   
 }
 else{
-
-  
-  alert("Date is "+dueDate.value)
-  return false
+  dueDate.value= dueDate.value.split("-").reverse().join("-")
+  // console.log("object")
+  // dueDate.value =x
+  alert(" dueDate is "+dueDate.value)
+  return false///
 }
   }
  window.oninput=(()=>{
