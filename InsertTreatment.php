@@ -101,6 +101,7 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
     <textarea name="treat" id="treat1" class="treat"></textarea><br><br>
     <div class="errorMessage" id="errorMessage1"></div> 
    &nbsp; <input type="date" name="dueDate" id="dueDate">
+   &nbsp; <input type="text" name="dueDate" id="dueDateInput" hidden>
     
     <br><br>
     <input type="text" name="advanceAmount" id="Advance" class="treat" ><br><br><br>
@@ -188,6 +189,7 @@ if ($treatCont!=0) {
    function Submit() {
  let date2 = document.getElementById("date2")
  let dueDate = document.getElementById("dueDate")
+ let dueDateInput = document.getElementById("dueDateInput")
      treat = document.getElementById("treat1").value 
  let  advance = document.getElementById("Advance") 
  let cashReceived = document.getElementById("receivedAmount")
@@ -232,11 +234,20 @@ if (dueDate.value.length==0) {
   
 }
 else{
-  dueDate.value= dueDate.value.split("-").reverse().join("-")
-  // console.log("object")
-  // dueDate.value =x
-  alert(" dueDate is "+dueDate.value)
-  return false///
+  dueDateInput.value =dueDate.value.split("-").reverse().join("-")
+  let x             =   dueDateInput.value.indexOf("-")+1
+  let index0        = Number(dueDateInput.value.charAt(x))   
+  let y = dueDateInput.value[x]
+  if (dueDateInput.value[0]=='0'  && index0==0) {//
+   dueDateInput.value =dueDateInput.value.replace(y, "")
+   dueDateInput.value =dueDateInput.value.replace(y, "")
+  // alert("if "+dueDateInput.value)
+  }
+  else{
+       dueDateInput.value =dueDateInput.value.replace(y, "")
+    // alert("else "+dueDateInput.value)
+  }
+  // return false///
 }
   }
  window.oninput=(()=>{
