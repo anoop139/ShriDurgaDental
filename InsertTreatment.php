@@ -234,20 +234,20 @@ if (dueDate.value.length==0) {
   
 }
 else{
-  dueDateInput.value =dueDate.value.split("-").reverse().join("-")
+  dueDateInput.value =dueDate.value.split("-").reverse().join(" - ")
   let x             =   dueDateInput.value.indexOf("-")+1
   let index0        = Number(dueDateInput.value.charAt(x))   
   let y = dueDateInput.value[x]
   if (dueDateInput.value[0]=='0'  && index0==0) {//
-   dueDateInput.value =dueDateInput.value.replace(y, "")
-   dueDateInput.value =dueDateInput.value.replace(y, "")
-  // alert("if "+dueDateInput.value)
+   dueDateInput.value =dueDateInput.value.replace(index0, "")
+   dueDateInput.value =dueDateInput.value.replace(index0, "")
+  alert("if "+dueDateInput.value+" index is "+index0)
   }
   else{
-       dueDateInput.value =dueDateInput.value.replace(y, "")
+       dueDateInput.value =dueDateInput.value.replace(index0, "")
     // alert("else "+dueDateInput.value)
   }
-  // return false///
+  // return false/////////
 }
   }
  window.oninput=(()=>{

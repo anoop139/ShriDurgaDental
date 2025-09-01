@@ -18,12 +18,12 @@ error_reporting(0);
        }
        #main{
             border: 2px solid black;
-            padding: 200px; 
+            padding-bottom: 200px; 
             background:white
         }   
         #main{
             padding-top:100px;
-            padding-left:400px;
+            padding-left:20px;
         }
            #main{
             margin-top:20px ; 
@@ -42,7 +42,7 @@ error_reporting(0);
             transition:transform, 3s 
         }
      table tr th, td{
-        padding: 5px;
+        padding: 7px;
      }
     </style>
     <title>Edit Page</title>
@@ -67,12 +67,14 @@ error_reporting(0);
 </ul
     </div>
     <div id="main">
-        <table border="2" cellpadding="5px" style='text-align:center'>
+        <table border="2" cellpadding="10" style="text-align:center">
             <tr>
+            <th>Due date</th>
+            <th>Edit due date</th>
             <th>Treatment name</th>
             <th>Edit Treatment name</th>
             <th>Advance Amount</th>
-            <th>Edit Advance Amont</th>
+            <th>Edit Advance Amount</th>
             <th>Amount</th>
             <th>Edit Amount</th>
             </tr>
@@ -82,10 +84,12 @@ error_reporting(0);
               $treatQuery  = mysqli_query($conn, $selectTreat);
               while ($fetch = mysqli_fetch_assoc($treatQuery)) {
                     echo"<tr>
+                     <td>$fetch[dueDate]</td>
+                  <td><a href='DueDate.php?id=$treatId'>Click here to edit date</a></td>
                   <td>$fetch[treatment]</td>
-                  <td><a href='Treatment.php?id=$treatId' class='num'>Click here to edit treatment</a></td>
+                  <td><a href='Treatment.php?id=$treatId'>Click here to edit treatment</a></td>
                  <td>$fetch[advance]</td>
-                        <td><a href='AdvanceAmount.php?id=$treatId' class='num'>Click here to edit advance amount</a></td>
+                        <td><a href='AdvanceAmount.php?id=$treatId'>Click here to edit advance amount</a></td>
                  <td>$fetch[amount]</td>
 
                 <td><a href='Amount.php?id=$treatId'>Click here to edit amount</a></td>
