@@ -34,6 +34,7 @@ error_reporting(0);
         #message{
             position: absolute;
             top:      -40px;
+            left:       400px;
             background:white;
             font-weight:bold;
             font-size:2em;
@@ -100,7 +101,11 @@ error_reporting(0);
             ?>
             <span id="message">
                 <?php
-                if (isset($_GET['updateTreatment'])) {
+                if (isset($_GET['updateDueDate'])) {
+                    # code...
+                    echo"Due date updated successfully";
+                }
+                  if (isset($_GET['updateTreatment'])) {
                     # code...
                     echo"Treatment updated successfully";
                 }
