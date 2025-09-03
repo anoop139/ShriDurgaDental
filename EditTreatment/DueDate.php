@@ -7,7 +7,7 @@ error_reporting(0);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treatment update page</title>
+    <title>Due Date update page</title>
     <style>
         *{
             padding: 0px;
@@ -62,7 +62,8 @@ error_reporting(0);
      <div class="treatDiv">
         <h1>Enter new Date :</h1>
         <form action="" class="inputDiv" onsubmit="return checkInput()" method="POST">
-           &nbsp; <input type="date" name="dueDate" id="input">
+           &nbsp; <input type="date" name="dueDated" id="input">
+           &nbsp; <input type="hidden" name="dueDate" id="input2">
             <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
             <h2 id="Error">
                 <?php
@@ -71,13 +72,14 @@ error_reporting(0);
               if (isset($_POST['Submit']))
                  {
                    $date = $_POST['dueDate'];
-                   $update ="update treatment set dueDate=$date where tid=$id";//
+                //    echo"<h1>$date </h1>";
+                   $update ="update treatment set dueDate='$date' where tid=$id";//
                    $treatQuery = mysqli_query($conn, $update);
                    if ($treatQuery) {
-                    // echo"Treatment update";
+                    // echo"<h1> new date is $date</h1>";
                     echo"
                     <script>
-                    window.location.href='./EditTreatment.php?tid=$id&updateDate=true';
+                    window.location.href='./EditTreatment.php?tid=$id&updateDueDate=true';
                     </script>
                     
                     ";
@@ -98,6 +100,7 @@ error_reporting(0);
     </div>
     <script>
         let inpt = document.getElementById("input");
+        let input = document.getElementById("input2");
         let error = document.getElementById("Error");
         function checkInput() {
             if (inpt.value=="") {
@@ -106,20 +109,24 @@ error_reporting(0);
                 return false
             }
             else{
-                let x = inpt.value.split("-").reverse().join("-")
+                let x = inpt.value.split("-").reverse().join(" - ")
                 let date = Number(x.charAt(0)+x.charAt(1))
-                if (date<10) {
-                //  x = x.replace("0", "")
-                //  x = x.replace("0", "")
-                    error.innerHTML="if part "+date
-                }
-                else if (date>10) {
+                let month = Number(x.charAt(5)+x.charAt(6))
+                if (date<10 && month<10) {
+                  x = x.replace("0", "")
                  x = x.replace("0", "")
-                //  x = x.replace("0", "")
-                    // error.innerHTML="else "+date
+                input.value = x
+                alert("hi")
                 }
-             error.innerHTML=x
-                return false
+                else if (date>10 && month<10) {
+                 x = x.replace("0", "")
+                 input.value = x
+                }
+                else{
+                    input.value=x
+                }
+             error.innerHTML="date "+input.value
+                // return false
             }
         }
         oninput =()=>{
