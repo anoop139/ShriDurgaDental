@@ -71,7 +71,7 @@ error_reporting(0);
               if (isset($_POST['Submit']))
                  {
                    $amount = $_POST['amount'];
-                   $update ="update treatment set advance=$amount, amount=800 where tid=$id";//
+                   $update ="update treatment set advance=$amount, amount=$amount where tid=$id";//
                    $treatQuery = mysqli_query($conn, $update);
                    if ($treatQuery) {
                     // echo"Treatment update";
