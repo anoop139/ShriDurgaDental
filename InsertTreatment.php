@@ -194,7 +194,8 @@ if ($treatCont!=0) {
  let  advance = document.getElementById("Advance") 
  let cashReceived = document.getElementById("receivedAmount")
   let advan =  Number(advance.value) 
-  let tot =  Number(cashReceived.value)  
+  let tot =  Number(cashReceived.value)
+  let v   ="0";  
     if (!treat) {
       
       msg.innerHTML="Enter treatment"
@@ -234,22 +235,50 @@ if (dueDate.value.length==0) {
   
 }
 else{
-  dueDateInput.value =dueDate.value.split("-").reverse().join(" - ")
-  let x             =   dueDateInput.value.indexOf("-")+1
-  let index0        = Number(dueDateInput.value.charAt(x))   
-  let y = dueDateInput.value[x]
-  if (dueDateInput.value[0]=='0'  && index0==0) {//
-   dueDateInput.value =dueDateInput.value.replace(index0, "")
-   dueDateInput.value =dueDateInput.value.replace(index0, "")
-  alert("if "+dueDateInput.value+" index is "+index0)
-  }
-  else{
-       dueDateInput.value =dueDateInput.value.replace(index0, "")
-    // alert("else "+dueDateInput.value)
-  }
-  // return false/////////
+  
+  let x =dueDate.value.split("-").reverse().join(" - ")
+  let date = x.slice(0, 7)
+ alert("hello date is "+date)
+   if (Number(x.slice(0,2))<10 && Number(x.slice(5,8))<10) //date less than 10 and moth
+    {    
+        // alert("yes if part get ready date "+x.slice(1,2))
+       date=date.replace(v, "")
+      date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
+     dueDateInput.value=date//date
+   }
+   else if (x.slice(1, 2)==0 && Number(x.slice(5,8))<10) 
+    { 
+    
+      x1 = x.split("-")
+      x2 = x1[1]*1
+      // if (x[1]=='0')
+       {
+        dueDateInput.value=x.slice(0, x.indexOf("-")+1)+" "+x2+" "+x.slice(x.lastIndexOf("-"))
+      alert("yes im 10")
+       }  
+     }
+      else if (Number(x.slice(0, 2))>10 && Number(x.slice(5,8))<10) 
+    {
+       date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
+
+      dueDateInput.value=date//date
+    // alert("now date is "+date)
+    } 
+      
+    else if (Number(x.slice(5, 8))>=10) 
+    {   
+        if (Number(x.slice(0, 2))<10) {
+       dueDateInput.value=x.replace(v, ""); 
+      //  alert("you/ r else part get ready date<10 and mmont >=10 ")////
+        }       
+        else if (Number(x.slice(0, 2))>=10) { 
+            //  alert("you r else part get ready date>=10 and mmont >=10 ")
+      dueDateInput.value=x
+        }
+    } 
 }
-  }
+}
+ // }
  window.oninput=(()=>{
   // alert("testion")
   msg.innerHTML="";
