@@ -178,7 +178,7 @@ error_reporting(0);
       //if (x[1]=='0')
        {
         dateVal2.value=x.slice(0, x.indexOf("-")+1)+" "+x2+" "+x.slice(x.lastIndexOf("-"))
-    //   alert(dateVal2.value)/
+      alert("yes im 10")
        }  
       //
  
@@ -188,7 +188,7 @@ error_reporting(0);
        date=date.replace(v, "")
      date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
       dateVal2.value=date//date
-    // alert("you r else part get ready date "+Number(x.slice(0,2)))
+    alert("HI ")
     }   
 else if (Number(x.slice(5, 8))>=10) 
     {   
