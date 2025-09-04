@@ -98,8 +98,8 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
     <h1>Enter total Amount </h1>
   </div>
   <form action="" onsubmit="return Submit()" method="POST">
-    <textarea name="treat" id="treat1" class="treat"></textarea><br><br>
-    <div class="errorMessage" id="errorMessage1"></div> 
+    <textarea name="treat" id="treat1" class="treat"></textarea><br>
+    <div class="errorMessage" id="errorMessage1"></div> <br>
    &nbsp; <input type="date" name="dueDate" id="dueDate">
    &nbsp; <input type="text" name="dueDate" id="dueDateInput" hidden>
     
@@ -238,7 +238,29 @@ else{
   
   let x =dueDate.value.split("-").reverse().join(" - ")
   let date = x.slice(0, 7)
- alert("hello date is "+date)
+  let todayDate = Number(date2.value.slice(0, 2))
+  let currentMonth = Number(date2.value.slice(3,5))
+  let due = Number(x.slice(0,2))
+  let dueMonth = Number(x.slice(5,7))
+  let dueYear = Number(x.slice(10,14))
+  let currentYear =Number(date2.value.slice(7, 12))
+
+//  alert("due year "+dueYear+" and current Year "+currentYear) 
+  if (todayDate>due) {
+    alert("Sorry you entered wrong due date")
+    return false
+    
+  }
+    if (currentMonth>dueMonth) {
+    alert("Sorry you entered wrong due month")
+    return false
+    
+  }
+  if (currentYear>dueYear) {
+    alert("Sorry you entered wrong due year")
+    return false
+    
+  }
    if (Number(x.slice(0,2))<10 && Number(x.slice(5,8))<10) //date less than 10 and moth
     {    
         // alert("yes if part get ready date "+x.slice(1,2))
