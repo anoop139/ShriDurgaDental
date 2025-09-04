@@ -182,7 +182,7 @@ while( $fect= mysqli_fetch_assoc($query))
 	echo"<tr>
    <td>$fect[date]</td>
    <td>$fect[dueDate]</td>
-   <td style='padding: 10px;'>$fect[treatment]</td>
+   <td style='padding-right: 50px;'>$fect[treatment]</td>
    <td style='padding: 10px;'>$fect[advance]</td>
    <td>$pending</td>  
     <td >$fect[amount]</td>
