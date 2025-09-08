@@ -64,7 +64,7 @@ error_reporting(0);
         <form action="" class="inputDiv" onsubmit="return checkInput()" method="POST">
            &nbsp; <input type="date" name="dueDated" id="input">
            &nbsp; <input type="hidden" name="dueDate" id="input2">
-            <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
+            <input type="hidden" name="id" value="<?php echo$_GET['id'];?>"> <br>
             <h2 id="Error">
                 <?php
                  $id = $_GET['id'];
@@ -112,11 +112,23 @@ error_reporting(0);
                 let x = inpt.value.split("-").reverse().join(" - ")
                 let date = Number(x.charAt(0)+x.charAt(1))
                 let month = Number(x.charAt(5)+x.charAt(6))
+                let year = Number(x.slice(10,14))
+                let currentDate = new Date()
+                let currentYear       = currentDate.getFullYear()
+                let toDay       = currentDate.getDate()
+                let thisMonth       = currentDate.getMonth()+1
+                if ((date<toDay || month<thisMonth) || (year<currentYear)) {
+                     alert("Wrong due date or year ")
+                    
+                    return false
+                  
+                }
                 if (date<10 && month<10) {
                   x = x.replace("0", "")
                  x = x.replace("0", "")
                 input.value = x
-                alert("hi")
+                // alert("date is "+toDay+" and month is "+thisMo/nth)
+                // return false
                 }
                 else if (date>10 && month<10) {
                  x = x.replace("0", "")
@@ -125,8 +137,8 @@ error_reporting(0);
                 else{
                     input.value=x
                 }
-             error.innerHTML="date "+input.value
-                // return false
+            // error.innerHTML="sud"
+       ///        return false/////
             }
         }
         oninput =()=>{
