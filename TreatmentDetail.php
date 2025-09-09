@@ -160,10 +160,12 @@ echo"<br>";
 ?>
  </script>
  <?php
+ $pending = 0;
  if($no>0) 
  {
 // echo"<h1>Treatment for ".$no."  </h1>";
 // echo"<h1>You are here</h1>";
+
 echo"<center>
 <table border='1' id='myTable' cellpadding='10px' style='text-align:center;'>
    <tr>
@@ -178,7 +180,18 @@ echo"<center>
    </tr>";
 while( $fect= mysqli_fetch_assoc($query))
 {
-	$pending =$fect['amount']-$fect['advance'];
+	if ($fect['amount']>$fect['advance'] && $fect['advance']!=0) {
+	  $pending = $fect['amount']-$fect['advance'];
+	//   echo"<></>";
+	}///
+	else if ($fect['amount']==$fect['advance']) {
+	  $pending = 0;//$fect['amount']-$fect['advance'];
+	}///
+	else if ($fect['advance']==0) {
+	  $pending = 0;
+	//   echo"<h1>yes bro</h1>";
+	}///
+	// $pending =$fect['amount']-$fect['advance'];
 	echo"<tr>
    <td>$fect[date]</td>
    <td>$fect[dueDate]</td>

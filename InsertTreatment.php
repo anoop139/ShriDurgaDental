@@ -128,8 +128,8 @@ if(isset($_POST['sub']))
    $name = $_POST['name'];
 $treat = $_POST['treat'];
 $fid1 = $_POST['fid'];
-$advance = $_POST['advanceAmount'];
-$amt = $_POST['amt'];
+$advance = $_POST['advanceAmount']; //200
+$amt = $_POST['amt'];//totoal 1000 
 $pr = $_POST['pr'];
 $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
