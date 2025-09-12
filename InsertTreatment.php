@@ -230,8 +230,8 @@ if (advan> 0 && tot==0) {
 }
 
 if (dueDate.value.length==0) {
-  alert("no due")
-  dueDate.value="No/ne"
+  // alert("no due")///
+  dueDate.value="None"
   
 }
 else{
@@ -276,7 +276,7 @@ else{
       // if (x[1]=='0')
        {
         dueDateInput.value=x.slice(0, x.indexOf("-")+1)+" "+x2+" "+x.slice(x.lastIndexOf("-"))
-      alert("yes im 10")
+      //alert("yes im 10")
        }  
      }
       else if (Number(x.slice(0, 2))>10 && Number(x.slice(5,8))<10) 
