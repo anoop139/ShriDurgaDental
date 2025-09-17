@@ -77,7 +77,7 @@ let date2 = document.getElementById("date2")
 	else{
 /////
 		date2.value=toDate;
-	    errInfo.innerHTML=date2.value
+	    // errInfo.innerHTML=date2.//value
 		//  alert("hello "+date2.value)
 		//  return false
 	}
