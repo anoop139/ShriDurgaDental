@@ -66,7 +66,8 @@ let date2 = document.getElementById("date2")
 	 
   if(match==false)
 	{
-		errInfo.innerHTML="Please enter only numbers "+match;
+		errInfo.innerHTML="<span style='font-size:20px'>Please enter only numbers</span>" 
+		errInfo.style.backgroundColor="white"
 		return false
 	}
    if (match2==false) {
@@ -78,8 +79,8 @@ let date2 = document.getElementById("date2")
 /////
 		date2.value=toDate;
 	    // errInfo.innerHTML=date2.//value
-		//  alert("hello "+date2.value)
-		//  return false
+//		 alert("hello testing timestamp")//
+		//  return //false
 	}
 
 }
