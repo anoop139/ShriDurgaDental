@@ -239,15 +239,15 @@ else{
   let x =dueDate.value.split("-").reverse().join(" - ")
   let date = x.slice(0, 7)
   let todayDate = Number(date2.value.slice(0, 2))
-  let currentMonth = Number(date2.value.slice(3,5))
+  let currentMonth = Number(date2.value.slice(5, 7))
   let due = Number(x.slice(0,2))
   let dueMonth = Number(x.slice(5,7))
   let dueYear = Number(x.slice(10,14))
-  let currentYear =Number(date2.value.slice(7, 12))
+  let currentYear =Number(date2.value.slice(9))// Change to 9
 
-//  alert("due year "+dueYear+" and current Year "+currentYear) 
-  if (todayDate>due) {
-    alert("Sorry you entered wrong due date")
+//  alert("due year "+dueYear+" and current Year "+dueMonth) 
+  if (todayDate>due && currentMonth==dueMonth) {
+    alert("Sorry you entered wrong due date ")
     return false
     
   }
