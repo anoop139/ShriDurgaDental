@@ -135,7 +135,7 @@ $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
 
 // echo"<h1 style='background:white;'>treat =  $treat</h1>";///
-	$treatmentName = "Select treatment from treatment where treatment = '$treat' and sno=$fid1";
+	$treatmentName = "Select treatment from treatment where date='$date' and  treatment = '$treat' and sno=$fid1";
 	$query1 =  mysqli_query($conn, $treatmentName);
 	$treatCont   =  mysqli_num_rows($query1);
 	$fetch =  mysqli_fetch_assoc($query1); 
