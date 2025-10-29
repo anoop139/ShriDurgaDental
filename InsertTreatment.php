@@ -135,7 +135,7 @@ $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
 
 // echo"<h1 style='background:white;'>treat =  $treat</h1>";///
-	$treatmentName = "Select treatment from treatment where date='$date' and  treatment = '$treat' and sno=$fid1";
+	$treatmentName = "Select treatment from treatment where treatment = '$treat' and sno=$fid1";
 	$query1 =  mysqli_query($conn, $treatmentName);
 	$treatCont   =  mysqli_num_rows($query1);
 	$fetch =  mysqli_fetch_assoc($query1); 
@@ -143,19 +143,20 @@ $td1 = $_POST['tp'];
  
   
 	if(isset($name) && $treatCont==0) {
-if ($dueDate!="") {
+if ($dueDate!="" && $dueDate!=$date) {
     
 	$insert ="insert into treatment(date, dueDate, treatment, advance, amount, sno) value('$date','$dueDate','$treat',$advance,$amt,$fid1)";
 	$treatQuery =  mysqli_query($conn, $insert);
-   
+  //  echo'hello';
    if($treatQuery)
     {
        
-        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment</h3>";
+        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br>hi <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view  </a>treatment 
+        </h3>";
 
 }
 
-        // echo"<span class='errorMessage'>Treatment /nserted".$td."</span><br>";
+     
       }
       else{
 	$insert ="insert into treatment(date, treatment, advance, amount, sno) value('$date', '$treat',$advance,$amt,$fid1)";
@@ -163,7 +164,7 @@ if ($dueDate!="") {
    
    if($treatQuery)
     {
-       
+          // echo"<span class='errorMessage'>Treatment /nserted".$dueDate."</span><br>";
         echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment </h3>";
 
 }
