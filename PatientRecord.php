@@ -27,6 +27,21 @@ $name = $_GET['n'];
       #trefo{
         transition: transform, 3s
       }
+       #export{
+        position: absolute;
+        top: 100px;
+        left: 1200px;
+      
+      }
+      #export input{
+        border: 2px solid black;
+      }
+      #export input{
+       padding: 10px;
+       background:blue;
+       color:white;
+       font-size:20px;
+      }
     </style>
 </head>
 <body id="body">
@@ -168,29 +183,16 @@ $name = $_GET['n'];
 	<td style='text-align:center;'><a href='Edit.php?id=$show[sno]' class='ank'>Edit</a></td>
 	</tr>"; 	
    }
-  
-   }
- 
 
- ?>
- 
- </table>
+   }
+
+
+ ?> </table>
+<form action="./Export.php"  name="export" method="POST" id="export">
+<input type="submit" name="export7" value="Export">
+</form>
+
   <script>
-    let name = document.getElementById("patientName")   
-     let del = document.getElementById("del")
-     setTimeout(() => {
-      name.style.transform="translateY(-85px)"
-     }, 5000);   
-       setTimeout(() => {
-      del.style.transform="translateY(-85px)"
-     }, 5000);
-     localStorage.setItem("name", "AE");
-   alert(date3)
-    //  alert("The date "+date3)
-   // Submit form only if `toDate` is not already in the URL (prevents infinite loop)
-  //  if (!window.location.search.includes("toDate=") ) {
-  //   document.getElementById("dateForm").submit();
-  // }///
   </script> 
 </div>
 <div>
