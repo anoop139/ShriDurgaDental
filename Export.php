@@ -44,11 +44,11 @@ error_reporting(0);
         $html;//
         if ($count==0) {
             # code...
-            echo"<h1>No record for the day </h1>";
+            echo"<h1 style='text-align:center'>No record for the day </h1>";
         }
         else{
-            $html="<center>;
-           <table border='2'>
+            $html="
+               <table border='2'>
              <tr>
              <th>Date</th>
              <th>Name</th>
@@ -66,13 +66,16 @@ error_reporting(0);
             ";
           }
             $html."</table>";
-            $html."</center>";
+
+              header("content-Type:application/vnd.ms-excel");
+       header("content-disposition:attachment;filename=$getDate.xls");
+         echo$html;
+         exit;
         }
   
-       header("content-Type:application/vnd.ms-excel");
-       header("content-disposition:attachment;filename=report.xls");
+    
     }
-       echo$html
+     
        ?>
        
     </div>
@@ -80,7 +83,7 @@ error_reporting(0);
  <form action="#" method="POST">
     <input type="hidden" name="date" id="dateId" value='test'>
      <div id="buttons">
-        <button name="p">Export</button>
+        <button name="p">Today's record</button>
 
     </div>
     </form>
