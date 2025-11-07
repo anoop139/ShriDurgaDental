@@ -12,15 +12,15 @@ error_reporting(0);
 <style>
   #contain{
      border: 2px solid black;
-     /* height: 50px; */
-     padding: 50px 50px;
+     height: 145px;
+     width: 100%;
   }
   #buttons{
-    position:absolute;
-    top     :  10px;
-    left:      300px;
+    position  : relative;
+    top       : 128px;
+    left:       105px;
   }
-  
+ 
 </style>
 <body>
     <script>
@@ -30,16 +30,16 @@ error_reporting(0);
   let month =date.getMonth()+1
      let today = date.getDate()+" - "+month+" - "+date.getFullYear()
   let dateId  = document.getElementById("dateId").value=today
-    // alert('date '+dateId)
+    // alert('date '+dateId)/
    }
     </script>
     <div id="contain">
        <?php
       if (isset($_POST['p'])) {
        
-            $getDate  = $_POST["date"];        
-            $getDate2 =$getDate;
-        $todayRecord ="SELECT * FROM patient where date = '6 - 11 - 2025'";
+            $getDate = $_POST["date"];    
+            // $getDate2 =$getDate;
+        $todayRecord ="SELECT * FROM patient where date ='$getDate'";
         $dateQuery   = mysqli_query($conn, $todayRecord);
         $count    = mysqli_num_rows($dateQuery);
         $html;//
@@ -48,14 +48,14 @@ error_reporting(0);
             echo"<h1 style='text-align:center'>No record for the day </h1>";
         }
         else{
-         $html="
+         $html="<center>
             <table border='2' style='margin-left:120px' id='table1'>
               <tr>
-              <td></td>
-              <th colspan='4'>Patient details</th>
+              
+              <th colspan='6' style='text-align:center'>Patient details</th>
              </tr>
                <tr>
-               <td></td>z
+               <td></td>
                 <th>Date</th>
                 <th>Name</th>
               <th>Age</th>
@@ -70,9 +70,10 @@ error_reporting(0);
              <th>$fetch[name]</th>
              <th>$fetch[age]</th>
              <th>$fetch[phoNo]</th>
-               </tr>
-            ";
+               </tr>";
           }
+          $html.="</table>
+                  </center>";
         echo$html;//;/
 
        // //  echo'hello';
@@ -83,29 +84,27 @@ error_reporting(0);
       }
      
        ?>
-    </div>
-	<!-- <h1>New file</h1> -->
- <form action="#"  method="POST">
-    <input type="hidden" name="date" id="dateId" value='test'>
-     <div id="buttons">
-        <input type="submit" name='p' value="Download">
-        <button  onclick="expotToExcel()">Today's record</button>
+       <form action="#" id="fom"  method="POST">
+    <div id="buttons" style="margin-top: 20px; margin-left:900px;">
+      <input type="hidden" name="date" id="dateId">
+      <button type="submit" name="p" >Download Today's Record</button>
+    <button type="button" onclick="expotToExcel()">Export</button>
 
+
+       </form>
     </div>
-    </form>
+	<div id="result"></div>
+
+ 
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
    <script>
-   function expotToExcel()
-   {
-    let table = document.getElementById("table1");
-    let fp   = XLSX.utils.table_to_book(table, {sheet:'sheet1'})
-    XLSX.write(fp, {
-      bookType:"xlsx",
-      type    :"base64"
-    })
-    XLSX.writeFile(fp, 'test.xlsx')
-    alert("test the ")
-   } 
+  function expotToExcel() {
+  let table = document.getElementById("table1");
+ let  html  = table.outerHTML;
+ window.open("data:application/vnd.ms-excel,"+encodeURIComponent(html))
+}
+
    </script>
+   
 </body>
 </html>
