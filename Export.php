@@ -20,15 +20,20 @@ error_reporting(0);
     top       : 128px;
     left:       105px;
   }
- 
+ #treatment{
+  position: relative;
+  left: 350px;
+  bottom: 80px;
+ }
 </style>
 <body>
     <script>
+      let today
    window.onload = ()=>{
 
   let date = new Date()
   let month =date.getMonth()+1
-     let today = date.getDate()+" - "+month+" - "+date.getFullYear()
+      today = date.getDate()+" - "+month+" - "+date.getFullYear()
   let dateId  = document.getElementById("dateId").value=today
     // alert('date '+dateId)/
    }
@@ -39,7 +44,8 @@ error_reporting(0);
        
             $getDate = $_POST["date"];    
             // $getDate2 =$getDate;
-        $todayRecord ="SELECT * FROM patient where date ='$getDate'";
+        $todayRecord ="SELECT * FROM patient join treatment
+        on patient.sno = treatment.sno where patient.date ='$getDate' ";
         $dateQuery   = mysqli_query($conn, $todayRecord);
         $count    = mysqli_num_rows($dateQuery);
         $html;//
@@ -48,14 +54,15 @@ error_reporting(0);
             echo"<h1 style='text-align:center'>No record for the day </h1>";
         }
         else{
-         $html="<center>
-            <table border='2' style='margin-left:120px' id='table1'>
+         $html="<div id='div1'>
+            <table border='2' id='table1'>
               <tr>
-              
-              <th colspan='6' style='text-align:center'>Patient details</th>
-             </tr>
+                <br>
+              </tr> 
                <tr>
-               <td></td>
+                 <th colspan='4'>Patient Details</th>
+              </tr>
+               <tr>
                 <th>Date</th>
                 <th>Name</th>
               <th>Age</th>
@@ -64,23 +71,28 @@ error_reporting(0);
           while( $fetch = mysqli_fetch_assoc($dateQuery))
           {
             $html.="<tr>
-            <td></td>
-
-             <th>$fetch[date]</th>
+            <th>$fetch[date]</th>
              <th>$fetch[name]</th>
              <th>$fetch[age]</th>
              <th>$fetch[phoNo]</th>
                </tr>";
           }
           $html.="</table>
-                  </center>";
+                  </div>";
         echo$html;//;/
-
+   
        // //  echo'hello';
         //  exit;
         }
   
-  
+       echo'<table id="treatment" border="2">
+       <tr>
+       <th colspan="4">Treatment Details</th>
+       </tr>
+       <tr>
+
+       </tr>
+       </table>';
       }
      
        ?>
@@ -94,14 +106,15 @@ error_reporting(0);
        </form>
     </div>
 	<div id="result"></div>
+<!-- download.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
 
- 
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
    <script>
   function expotToExcel() {
   let table = document.getElementById("table1");
- let  html  = table.outerHTML;
- window.open("data:application/vnd.ms-excel,"+encodeURIComponent(html))
+  let treatment = document.getElementById("treatment");
+   let a =table.outerHTML + "  " + treatment.outerHTML;
+  download(a, `${today}.xls`,'application/vnd.ms-excel')
 }
 
    </script>
