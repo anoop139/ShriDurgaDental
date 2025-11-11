@@ -12,18 +12,18 @@ error_reporting(0);
 <style>
   #contain{
      border: 2px solid black;
-     height: 145px;
+     height: auto;
      width: 100%;
   }
   #buttons{
-    position  : relative;
-    top       : 128px;
+    position  : absolute;
+    top       : auto; 
     left:       105px;
   }
  #treatment{
   position: relative;
-  left: 350px;
-  bottom: 80px;
+  top     : -140px;
+  left:     600px;
  }
 </style>
 <body>
@@ -39,23 +39,23 @@ error_reporting(0);
    }
     </script>
     <div id="contain">
+      <h1  style="text-align:center">Click</h1>
        <?php
       if (isset($_POST['p'])) {
        
             $getDate = $_POST["date"];    
             // $getDate2 =$getDate;
-        $todayRecord ="SELECT * FROM patient join treatment
-        on patient.sno = treatment.sno where patient.date ='$getDate' ";
+        $todayRecord ="SELECT * FROM patient  where patient.date ='$getDate' ";
         $dateQuery   = mysqli_query($conn, $todayRecord);
         $count    = mysqli_num_rows($dateQuery);
-        $html;//
+       $name;
+
         if ($count==0) {
             # code...
             echo"<h1 style='text-align:center'>No record for the day </h1>";
         }
         else{
-         $html="<div id='div1'>
-            <table border='2' id='table1'>
+         echo"<table border='2' id='table1' cellpadding='5'>
               <tr>
                 <br>
               </tr> 
@@ -70,31 +70,44 @@ error_reporting(0);
              </tr>";
           while( $fetch = mysqli_fetch_assoc($dateQuery))
           {
-            $html.="<tr>
+            $name ="$fetch[name]";
+          echo"<tr>
             <th>$fetch[date]</th>
              <th>$fetch[name]</th>
              <th>$fetch[age]</th>
              <th>$fetch[phoNo]</th>
                </tr>";
-          }
-          $html.="</table>
-                  </div>";
-        echo$html;//;/
-   
-       // //  echo'hello';
-        //  exit;
+       } 
+        
+       echo"</table>";
+       
+        $treatRecord ="SELECT * FROM patient  
+         join treatment on patient.sno=treatment.sno 
+        where patient.date ='$getDate' ";
+        $treatQuery   = mysqli_query($conn, $treatRecord);
+        $tcount    = mysqli_num_rows($treatQuery);
+    
+       while ($fetcht = mysqli_fetch_assoc($treatQuery)) {
+      echo"<table border='2' id='treatment' cellpadding='5'>
+            <tr>
+            <th colspan='6'>$fetcht[name]</th>
+            </tr>
+              <tr>
+            <th>Date</th>
+            <th>Due Date</th>
+            <th>Treatment</th>
+            <th>Advance amount</th>
+            <th>Pending Amount</th>
+            <th>Amount</th>
+              </tr>
+              
+            </table>
+            ";
+            echo"<br>";
+    }
+  }
+      //  echo"ht";//;/
         }
-  
-       echo'<table id="treatment" border="2">
-       <tr>
-       <th colspan="4">Treatment Details</th>
-       </tr>
-       <tr>
-
-       </tr>
-       </table>';
-      }
-     
        ?>
        <form action="#" id="fom"  method="POST">
     <div id="buttons" style="margin-top: 20px; margin-left:900px;">
