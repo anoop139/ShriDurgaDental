@@ -72,60 +72,50 @@ error_reporting(0);
              <th>Phone Number</th>
              </tr>";
           while( $fetch = mysqli_fetch_assoc($dateQuery))
-          {
-            $name ="$fetch[name]";
+          {//NOT HERE
+            $name ="$fetch[sno]";
           echo"<tr>
             <th>$fetch[date]</th>
              <th>$fetch[name]</th>
              <th>$fetch[age]</th>
              <th>$fetch[phoNo]</th>
                </tr>";
-       } 
-        
+          }
+          echo"</table>";
+              //  //here right/
+              $primery ="SELECT  DISTINCT patient.sno, patient.name from patient 
+                natural join treatment where patient.date='$getDate'";
+                $joinedQuery = mysqli_query($conn, $primery);
+                $tcount    = mysqli_num_rows($joinedQuery);
+
+                echo"<table border='2' id='treatment' cellpading='5'>
+                <tr>
+                <th colspan='6'>treatment Detail </th>
+                </tr>";
+               while ( $fetch0 = mysqli_fetch_assoc($joinedQuery)) {
+                # code...             
+              //  echo"<h1>id is   $fetch0[sno]</h1>";//`; /.
+                $treatment ="select * from treatment where sno=$fetch0[sno]";
+                $treatmenQuery = mysqli_query($conn, $treatment);
+               echo"
+                <tr>
+                <th colspan='6'>$fetch0[name] </th>
+                </tr>
+                
+                ";
+               while ($treatmentDeatil = mysqli_fetch_assoc($treatmenQuery))
+               {
+              //   # code...
+                echo"<tr>
+                <td>$treatmentDeatil[treatment] </td>
+                </tr>
+                ";}
+              echo"<br>";
+               
+         }
        echo"</table>";
-       
-        $treatRecord ="SELECT * FROM patient  
-         join treatment on patient.sno=treatment.sno 
-        where patient.date ='$getDate' ";
-        $treatQuery   = mysqli_query($conn, $treatRecord);
-        $tcount    = mysqli_num_rows($treatQuery);
-        $pending   = 0;
-         echo"<div id='treatment'>";
-       while ($fetcht = mysqli_fetch_assoc($treatQuery)) {
-        $pending = "$fetcht[amount]" - "$fetcht[advance]";
-        // if ("$fetcht[tid]"="$fetcht[sno]")
-         {
-         echo"<table border='2' cellpadding='5'>
-            <tr>
-            <th colspan='6'>$fetcht[name]</th>
-            </tr>
-              <tr>
-            <th>Date</th>
-            <th>Due Date</th>
-            <th>Treatment</th>
-            <th>Advance amount</th>
-            <th>Pending Amount</th>
-            <th>Amount</th>
-              </tr>
-              <tr>
-              <td>$fetcht[date]</td>
-              <td>$fetcht[dueDate]</td>
-              <td>$fetcht[treatment]</td>
-              <td>$fetcht[advance]</td>
-              <td>$pending</td>
-              <td>$fetcht[amount]</td>
-              </tr>
-            </table>
-            
-            ";
-            echo"<br>";
-        }  
-      }
-        echo"</div>";
-  
-  }
-      //  echo"ht";//;/
         }
+      }
        ?>
        <form action="#" id="fom"  method="POST">
     <div id="buttons" style="margin-top: 10px; margin-left:980px;">
