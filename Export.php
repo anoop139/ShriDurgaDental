@@ -28,6 +28,9 @@ error_reporting(0);
   bottom  : 170px;
   left:     600px;
  }
+ #TotalAmount{
+  float: left;
+ }
 </style>
 <body>
     <script>
@@ -58,7 +61,8 @@ error_reporting(0);
             echo"<h1 style='text-align:center'>No record for the day </h1>";
         }
         else{
-         echo"<table border='2' id='table1' cellpadding='5'>
+         echo"<div id='allTable'>
+         <table border='2' id='table1' cellpadding='5'>
               <tr>
                 <br>
               </tr> 
@@ -88,7 +92,7 @@ error_reporting(0);
                 $joinedQuery = mysqli_query($conn, $primery);
                 $tcount    = mysqli_num_rows($joinedQuery);
 
-                echo"<table border='2' id='treatment' cellpading='5'>
+                echo"<table border='2' id='treatment' cellpadding='5'>
                 <tr>
                 <th colspan='6'>treatment Detail </th>
                 </tr>";
@@ -97,23 +101,44 @@ error_reporting(0);
               //  echo"<h1>id is   $fetch0[sno]</h1>";//`; /.
                 $treatment ="select * from treatment where sno=$fetch0[sno]";
                 $treatmenQuery = mysqli_query($conn, $treatment);
+
+
+                $sum ="SELECT SUM(amount) as total from treatment where sno=$fetch0[sno]";
+                $sumQuery = mysqli_query($conn, $sum);
+                $fetchTotal =  mysqli_fetch_assoc($sumQuery);//
                echo"
                 <tr>
-                <th colspan='6'>$fetch0[name] </th>
+                <th colspan='5'>$fetch0[name] </th>
                 </tr>
-                
+                <tr>
+                <th>Date</th>
+                <th>Due Date</th>
+                <th>Treatment</th>
+                <th>Advance</th>
+                <th>Amount</th>
+                </tr>
                 ";
                while ($treatmentDeatil = mysqli_fetch_assoc($treatmenQuery))
                {
               //   # code...
                 echo"<tr>
+                <td>$treatmentDeatil[date] </td>
+                <td>$treatmentDeatil[dueDate] </td>
                 <td>$treatmentDeatil[treatment] </td>
+                <td style='text-align:center'>$treatmentDeatil[advance] </td>
+                <td style='text-align:center'>$treatmentDeatil[amount] </td>
                 </tr>
                 ";}
-              echo"<br>";
+              echo"<tr>
+              <th colspan='4' style='text-align:left'>Total</th>
+              <th id='dwTotalAmount'>$fetchTotal[total]</th>
+              </tr>";
+          
                
          }
-       echo"</table>";
+       echo"
+       </table>
+       </div>";
         }
       }
        ?>
@@ -134,7 +159,8 @@ error_reporting(0);
   function expotToExcel() {
   let table = document.getElementById("table1");
   let treatment = document.getElementById("treatment");
-   let a =table.outerHTML + "  " + treatment.outerHTML;
+   let a =table.outerHTML+"<br>"+treatment.outerHTML;
+   alert(a)//
   download(a, `${today}.xls`,'application/vnd.ms-excel')
 }
 
