@@ -25,9 +25,10 @@ error_reporting(0);
   }
  #treatment{
   position:relative;
-  bottom  : 170px;
-  left:     600px;
+  bottom  : 120px;
+  left:     0px;
  }
+ 
  #TotalAmount{
   float: left;
  }
@@ -58,10 +59,12 @@ error_reporting(0);
 
         if ($count==0) {
             # code...
-            echo"<h1 style='text-align:center'>No record for the day </h1>";
+            echo"<h1 style='text-align:center'>No record for the day old code </h1>";
         }
         else{
-         echo"<div id='allTable'>
+         echo"<table border='2' id='allTable'>
+         <tr>
+         <td>
          <table border='2' id='table1' cellpadding='5'>
               <tr>
                 <br>
@@ -86,6 +89,8 @@ error_reporting(0);
                </tr>";
           }
           echo"</table>";
+          echo"</td><td valign='top'>";
+
               //  //here right/
               $primery ="SELECT  DISTINCT patient.sno, patient.name from patient 
                 natural join treatment where patient.date='$getDate'";
@@ -94,7 +99,7 @@ error_reporting(0);
 
                 echo"<table border='2' id='treatment' cellpadding='5'>
                 <tr>
-                <th colspan='6'>treatment Detail </th>
+                <th colspan='5'>treatment Detail </th>
                 </tr>";
                while ( $fetch0 = mysqli_fetch_assoc($joinedQuery)) {
                 # code...             
@@ -136,9 +141,8 @@ error_reporting(0);
           
                
          }
-       echo"
-       </table>
-       </div>";
+      echo "</table></td></tr></table>";
+
         }
       }
        ?>
@@ -157,11 +161,11 @@ error_reporting(0);
 
    <script>
   function expotToExcel() {
-  let table = document.getElementById("table1");
+  let table = document.getElementById("AllTable");
   let treatment = document.getElementById("treatment");
-   let a =table.outerHTML+"<br>"+treatment.outerHTML;
-   alert(a)//
-  download(a, `${today}.xls`,'application/vnd.ms-excel')
+   let a =table.outerHTML
+   //alert(a)//
+  // download(a, `${today}.xls`,'application/vnd.ms-excel')
 }
 
    </script>
