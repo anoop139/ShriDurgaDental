@@ -24,7 +24,7 @@ error_reporting(0);
     left:       105px;
   }
   #table1{
-    padding-bottom: 20px;
+    padding-bottom: 25px;
   }
  
  #TotalAmount{
@@ -63,14 +63,14 @@ error_reporting(0);
          echo"<table border='0'  id='allTable'>
          <tr>
          <td>
-         <table border='2' id='table1' cellpadding='5'>
+         <table border='2' id='table1' cellpadding='10'>
          <tr>
          </tr>
             <tr>
               <th colspan='4'>Patient Details</th>
              </tr>
               <tr>
-                <th>Date</th>
+                <th  class='td'>Date  </th>
                 <th>Name</th>
               <th>Age</th>
              <th>Phone Number</th>
@@ -80,10 +80,10 @@ error_reporting(0);
           {//NOT HERE
             $name ="$fetch[sno]";
           echo"<tr>
-            <th>$fetch[date]</th>
-             <th>$fetch[name]</th>
-             <th>$fetch[age]</th>
-             <th>$fetch[phoNo]</th>
+            <td>$fetch[date]</td>
+             <td>$fetch[name]</td>
+             <td  style='text-align:center'>$fetch[age]</td>
+             <td>$fetch[phoNo]</td>
                </tr>";
           }
           echo"</table>
