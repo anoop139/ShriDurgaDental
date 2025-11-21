@@ -23,11 +23,9 @@ error_reporting(0);
     top       : auto; 
     left:       105px;
   }
- #treatment{
-  position:relative;
-  bottom  : 120px;
-  left:     0px;
- }
+  #table1{
+    padding-bottom: 20px;
+  }
  
  #TotalAmount{
   float: left;
@@ -62,22 +60,22 @@ error_reporting(0);
             echo"<h1 style='text-align:center'>No record for the day old code </h1>";
         }
         else{
-         echo"<table border='2' id='allTable'>
+         echo"<table border='0'  id='allTable'>
          <tr>
          <td>
          <table border='2' id='table1' cellpadding='5'>
+         <tr>
+         </tr>
+            <tr>
+              <th colspan='4'>Patient Details</th>
+             </tr>
               <tr>
-                <br>
-              </tr> 
-               <tr>
-                 <th colspan='4'>Patient Details</th>
-              </tr>
-               <tr>
                 <th>Date</th>
                 <th>Name</th>
               <th>Age</th>
              <th>Phone Number</th>
              </tr>";
+            
           while( $fetch = mysqli_fetch_assoc($dateQuery))
           {//NOT HERE
             $name ="$fetch[sno]";
@@ -88,7 +86,9 @@ error_reporting(0);
              <th>$fetch[phoNo]</th>
                </tr>";
           }
-          echo"</table>";
+          echo"</table>
+          <td>
+          </td>";
           echo"</td><td valign='top'>";
 
               //  //here right/
@@ -97,7 +97,10 @@ error_reporting(0);
                 $joinedQuery = mysqli_query($conn, $primery);
                 $tcount    = mysqli_num_rows($joinedQuery);
 
-                echo"<table border='2' id='treatment' cellpadding='5'>
+                echo" 
+               <table border='2' id='treatment' cellpadding='5'>  
+                <tr>
+               </tr>
                 <tr>
                 <th colspan='5'>treatment Detail </th>
                 </tr>";
@@ -161,11 +164,11 @@ error_reporting(0);
 
    <script>
   function expotToExcel() {
-  let table = document.getElementById("AllTable");
-  let treatment = document.getElementById("treatment");
+  let table = document.getElementById("allTable");
+  // let treatment = document.getElementById("treatment");
    let a =table.outerHTML
-   //alert(a)//
-  // download(a, `${today}.xls`,'application/vnd.ms-excel')
+   alert("All set to download")//
+download(a, `${today}.xls`,'application/vnd.ms-excel')
 }
 
    </script>
