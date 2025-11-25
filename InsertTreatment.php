@@ -208,8 +208,9 @@ if ($treatCont!=0) {
          return false;
     }
  if (isNaN(advan) || advance.value.trim() === "") {
-    alert("Enter advance number");
-    return false;
+    advance.value=0;
+  // alert("Enter advance number");
+    // return false;
 }
  else{
          let date = new Date();
@@ -231,8 +232,13 @@ if (advan> 0 && tot==0) {
 }
 
 if (dueDate.value.length==0) {
-  // alert("no due")///
+  // alert("no due date And advance is "+dueDate.value)///
   dueDate.value="None"
+  }
+if (advance.value=="") {
+     advance.value=0;
+  //alert("no due date And advance is "+dueDate.value)///
+  //return false
   
 }
 else{
@@ -246,7 +252,7 @@ else{
   let dueYear = Number(x.slice(10,14))
   let currentYear =Number(date2.value.slice(9))// Change to 9
 
-//  alert("due year "+dueYear+" and current Year "+dueMonth) 
+//  alert(advance) 
   if (todayDate>due && currentMonth==dueMonth) {
     alert("Sorry you entered wrong due date ")
     return false
@@ -295,9 +301,10 @@ else{
       //  alert("you/ r else part get ready date<10 and mmont >=10 ")////
         }       
         else if (Number(x.slice(0, 2))>=10) { 
-            //  alert("you r else part get ready date>=10 and mmont >=10 ")
+             alert("jw ")
       dueDateInput.value=x
         }
+      
     } 
 }
 }
