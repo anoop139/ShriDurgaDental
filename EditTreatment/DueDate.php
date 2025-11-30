@@ -118,7 +118,7 @@ error_reporting(0);
                 let toDay       = currentDate.getDate()
                 let thisMonth       = currentDate.getMonth()+1
                 if ((date<toDay || month<thisMonth) || (year<currentYear)) {
-                     alert("Wrong due date or year ")
+                     alert("Wrong due date or year or month")
                     
                     return false
                   
