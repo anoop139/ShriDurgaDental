@@ -257,17 +257,18 @@ else{
     alert("Sorry you entered wrong due date ")
     return false
     
-  }
-    if (currentMonth>dueMonth) {
+  } 
+    if (currentMonth>dueMonth && x.length!=0) {
     alert("Sorry you entered wrong due month")
     return false
     
   }
-  if (currentYear>dueYear) {
-    alert("Sorry you entered wrong due year")
+  if (currentYear>dueYear && x.length!=0) {
+    alert("Sorry you entered wrong due year ")
     return false
     
   }
+  // else if
    if (Number(x.slice(0,2))<10 && Number(x.slice(5,8))<10) //date less than 10 and moth
     {    
         // alert("yes if part get ready date "+x.slice(1,2))
@@ -301,10 +302,10 @@ else{
       //  alert("you/ r else part get ready date<10 and mmont >=10 ")////
         }       
         else if (Number(x.slice(0, 2))>=10) { 
-             alert("jw ")
+    //         alert("jw "+x)
       dueDateInput.value=x
         }
-      
+       
     } 
 }
 }
