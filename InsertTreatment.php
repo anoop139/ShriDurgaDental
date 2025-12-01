@@ -246,7 +246,7 @@ else{
   let x =dueDate.value.split("-").reverse().join(" - ")
   let date = x.slice(0, 7)
   let todayDate = Number(date2.value.slice(0, 2))
-  let currentMonth = Number(date2.value.slice(5, 7))
+  let currentMonth = Number(date2.value.slice(4, 7))
   let due = Number(x.slice(0,2))
   let dueMonth = Number(x.slice(5,7))
   let dueYear = Number(x.slice(10,14))
@@ -258,7 +258,7 @@ else{
     return false
     
   } 
-    if (currentMonth>dueMonth && x.length!=0) {
+    if (currentMonth>dueMonth && currentYear==dueYear) {
     alert("Sorry you entered wrong due month")
     return false
     
