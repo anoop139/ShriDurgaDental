@@ -117,11 +117,16 @@ error_reporting(0);
                 let currentYear       = currentDate.getFullYear()
                 let toDay       = currentDate.getDate()
                 let thisMonth       = currentDate.getMonth()+1
-                if ((date<toDay || month<thisMonth) || (year<currentYear)) {
-                     alert("Wrong due date or year or month")
+                if ((date<=toDay || month<thisMonth) && currentYear==year) {
+                     alert("Wrong due date or month")
                     
                     return false
                   
+                }
+                if ( year<currentYear) {
+                   alert("Wrong due year")
+                    
+                    return false
                 }
                 if (date<10 && month<10) {
                   x = x.replace("0", "")
@@ -134,11 +139,10 @@ error_reporting(0);
                  x = x.replace("0", "")
                  input.value = x
                 }
-                else{
-                    input.value=x
-                }
-            // error.innerHTML="sud"
-       ///        return false/////
+            else{
+               // alert("All good ")   
+                 input.value = x
+            }
             }
         }
         oninput =()=>{
