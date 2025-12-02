@@ -30,15 +30,15 @@ error_reporting(0);
             height:60px
         
         }
-        .treatDiv{
-            position: absolute;
-            top:10px;
+    .treatDiv{
+        position: absolute;
+        top: 10px;
+        /* left//: 600px; */
         }
-        .inputDiv{
-            position: absolute;
-            left: 690px;
-            top: 10px;
-            bottom: 10px;
+         .inputDiv{
+        position: absolute;
+        top: 10px;
+        left: 600px;
         }
         #buttionArea{
             padding-left:10px
@@ -59,6 +59,7 @@ error_reporting(0);
     <div id="main-div">
      <div class="treatDiv">
         <h1>Enter new name :</h1>
+        </div>
         <form action="" class="inputDiv" onsubmit="return checkInput()" method="POST">
             <textarea name="treatment" id="input"></textarea>
             <!-- <input type="date" name="////" id=""> -->
