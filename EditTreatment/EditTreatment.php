@@ -45,6 +45,11 @@ error_reporting(0);
      table tr th, td{
         padding: 7px;
      }
+     #clearBtn{
+        position: absolute;
+         top: 255px;
+         left: 20px;
+     }
     </style>
     <title>Edit Page</title>
 </head>
@@ -80,13 +85,15 @@ error_reporting(0);
             <th>Edit Amount</th>
             </tr>
             <?php
-              $treatId = $_GET['tid'];
+              $treatId = $_GET['tid'];              
+              $try =  $_GET['tid'];
+
               $selectTreat = "select *from treatment where tid =$treatId";
               $treatQuery  = mysqli_query($conn, $selectTreat);
               while ($fetch = mysqli_fetch_assoc($treatQuery)) {
                     echo"<tr>
                      <td>$fetch[dueDate]</td>
-                  <td><a href='DueDate.php?id=$treatId'>Click here to edit date</a></td>
+                  <td><a href='DueDate.php?id=$treatId'>Click here to edit or add due date</a></td>
                   <td>$fetch[treatment]</td>
                   <td><a href='Treatment.php?id=$treatId'>Click here to edit treatment</a></td>
                  <td>$fetch[advance]</td>
@@ -99,6 +106,7 @@ error_reporting(0);
          
             
             ?>
+            <h1></h1>
             <span id="message">
                 <?php
                 if (isset($_GET['updateDueDate'])) {
@@ -119,9 +127,15 @@ error_reporting(0);
                     echo"Advance amount updated successfully";
                 }
                 
+                     if (isset($_GET['deletedDue'])) {
+                    # code...
+                    echo"Deleted Due date successfully";
+                }
                 ?>
             </span>
         </table>
+        </form>
+       
     </div>
     <script>
     onload =()=>{
@@ -131,7 +145,20 @@ error_reporting(0);
             
         }, 5000);
     }
+   onsubmit =()=>{
+    let result =confirm('Are you sure you want to delete due date ?')
+    if (result==false) {
+       return false
+    }
+   
+   }
+    </script> 
 
-    </script>
+ <form action="clearDate.php" method="POST" name="clearDate" id="clearBtn"> 
+        <input type="hidden" name="dueId" value="<?php echo"$treatId";?>">
+    <input type="submit" value="Clear here to clear date">
+            </form>
+        
+
 </body>
 </html>
