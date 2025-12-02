@@ -53,7 +53,7 @@ error_reporting(0);
        if ($deleteQuery) {
          # code...
          echo"<script>
-          window.location.href='./EditTreatment.php?tid=$dueId&      =true'
+          window.location.href='./EditTreatment.php?tid=$dueId&deletedDue=true'
          </script>";
        }
        else{
