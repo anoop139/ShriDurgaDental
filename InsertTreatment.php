@@ -9,8 +9,8 @@ error_reporting(0);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Treatment Details</title>
     <style>
-	 ul{
-      background-color:lightblue;
+	 #ul{ 
+      background-color:lightblue; 
      }
 	 	ul li ul li{
 		background:lightblue;
@@ -80,14 +80,15 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
 }
 
 ?> 
-   <ul style="padding-left:1050px;  background-color:lightblue; height: 40px;">
+   <ul style="padding-left:1050px; height: 40px;" id="ul">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient</a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul>
             <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li>
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
+            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li><br>
         </ul>
         </li>
 </ul>
@@ -151,7 +152,7 @@ if ($dueDate!="" && $dueDate!=$date) {
    if($treatQuery)
     {
        
-        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br>hi <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view  </a>treatment 
+        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view  </a>treatment 
         </h3>";
 
 }
