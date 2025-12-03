@@ -25,7 +25,7 @@ error_reporting(0);
      }
      form{
          position: absolute;
-         top:75px;
+         top:93px;
          left:800px;
      }
      .treat{
@@ -42,7 +42,10 @@ error_reporting(0);
       font-weight:bold;
       font-size:20px;
      }
-     
+     #div1{
+      position: absolute;
+      top:70px;
+     }
      #errorMessage{
       position: relative;
       top:0px;
@@ -50,7 +53,7 @@ error_reporting(0);
      #del{
 		position: absolute;
 		top:-10px;
-		left: 600px;
+		left: 550px;
 	}
   #navFom{
     position: absolute;
@@ -80,8 +83,9 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
 }
 
 ?> 
-   <ul style="padding-left:1050px; height: 40px;" id="ul">
+   <ul style="padding-left:985px; height: 40px;" id="ul">
         <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="PatientRecord.php">Patient List</a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient</a></li>&nbsp;
         
         <li><a href="">Search by</a>
@@ -106,7 +110,7 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
     
     <br><br>
     <input type="text" name="advanceAmount" id="Advance" class="treat" ><br><br><br>
-    <input type="number" name="amt" id="receivedAmount" class="treat" ><br>
+    <input type="number" name="amt" id="receivedAmount" class="treat" ><br><br>
   
     <input type="text" name="name" hidden id="pname"  value="<?php echo$name; ?>" class="treat">
     <input type="number" name="fid" hidden id="pname1"   value="<?php echo$fid; ?>" class="treat">
