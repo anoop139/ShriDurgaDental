@@ -16,7 +16,11 @@ error_reporting(0);
 		 #Main-div{
             background:green;
         }
-       
+       body{
+           background-image:url("../Images/Name.jpg");
+            background-repeat:no-repeat;
+            background-size:cover
+       }
     </style>
 </head>
 <body>
@@ -26,7 +30,7 @@ error_reporting(0);
         <?php
         $id = $_POST['id'];
         $newName =$_POST['newName'];
-		echo"ID  ".$id; 
+		// echo"ID  ".$id; 
 		// echo"<br> New name is ".$newName; 
         
 
@@ -34,7 +38,7 @@ error_reporting(0);
         $query  = mysqli_query($conn, $update);
 		if($query)
 		{
-			echo"<bh><h1>Updated successfully wait for few seconds</h1> ";
+			echo"<bh><h1 style='color:white'>Updated successfully wait for few seconds</h1> ";
 		}
 		else{
 			echo"<h1>Updating failed</h1>";
