@@ -73,7 +73,7 @@ error_reporting(0);
 </ul
     </div>
     <div id="main">
-        <table border="2" cellpadding="10" style="text-align:center">
+        <table border="2" cellpadding="10" id="table"style="text-align:center">
             <tr>
             <th>Due date</th>
             <th>Edit due date</th>
@@ -146,12 +146,20 @@ error_reporting(0);
         }, 5000);
     }
    onsubmit =()=>{
-    let result =confirm('Are you sure you want to delete due date ?')
-    if (result==false) {
-       return false
-    }
-   
+   let table = document.getElementById("table")
+   const date=table.rows[1].cells[0].innerText.trim();
+   if (date.length>0) 
+    {
+      result =confirm('Are you sure you want to delete due date ? ')
    }
+   else{
+    alert('No due date to be deleted')
+        return false
+   }
+
+    }
+//    return false
+   //}
     </script> 
 
  <form action="clearDate.php" method="POST" name="clearDate" id="clearBtn"> 
