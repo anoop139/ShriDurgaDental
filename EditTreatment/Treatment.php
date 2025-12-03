@@ -58,7 +58,7 @@ error_reporting(0);
 <body>
     <div id="main-div">
      <div class="treatDiv">
-        <h1>Enter new name :</h1>
+        <h1>Enter new treatment:</h1>
         </div>
         <form action="" class="inputDiv" onsubmit="return checkInput()" method="POST">
             <textarea name="treatment" id="input"></textarea>
