@@ -46,8 +46,8 @@ error_reporting(0);
         padding: 7px;
      }
      #clearBtn{
-        position: absolute;
-         top: 255px;
+        position: relative;
+         top: auto;
          left: 20px;
      }
     </style>
@@ -57,7 +57,7 @@ error_reporting(0);
 <div id="header">
 
                 <ul style="background:lightblue; height: 40px; width:340px; padding-left:1000px"  >
-        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="../DentalHomePage.html">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient </a></li>&nbsp;
         
@@ -135,7 +135,11 @@ error_reporting(0);
             </span>
         </table>
         </form>
-       
+        <form action="clearDate.php" method="POST" name="clearDate" id="clearBtn"> 
+        <input type="hidden" name="dueId" value="<?php echo"$treatId";?>">
+    <input type="submit" value="Clear here to clear date">
+            </form>
+        
     </div>
     <script>
     onload =()=>{
@@ -162,11 +166,7 @@ error_reporting(0);
    //}
     </script> 
 
- <form action="clearDate.php" method="POST" name="clearDate" id="clearBtn"> 
-        <input type="hidden" name="dueId" value="<?php echo"$treatId";?>">
-    <input type="submit" value="Clear here to clear date">
-            </form>
-        
+
 
 </body>
 </html>
