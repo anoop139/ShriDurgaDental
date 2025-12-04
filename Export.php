@@ -57,7 +57,7 @@ error_reporting(0);
 
         if ($count==0) {
             # code...
-            echo"<h1 style='text-align:center'>No record for the day old code </h1>";
+            echo"<h1 style='text-align:center'>No record for the day</h1>";
         }
         else{
          echo"<table border='0'  id='allTable'>
