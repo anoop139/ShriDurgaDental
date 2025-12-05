@@ -86,9 +86,7 @@ error_reporting(0);
              <td>$fetch[phoNo]</td>
                </tr>";
           }
-          echo"</table>
-          <td>
-          </td>";
+          echo"</table> <td></td>";   // <-- add space here
           echo"</td><td valign='top'>";
 
               //  //here right/
@@ -102,7 +100,7 @@ error_reporting(0);
                 <tr>
                </tr>
                 <tr>
-                <th colspan='5'>treatment Detail </th>
+                <th colspan='5'>Treatment Detail </th>
                 </tr>";
                while ( $fetch0 = mysqli_fetch_assoc($joinedQuery)) {
                 # code...             
@@ -116,12 +114,12 @@ error_reporting(0);
                 $fetchTotal =  mysqli_fetch_assoc($sumQuery);//
                echo"
                 <tr>
-                <th colspan='5'>$fetch0[name] </th>
+                <th colspan='5' style='text-align:center'>$fetch0[name] </th>
                 </tr>
                 <tr>
                 <th>Date</th>
                 <th>Due Date</th>
-                <th>Treatment</th>
+                <th style='text-align:left; padding-left:80px'>Treatment</th>
                 <th>Advance</th>
                 <th>Amount</th>
                 </tr>
