@@ -90,18 +90,7 @@ error_reporting(0);
                $query   = mysqli_query($conn, $patName);
                $getName = mysqli_fetch_assoc($query);
 
-               echo"<h1>Are you sure you want to delete record of ".$getName["name"]." ? </h1>";    
-               $record = $_GET['id'];
-            // //   echo"<h1>Id is $record</h1>";
-               $checkTreatment = "select treatment from treatment where sno=$record";
-               $treatQuery  = mysqli_query($conn, $checkTreatment);
-               $treatNo;
-               if (mysqli_num_rows($treatQuery)>0) {
-                         # code...
-                    $treatNo = mysqli_num_rows($treatQuery);
-               }
-
-//               echo"<h1>$treatNo </h1>";
+               echo"<h1>Are you sure you want to delete record of ".$getName["name"]." ? </h1>";
 
            }
     
@@ -133,23 +122,9 @@ error_reporting(0);
         </div>
     </div>
     <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
-    <input type="hidden" name="id" id="treatNo" value="<?php echo$treatNo;?>">
 <div id="yesDiv"><input type="submit" name="deleteRecord" class="btns" value="yes"></div>
 </form>
-<script>
-  var treatmentExist = document.getElementById("treatNo").value
-  onsubmit =()=>{
-  if (treatmentExist.length>0) {
-    alert('Yes treatment for Paatient Exist ')
-    return false
-  }
 
-  else{
-      alert('The treatment for Paatient  doesnt Exist')
-    return false
-  }
-  }
-</script>
 </body>
 </html>
 </html>
