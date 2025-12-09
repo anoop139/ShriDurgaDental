@@ -101,9 +101,19 @@ error_reporting(0);
 <div id="main-div">
         <div id="result-div">
             <?php
-         
-               if (isset($_GET['deleteRecord'])) {
-                $id = $_GET['id'];
+            $id = $_GET['id'];
+                 $treatment =" SELECT treatment FROM treatment where sno=$id";
+                 $treatQuery = mysqli_query($conn, $treatment);
+                 $treatNo;
+                  if (mysqli_num_rows($treatQuery)>0) {
+                    $treatNo =  mysqli_num_rows($treatQuery);
+                  }
+                  else{
+                    $treatNo="";
+                  }
+               if (isset($_GET['deleteRecord'])) {    
+                 
+        
                 $deleteRecord ="Delete from patient where sno=$id";
                 $deleteQuery = mysqli_query($conn, $deleteRecord);
                 if ($deleteQuery) {
@@ -122,9 +132,31 @@ error_reporting(0);
         </div>
     </div>
     <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
+    <input type="hidden" name="tr" id="treatCount" value="<?php echo$treatNo;?>">
 <div id="yesDiv"><input type="submit" name="deleteRecord" class="btns" value="yes"></div>
 </form>
-
+<script>
+let treatCon = document.getElementById("treatCount").value
+    onsubmit =()=>{
+    
+    if (treatCon.length>0) {
+    // alert("Treatment exist be carefull")
+      let result = confirm("Treatment for the patient exist, are u sure you want to delete")
+     if (result==true) {
+         // alert("Safe to  delete")//confirm delete
+          //return false
+     }
+     else{
+         //alert("You chose no to delted")
+          return false
+     }
+    }
+    // else{
+    // alert("Safe to  delete")
+    // //  return false;
+    // }
+    }
+</script>
 </body>
 </html>
 </html>
