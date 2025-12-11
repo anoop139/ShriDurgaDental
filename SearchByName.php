@@ -46,7 +46,7 @@ error_reporting(0);
 		
 	#input{
 	    position:absolute;
-		left:740px;
+		left:600px;
 		top:120px
 	}
 	.Col{
@@ -190,7 +190,7 @@ error_reporting(0);
 	}
 	else
 	{
-		echo"<h1 style='padding-left:350px;'>No recod found</h1>";
+		echo"<h1 style='padding-left:200px'>No recod found</h1>";
 	}
 
 }
@@ -292,7 +292,7 @@ if (isset($_GET['inserted'])) {
 </div>
 </div>
 </div>
-<script src="./FomValidation.js?v=8"></script>
+<script src="./FomValidation.js?v=9"></script>
 
 </body>
 </html>
