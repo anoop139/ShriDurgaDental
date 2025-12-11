@@ -29,7 +29,7 @@ $name = $_GET['n'];
       }
        #export{
         position: absolute;
-        top: 100px;
+        top: 150px;
         left: 1200px;
       
       }
