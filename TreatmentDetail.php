@@ -148,7 +148,7 @@ if (isset($fid)) {
  $display ="select *from treatment where sno=$fid"; 
  $query   =  mysqli_query($conn, $display);
  $no   =  mysqli_num_rows($query);
- $display2 ="select SUM(amount) as amt from treatment  where sno=$fid";
+ $display2 ="select SUM(amount) as amt from treatment where sno=$fid";
  $query1   =  mysqli_query($conn, $display2);
   
  $fect0    = mysqli_fetch_assoc($query1);
@@ -174,6 +174,7 @@ echo"<center>
    <th>Due Date</th>
    <th>Treatment</th>
    <th>Advance Amount</th>
+   <th>Online Amount</th>
    <th>Pending Amount</th>
    <th>Amount</th>
    <th>Edit</th>
@@ -193,11 +194,15 @@ while( $fect= mysqli_fetch_assoc($query))
 	//   echo"<h1>yes bro</h1>";
 	}///
 	// $pending =$fect['amount']-$fect['advance'];
+	if ($fect['online']!=0) {
+	   $fect0['amt']+=$fect['online'];
+	}
 	echo"<tr>
    <td>$fect[date]</td>
    <td>$fect[dueDate]</td>
    <td style='padding-right: 50px;'>$fect[treatment]</td>
    <td style='padding: 10px;'>$fect[advance]</td>
+   <td style='padding: 10px;'>$fect[online]</td>
    <td>$pending</td>  
     <td >$fect[amount]</td>
 
@@ -212,7 +217,7 @@ echo"<th></th>
    <th></th>
    <th>Total</th>
    <th style='margin-left:450px'> $fect0[amt]</th>
-      </table>
+         </table>
       </center>";
 }
 
