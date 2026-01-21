@@ -100,7 +100,8 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
     <h1>Enter Treatmemt </h1>
     <h1> Enter due date </h1>
     <h1>Enter Advance Amount if any </h1>
-    <h1>Enter total Amount </h1>
+    <h1>Enter online Amount </h1>
+    <h1>Enter cash Amount </h1>
   </div>
   <form action="" onsubmit="return Submit()" method="POST">
     <textarea name="treat" id="treat1" class="treat"></textarea><br>
@@ -110,6 +111,7 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
     
     <br><br>
     <input type="text" name="advanceAmount" id="Advance" class="treat" ><br><br><br>
+    <input type="number" name="onlineAmount" id="onlinePayment" class="treat" ><br><br><br>
     <input type="number" name="amt" id="receivedAmount" class="treat" ><br><br>
   
     <input type="text" name="name" hidden id="pname"  value="<?php echo$name; ?>" class="treat">
@@ -134,6 +136,7 @@ if(isset($_POST['sub']))
 $treat = $_POST['treat'];
 $fid1 = $_POST['fid'];
 $advance = $_POST['advanceAmount']; //200
+$online = $_POST['onlineAmount']; //200
 $amt = $_POST['amt'];//totoal 1000 
 $pr = $_POST['pr'];
 $sbm = $_POST['sbm'];
@@ -144,7 +147,9 @@ $td1 = $_POST['tp'];
 	$query1 =  mysqli_query($conn, $treatmentName);
 	$treatCont   =  mysqli_num_rows($query1);
 	$fetch =  mysqli_fetch_assoc($query1); 
-
+//  if (/) {
+  # code...
+ }
  
   
 	if(isset($name) && $treatCont==0) {
@@ -164,7 +169,7 @@ if ($dueDate!="" && $dueDate!=$date) {
      
       }
       else{
-	$insert ="insert into treatment(date, treatment, advance, amount, sno) value('$date', '$treat',$advance,$amt,$fid1)";
+	$insert ="insert into treatment(date, treatment, advance, online, amount, sno) value('$date', '$treat',$advance, $online, $amt,$fid1)";
 	$treatQuery =  mysqli_query($conn, $insert);
    
    if($treatQuery)
@@ -184,7 +189,7 @@ if ($treatCont!=0) {
 }
 
  
-}
+
 ?>
 
 <script>
