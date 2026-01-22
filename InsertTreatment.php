@@ -155,7 +155,7 @@ $td1 = $_POST['tp'];
 	if(isset($name) && $treatCont==0) {
 if ($dueDate!="" && $dueDate!=$date) {
     
-	$insert ="insert into treatment(date, dueDate, treatment, advance, amount, sno) value('$date','$dueDate','$treat',$advance,$amt,$fid1)";
+	$insert ="insert into treatment(date, treatment, advance, online, amount, sno) value('$date', '$treat',$advance, $online, $amt,$fid1)";
 	$treatQuery =  mysqli_query($conn, $insert);
   //  echo'hello';
    if($treatQuery)
@@ -203,6 +203,7 @@ if ($treatCont!=0) {
  let dueDateInput = document.getElementById("dueDateInput")
      treat = document.getElementById("treat1").value 
  let  advance = document.getElementById("Advance") 
+ let  online = document.getElementById("onlinePayment") 
  let cashReceived = document.getElementById("receivedAmount")
   let advan =  Number(advance.value) 
   let tot =  Number(cashReceived.value)
@@ -212,6 +213,12 @@ if ($treatCont!=0) {
       msg.innerHTML="Enter treatment"
       // alert("date is "+date)
           return false 
+    }
+
+    if (advance.value<0 || online.value<0) {
+        
+    alert("Enter positive number");
+         return false;
     }
     if (tot<0) {
         alert("Enter valid number");
