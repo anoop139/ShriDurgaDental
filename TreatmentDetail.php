@@ -183,8 +183,9 @@ echo"<center>
 while( $fect= mysqli_fetch_assoc($query))
 {
 	if ($fect['amount']>$fect['advance'] && $fect['advance']!=0) {
-	  $pending = $fect['amount']-$fect['advance'];
-	//   echo"<></>";
+	  $pending = $fect['amount']-($fect['advance'] + $fect['online']);
+	//   echo"<></>";pending = amount - (advance + online)
+
 	}///
 	else if ($fect['amount']==$fect['advance']) {
 	  $pending = 0;//$fect['amount']-$fect['advance'];
@@ -216,6 +217,7 @@ echo"<th></th>
    <th></th><br>
    <th></th>
    <th>Total</th>
+   <th style='margin-left:450px'></th>
    <th style='margin-left:450px'> $fect0[amt]</th>
          </table>
       </center>";
