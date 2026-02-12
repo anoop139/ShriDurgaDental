@@ -147,9 +147,7 @@ $td1 = $_POST['tp'];
 	$query1 =  mysqli_query($conn, $treatmentName);
 	$treatCont   =  mysqli_num_rows($query1);
 	$fetch =  mysqli_fetch_assoc($query1); 
-//  if (/) {
-  # code...
- }
+
  
   
 	if(isset($name) && $treatCont==0) {
@@ -189,7 +187,7 @@ if ($treatCont!=0) {
 }
 
  
-
+}
 ?>
 
 <script>
@@ -326,7 +324,7 @@ else{
     } 
 }
 }
- // }
+
  window.oninput=(()=>{
   // alert("testion")
   msg.innerHTML="";
