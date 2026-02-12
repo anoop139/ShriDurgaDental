@@ -96,11 +96,11 @@ error_reporting(0);
                 $tcount    = mysqli_num_rows($joinedQuery);
 
                 echo" 
-               <table border='2' id='treatment' cellpadding='5'>  
+               <table border='2' id='treatment' cellpadding='6'>  
                 <tr>
                </tr>
                 <tr>
-                <th colspan='5'>Treatment Detail </th>
+                <th colspan='6'>Treatment Detail </th>
                 </tr>";
                while ( $fetch0 = mysqli_fetch_assoc($joinedQuery)) {
                 # code...             
@@ -114,13 +114,14 @@ error_reporting(0);
                 $fetchTotal =  mysqli_fetch_assoc($sumQuery);//
                echo"
                 <tr>
-                <th colspan='5' style='text-align:center'>$fetch0[name] </th>
+                <th colspan='6' style='text-align:center'>$fetch0[name] </th>
                 </tr>
                 <tr>
                 <th>Date</th>
                 <th>Due Date</th>
                 <th style='text-align:left; padding-left:80px'>Treatment</th>
                 <th>Advance</th>
+                <th>Online</th>
                 <th>Amount</th>
                 </tr>
                 ";
@@ -132,11 +133,12 @@ error_reporting(0);
                 <td>$treatmentDeatil[dueDate] </td>
                 <td>$treatmentDeatil[treatment] </td>
                 <td style='text-align:center'>$treatmentDeatil[advance] </td>
+                <td style='text-align:center'>$treatmentDeatil[online] </td>
                 <td style='text-align:center'>$treatmentDeatil[amount] </td>
                 </tr>
                 ";}
               echo"<tr>
-              <th colspan='4' style='text-align:left'>Total</th>
+              <th colspan='5' style='text-align:left'>Total</th>
               <th id='dwTotalAmount'>$fetchTotal[total]</th>
               </tr>";
           
