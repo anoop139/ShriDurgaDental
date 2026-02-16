@@ -110,8 +110,12 @@ error_reporting(0);
 
 
                 $sum ="SELECT SUM(amount) as total from treatment where sno=$fetch0[sno]";
+                $sum1 ="SELECT SUM(online) as bank from treatment where sno=$fetch0[sno]";
                 $sumQuery = mysqli_query($conn, $sum);
+                $onlineQuery = mysqli_query($conn, $sum1);
+                $onlineTotal =  mysqli_fetch_assoc($onlineQuery);//
                 $fetchTotal =  mysqli_fetch_assoc($sumQuery);//
+          $total1 = ($fetchTotal["total"] ?? 0) + ($onlineTotal["bank"] ?? 0);
                echo"
                 <tr>
                 <th colspan='6' style='text-align:center'>$fetch0[name] </th>
@@ -127,7 +131,7 @@ error_reporting(0);
                 ";
                while ($treatmentDeatil = mysqli_fetch_assoc($treatmenQuery))
                {
-              //   # code...
+                
                 echo"<tr>
                 <td>$treatmentDeatil[date] </td>
                 <td>$treatmentDeatil[dueDate] </td>
@@ -139,7 +143,7 @@ error_reporting(0);
                 ";}
               echo"<tr>
               <th colspan='5' style='text-align:left'>Total</th>
-              <th id='dwTotalAmount'>$fetchTotal[total]</th>
+              <th id='dwTotalAmount'>$total1</th>
               </tr>";
           
                
