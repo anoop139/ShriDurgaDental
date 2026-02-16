@@ -81,6 +81,8 @@ error_reporting(0);
             <th>Edit Treatment name</th>
             <th>Advance Amount</th>
             <th>Edit Advance Amount</th>
+            <th>Online Amount</th>
+            <th>Edit Online Amount</th>
             <th>Amount</th>
             <th>Edit Amount</th>
             </tr>
@@ -98,6 +100,8 @@ error_reporting(0);
                   <td><a href='Treatment.php?id=$treatId'>Click here to edit treatment</a></td>
                  <td>$fetch[advance]</td>
                         <td><a href='AdvanceAmount.php?id=$treatId'>Click here to edit advance amount</a></td>
+                                         <td>$fetch[online]</td>
+<td><a href='Online.php?id=$treatId'>Click here to edit Online amount</a></td>
                  <td>$fetch[amount]</td>
 
                 <td><a href='Amount.php?id=$treatId'>Click here to edit amount</a></td>
