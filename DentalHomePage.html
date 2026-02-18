@@ -51,7 +51,8 @@
       <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
 
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul id="ul" style="padding-left:980px; background-color: white; height: 40px; width: 295px">
+       <ul id="ul" style="padding-left:800px; background-color: white; height: 40px; width: 350px">
+        <li><a href="http://localhost:8081/Shri/Login.php">Log In  </a></li>&nbsp;
         <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         
@@ -83,6 +84,18 @@
     }, 4000);
    }
 }
+// Get the query string from the current page URL
+const queryString = window.location.search;  // "?user=anoop&id=123"
+
+// Create a URLSearchParams object
+const urlParams = new URLSearchParams(queryString);
+
+// Get specific parameters
+const user = urlParams.get('user');  // "anoop"
+const id = urlParams.get('id')      // "123"
+
+console.log('user iss ', user);
+
     </script>
 
 </body>
