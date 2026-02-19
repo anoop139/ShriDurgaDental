@@ -119,7 +119,7 @@ error_reporting(0);
                 if ($deleteQuery) {
                    echo"<h1>Deleted successfully</h1>";
                 echo"<script>
-                 window.location.href='../DentalHomePage.html?recordDeleted=true';
+                 window.location.href='../DentalHomePage.php?recordDeleted=true';
                 
                 </script>";
                 }

@@ -36,7 +36,7 @@ $name = $_GET['n'];
 
   <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
       <ul style="background:lightblue; height: 40px; width:340px; padding-left:1000px">
-        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient </a></li>&nbsp;
         

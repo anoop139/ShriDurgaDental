@@ -10,7 +10,7 @@ $result = mysqli_query($conn, $query);
 
 if(mysqli_num_rows($result) == 1){
     $_SESSION['user'] = $username;
-    header("Location:DentalHomePage.html?name='$username'");
+    header("Location:DentalHomePage.php?name='$username'");
 } else {
     header("Location: login.php?error=1");
 }

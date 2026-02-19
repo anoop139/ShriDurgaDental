@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Welcom to Shri Durga Dental Clinic</title>
+    <title id="title"> Welcom to Shri Durga Dental Clinic</title>
     <link rel="stylesheet" href="Header2.css">
     <!-- <link rel="stylesheet" href="Styl.css"> -->
     <style> 
@@ -52,7 +52,7 @@
 
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
        <ul id="ul" style="padding-left:800px; background-color: white; height: 40px; width: 350px">
-        <li><a href="http://localhost:8081/Shri/Login.php">Log In  </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/LogOut.php">Log Out </a></li>&nbsp;
         <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         
@@ -84,19 +84,23 @@
     }, 4000);
    }
 }
-// Get the query string from the current page URL
-const queryString = window.location.search;  // "?user=anoop&id=123"
 
-// Create a URLSearchParams object
-const urlParams = new URLSearchParams(queryString);
+ </script>
+<script>
 
-// Get specific parameters
-const user = urlParams.get('user');  // "anoop"
-const id = urlParams.get('id')      // "123"
+  const url = window.location.search
+  const urls = new URLSearchParams(url);
+  const name = urls.get('name').replace(/['']/g, '')
+      alert(name);
+    //   console.log(name);
 
-console.log('user iss ', user);
+  onload =()=>{
 
-    </script>
 
+    
+document.title = "Whelcome to "+name+" dental clinic";
+  }
+  
+</script>
 </body>
 </html>

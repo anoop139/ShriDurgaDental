@@ -53,7 +53,7 @@ $name = $_GET['n'];
 
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
        <ul id="ul" style="padding-left:1000px; background-color:lightblue; height: 40px; width: 255px; ">
-        <li><a href="./DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="./DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient</a></li>&nbsp;
         
         <li><a href="">Search by</a>

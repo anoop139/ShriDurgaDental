@@ -105,7 +105,7 @@ error_reporting(0);
 </head>
 <body>
         <ul style="background-color:lightblue; height: 40px; padding-left:1050px;">
-        <li style="text-align:right"><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li style="text-align:right"><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li style="text-align:right"><a href="PatientRecord.php">Patient List </a></li>&nbsp;
         <li><a href="PatientFom.html">Add Patient </a></li>&nbsp;
         

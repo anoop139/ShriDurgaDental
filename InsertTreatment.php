@@ -84,7 +84,7 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
 
 ?> 
    <ul style="padding-left:985px; height: 40px;" id="ul">
-        <li><a href="DentalHomePage.html">Home </a></li>&nbsp;
+        <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="PatientRecord.php">Patient List</a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient</a></li>&nbsp;
         
