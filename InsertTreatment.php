@@ -2,6 +2,11 @@
 <?php
 include("Connection/Connect.php");
 error_reporting(0);
+session_start();
+if(!isset($_SESSION['user'])){
+    header("Location: LogIn.php");
+    exit();
+}
 ?>
 <html lang="en">
 <head>
@@ -135,15 +140,15 @@ if(isset($_POST['sub']))
    $name = $_POST['name'];
 $treat = $_POST['treat'];
 $fid1 = $_POST['fid'];
-$advance = $_POST['advanceAmount']; //200
-$online = $_POST['onlineAmount']; //200
+$advance = intval($_POST['advanceAmount']);///200
+$online =intval($_POST['onlineAmount']);//200
 $amt = $_POST['amt'];//totoal 1000 
 $pr = $_POST['pr'];
 $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
-
+$admin_id = $_SESSION['admin_id'];
 // echo"<h1 style='background:white;'>treat =  $treat</h1>";///
-	$treatmentName = "Select treatment from treatment where treatment = '$treat' and sno=$fid1";
+	$treatmentName = "Select treatment from treatment where treatment = '$treat' and sno=$fid1 and admin_id=$admin_id";
 	$query1 =  mysqli_query($conn, $treatmentName);
 	$treatCont   =  mysqli_num_rows($query1);
 	$fetch =  mysqli_fetch_assoc($query1); 
@@ -153,7 +158,7 @@ $td1 = $_POST['tp'];
 	if(isset($name) && $treatCont==0) {
 if ($dueDate!="" && $dueDate!=$date) {
     
-	$insert ="insert into treatment(date, treatment, advance, online, amount, sno) value('$date', '$treat',$advance, $online, $amt,$fid1)";
+	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) value('$date', '$treat',$advance, $online, $amt,$fid1,$admin_id)";
 	$treatQuery =  mysqli_query($conn, $insert);
   //  echo'hello';
    if($treatQuery)
@@ -167,7 +172,7 @@ if ($dueDate!="" && $dueDate!=$date) {
      
       }
       else{
-	$insert ="insert into treatment(date, treatment, advance, online, amount, sno) value('$date', '$treat',$advance, $online, $amt,$fid1)";
+	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) value('$date', '$treat',$advance, $online, $amt,$fid1,$admin_id)";
 	$treatQuery =  mysqli_query($conn, $insert);
    
    if($treatQuery)

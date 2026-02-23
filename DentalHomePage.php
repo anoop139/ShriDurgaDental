@@ -1,3 +1,11 @@
+<?php
+session_start();
+if(!isset($_SESSION['user'])){
+    header("Location: LogIn.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,15 +60,15 @@
 
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
        <ul id="ul" style="padding-left:800px; background-color: white; height: 40px; width: 350px">
-        <li><a href="http://localhost:8081/Shri/LogOut.php">Log Out </a></li>&nbsp;
+        <li><a href="LogOut.php">Log Out </a></li>&nbsp;
         <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
+        <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul>
-            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">number</a></li>
+            <li><a href="SearchByName.php">Name</a></li><br>
+            <li><a href="SearchByDate.php">Date</a></li><br>
+            <li><a href="SearchByNumber.php">number</a></li>
         </ul>
         </li>
       </ul>
@@ -68,8 +76,17 @@
         // 
     //  
    window.onload =()=>{
-    let     a = window.location.search
-     let x   = new URLSearchParams(a)
+
+  const urls = new URLSearchParams(window.location.search);
+ let name = urls.get('name')
+    
+if (name) {
+    name = name.replace(/'/g, '');
+    document.title = "Welcome to " + name + " dental clinic";
+}
+
+
+     let x   = new URLSearchParams(window.location.search)
      let d   = document.getElementById("deleted")
      let val = x.get("recordDeleted")
      if (val==="true") {
@@ -83,24 +100,7 @@
         
     }, 4000);
    }
-}
-
- </script>
-<script>
-
-  const url = window.location.search
-  const urls = new URLSearchParams(url);
-  const name = urls.get('name').replace(/['']/g, '')
-      alert(name);
-    //   console.log(name);
-
-  onload =()=>{
-
-
-    
-document.title = "Whelcome to "+name+" dental clinic";
-  }
-  
+   }
 </script>
 </body>
 </html>

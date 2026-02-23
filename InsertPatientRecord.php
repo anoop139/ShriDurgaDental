@@ -1,6 +1,13 @@
 <?php
 include("Connection/Connect.php");
 error_reporting(0);
+
+session_start();
+if(!isset($_SESSION['user'])){
+    header("Location: LogIn.php");
+    exit();
+}
+$admin_id = $_SESSION['admin_id'];
 ?>
 <style>
  
@@ -79,7 +86,9 @@ error_reporting(0);
   $gender = $_POST['gen'];
   $phone = $_POST['pho'];
   // echo"<h1>Age = $date</h1>";
-$fetch = "select sno, name,  phoNo from  patient where phoNo='$phone'";
+$fetch = "SELECT sno, name, phoNo 
+FROM patient 
+WHERE phoNo='$phone' AND admin_id='$admin_id'";
 $fetchQuery   = mysqli_query($conn, $fetch);
 $num   = mysqli_num_rows($fetchQuery);
 $queryId = mysqli_fetch_assoc($fetchQuery);
@@ -95,7 +104,7 @@ if ($num>0) {
 }
 else{
  
-$insert ="insert into patient(date, name, age, gen, phoNo) values('$date','$name', $age, '$gender', '$phone' )";
+$insert ="insert into patient(date, name, age, gen, phoNo, admin_id) values('$date','$name', $age, '$gender', '$phone', $admin_id)";
 $insertQuery = mysqli_query($conn, $insert);
 
 if ($insertQuery) {

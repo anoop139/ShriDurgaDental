@@ -2,6 +2,11 @@
 include("Connection/Connect.php");
 error_reporting(0);
 $name = $_GET['n'];
+session_start();
+if(!isset($_SESSION['user'])){
+    header("Location: LogIn.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,8 +116,11 @@ $name = $_GET['n'];
  <?php
 
   $todayDate = $_POST['toDate'];
+$admin_id = $_SESSION['admin_id'];
 
-     $display ="SELECT * FROM patient where date = '$todayDate'";
+$display = "SELECT * FROM patient 
+            WHERE date = '$todayDate' 
+            AND admin_id = '$admin_id'";
    $query   =  mysqli_query($conn, $display);
    $dateQuery   =  mysqli_query($conn, $display);
   $no    = mysqli_num_rows($query);
@@ -136,7 +144,7 @@ $name = $_GET['n'];
     # code...
         // echo"<h2>the date are /$todayDate</h2>";
     
-    $display3 ="select * from treatment where sno=$show[sno]";
+   $display3 ="select * from treatment where tid=$show[sno] AND admin_id=$admin_id";
    $query5  = mysqli_query($conn, $display3);
    $Con  = mysqli_num_rows($query5);
  
@@ -169,7 +177,7 @@ $name = $_GET['n'];
   <th>Edit</th>";
    while( $show    = mysqli_fetch_assoc($query))
    {
-   $display3 ="select * from treatment where tid=$show[sno]";
+   $display3 ="select * from treatment where tid=$show[sno] AND admin_id=$admin_id";
    $query5  = mysqli_query($conn, $display3);
    $Con  = mysqli_num_rows($query5);
  
