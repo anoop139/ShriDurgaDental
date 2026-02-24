@@ -77,7 +77,7 @@ if(!isset($_SESSION['user'])){
 <body>
 <div id="header0" >
 <?php
-$fid =$_GET['id'];
+$fid =intval($_GET['id']);
 $n   = "No name";
 if (isset($fid)) {
   // echo"<h1>Testing with new code</h1>";
@@ -139,7 +139,7 @@ if(isset($_POST['sub']))
    $dueDate = $_POST['dueDate'];
    $name = $_POST['name'];
 $treat = $_POST['treat'];
-$fid1 = $_POST['fid'];
+$fid1 = intval($_POST['fid']);
 $advance = intval($_POST['advanceAmount']);///200
 $online =intval($_POST['onlineAmount']);//200
 $amt = $_POST['amt'];//totoal 1000 
@@ -157,9 +157,23 @@ $admin_id = $_SESSION['admin_id'];
   
 	if(isset($name) && $treatCont==0) {
 if ($dueDate!="" && $dueDate!=$date) {
-    
-	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) value('$date', '$treat',$advance, $online, $amt,$fid1,$admin_id)";
-	$treatQuery =  mysqli_query($conn, $insert);
+$insert = "INSERT INTO treatment 
+(date, treatment, advance, online, amount, sno, admin_id) 
+VALUES (?, ?, ?, ?, ?, ?, ?)";
+  $smt= mysqli_prepare($conn, $insert);
+  mysqli_stmt_bind_param($smt, "ssiiiis",
+    $date,
+    $treat,
+    $advance,
+    $online,
+    $amt,
+    $fid1,
+    $admin_id
+  );
+  mysqli_stmt_execute($smt);
+$treatQuery = mysqli_stmt_affected_rows($smt);
+
+        mysqli_stmt_close($smt);
   //  echo'hello';
    if($treatQuery)
     {
