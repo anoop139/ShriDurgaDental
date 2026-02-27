@@ -80,7 +80,7 @@ $admin_id = $_SESSION['admin_id'];
 <body>
     <div id="output">
  <?php
-  $date = $_POST['date'];
+$date = $_POST['date'] ?? '';
   $name = $_POST['name'];
   $age = $_POST['age'];
   $gender = $_POST['gen'];
@@ -88,27 +88,47 @@ $admin_id = $_SESSION['admin_id'];
   // echo"<h1>Age = $date</h1>";
 $fetch = "SELECT sno, name, phoNo 
 FROM patient 
-WHERE phoNo='$phone' AND admin_id='$admin_id'";
-$fetchQuery   = mysqli_query($conn, $fetch);
-$num   = mysqli_num_rows($fetchQuery);
-$queryId = mysqli_fetch_assoc($fetchQuery);
-// echo"$queryId[sno]";
-if ($num>0) {
-   echo"<h1 style='color:red; margin-top:100px'>$queryId[name]'s recod exists, to add treatment
-    <a href='./InsertTreatment.php?id=$queryId[sno]&tp=True' >Click here  </a> 
-    </h1>".mysqli_connect_error();
+WHERE phoNo=? AND admin_id=?";
+$prepared = mysqli_prepare($conn, $fetch);
+if ($prepared) {
+    # code...
+    mysqli_stmt_bind_param($prepared, "si",$phone, $admin_id);
+    mysqli_stmt_execute($prepared);
+   mysqli_stmt_store_result($prepared);
+// echo"<h1>hello</h1>"
+$num   = mysqli_stmt_num_rows($prepared);
+
+    mysqli_stmt_bind_result($prepared, $sno, $patientName, $phoNo);
+    mysqli_stmt_fetch($prepared);
+mysqli_stmt_close($prepared);
+    
+if ($num>0)
+ {
+   echo"<h1 style='color:red; margin-top:100px'>{$patientName}'s record exists, to add treatment
+    <a href='./InsertTreatment.php?id=$sno'>Click here  </a> 
+    </h1>";
     echo"<h1>OR</h1>";
        echo"<h1 style='color:red; margin-top:100px'>to view treatment details
-    <a href='./TreatmentDetail.php?id=$queryId[sno]&tp=True' >Click here  </a> 
-    </h1>".mysqli_connect_error();
+    <a href='./TreatmentDetail.php?id=$sno&tp=True' >Click here  </a> 
+    </h1>";
 }
+
+//}
 else{
  
-$insert ="insert into patient(date, name, age, gen, phoNo, admin_id) values('$date','$name', $age, '$gender', '$phone', $admin_id)";
-$insertQuery = mysqli_query($conn, $insert);
+$insert ="insert into patient(date, name, age, gen, phoNo, admin_id) values(?, ?, ?, ?, ?, ?)";
+$insertPrepare =mysqli_prepare($conn, $insert);
+mysqli_stmt_bind_param($insertPrepare, "ssissi", $date,
+$name, $age, $gender, $phone, $admin_id);
+mysqli_stmt_execute($insertPrepare);
+// mysqli_stmt_store_result($insertPrepare);
+$rows  = mysqli_stmt_affected_rows($insertPrepare);
+mysqli_stmt_close($insertPrepare);
 
-if ($insertQuery) {
-    # code...
+// $insertQuery = mysqli_query($conn, $insert);
+
+if ($rows>0) {
+//     # code...
     echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully</h1>";
 }
 }
@@ -116,6 +136,7 @@ if ($insertQuery) {
 //    echo"<h1 style='color:red; margin-top:100px'>As phone number or the patient record exists, to add treatment
 //     <a href='./InsertTreatment.php?id=$queryId[sno]&tp=True' >Click here  </a> 
 //     </h1>".mysqli_connect_error();
+}
 ?>
 
 </div>
