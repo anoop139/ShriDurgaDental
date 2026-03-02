@@ -79,13 +79,35 @@ if(!isset($_SESSION['user'])){
 <?php
 $fid =intval($_GET['id']);
 $n   = "No name";
-if (isset($fid)) {
+if (isset($fid)) {   
+
   // echo"<h1>Testing with new code</h1>";
-$patientName0 ="select name from patient where sno =$fid";
-$nameQuery0   = mysqli_query($conn, $patientName0);
-$queryName  =mysqli_fetch_assoc($nameQuery0);
- echo"<h1 id='del'>Treatment for  "."$queryName[name]"."</h1>";
+$patientName0 ="select name from patient where sno =?";
+$smb         = mysqli_prepare($conn,$patientName0);
+if ($smb) {
+
+  mysqli_stmt_bind_param($smb, "i", $fid);
+      mysqli_stmt_execute($smb);
+   mysqli_stmt_bind_result($smb, $patientName);
+
+  mysqli_stmt_fetch($smb);
+  mysqli_stmt_close($smb);   // 🔥 CLOSE IT
+
+     if (!empty($patientName)) {
+   echo"<h1 id='del'>Treatment for  "."$patientName"."</h1>";
+     }         
+   else{
+    echo"ecf";
+   }       
 }
+ else{
+    echo"ecf";
+   }     
+
+// mysqli_stmt_close()
+}
+
+
 
 ?> 
    <ul style="padding-left:985px; height: 40px;" id="ul">
@@ -119,11 +141,10 @@ $queryName  =mysqli_fetch_assoc($nameQuery0);
     <input type="number" name="onlineAmount" id="onlinePayment" class="treat" ><br><br><br>
     <input type="number" name="amt" id="receivedAmount" class="treat" ><br><br>
   
-    <input type="text" name="name" hidden id="pname"  value="<?php echo$name; ?>" class="treat">
+    <input type="text" name="name" hidden id="pname"  value="<?php echo$patientName; ?>" class="treat">
     <input type="number" name="fid" hidden id="pname1"   value="<?php echo$fid; ?>" class="treat">
     <input type="hidden" name="pname" value=<?php echo $n;?>/>
     <input type="hidden" name="pr" value=<?php echo $_GET['patientRecord'];?>>
-    <input type="hidden" name="tp" value=<?php echo $_GET['tp'];?>/>
     <input type="hidden" name="tp" value=<?php echo $_GET['tp'];?>/>
      <input type="hidden" name="sbm" value=<?php echo $_GET['sbm'];?>>
      <input type="text" name="date" id="date2"  hidden>
@@ -147,22 +168,24 @@ $pr = $_POST['pr'];
 $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
 $admin_id = $_SESSION['admin_id'];
-// echo"<h1 style='background:white;'>treat =  $treat</h1>";///
-	$treatmentName = "Select treatment from treatment where treatment = '$treat' and sno=$fid1 and admin_id=$admin_id";
+	$treatmentName = "Select treatment from treatment where treatment = '$treat'";
 	$query1 =  mysqli_query($conn, $treatmentName);
-	$treatCont   =  mysqli_num_rows($query1);
-	$fetch =  mysqli_fetch_assoc($query1); 
-
- 
+	$treatCont41   =  mysqli_num_rows($query1);
+	$fetchName =  mysqli_fetch_assoc($query1);
+// echo"<h1 style='background:white;'>$treat and  $fid1 </h1>";////
   
-	if(isset($name) && $treatCont==0) {
+	if(isset($name) && $treatCont41==0)
+     {
+ 
 if ($dueDate!="" && $dueDate!=$date) {
+ ///echo"<h1 style='background:white;'>$treat and  $fid1 </h1>";////
 $insert = "INSERT INTO treatment 
-(date, treatment, advance, online, amount, sno, admin_id) 
-VALUES (?, ?, ?, ?, ?, ?, ?)";
+(dueDate, date, treatment, advance, online, amount, sno, admin_id) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   $smt= mysqli_prepare($conn, $insert);
-  mysqli_stmt_bind_param($smt, "ssiiiis",
+  mysqli_stmt_bind_param($smt, "sssiiiii",
     $date,
+    $dueDate,
     $treat,
     $advance,
     $online,
@@ -170,15 +193,16 @@ VALUES (?, ?, ?, ?, ?, ?, ?)";
     $fid1,
     $admin_id
   );
-  mysqli_stmt_execute($smt);
-$treatQuery = mysqli_stmt_affected_rows($smt);
+      mysqli_stmt_execute($smt);
+    $treatQuery = mysqli_stmt_affected_rows($smt);
 
         mysqli_stmt_close($smt);
   //  echo'hello';
-   if($treatQuery)
+   if($treatQuery>0)
     {
        
-        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view  </a>treatment 
+        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br>
+ <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view  </a>treatment 
         </h3>";
 
 }
@@ -186,7 +210,9 @@ $treatQuery = mysqli_stmt_affected_rows($smt);
      
       }
       else{
-	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) value('$date', '$treat',$advance, $online, $amt,$fid1,$admin_id)";
+//  echo"<h1 style='background:white;'>without due date $treat and  $fid1 </h1>";////
+
+	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) values('$date', '$treat',$advance, $online, $amt,$fid1,$admin_id)";
 	$treatQuery =  mysqli_query($conn, $insert);
    
    if($treatQuery)
@@ -194,19 +220,20 @@ $treatQuery = mysqli_stmt_affected_rows($smt);
           // echo"<span class='errorMessage'>Treatment /nserted".$dueDate."</span><br>";
         echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment </h3>";
 
+} else {
+    echo "<h1>Error: " . mysqli_error($conn)."</h1>";
 }
 
-        // echo"<span class='errorMessage'>Treatment /nserted".$td."</span><br>";
       }
 
       }
-if ($treatCont!=0) {
-  # code...
-  echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient already exis<a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a></h3>";
+// if ($treatCont41!=0) {
+//   # code...
+//   echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient already exis<a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a></h3>";
+// }
+ //    }
 }
 
- 
-}
 ?>
 
 <script>
@@ -344,11 +371,13 @@ else{
 }
 }
 
- window.oninput=(()=>{
-  // alert("testion")
-  msg.innerHTML="";
-  treatExisted.innerHTML="";
- })
+ window.oninput = (() => {
+  msg.innerHTML = "";
+
+  if (treatExisted) {
+    treatExisted.innerHTML = "";
+  }
+});
 </script>  
   </form>
 
