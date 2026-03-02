@@ -144,7 +144,7 @@ $display = "SELECT * FROM patient
     # code...
         // echo"<h2>the date are /$todayDate</h2>";
     
-   $display3 ="select * from treatment where tid=$show[sno] AND admin_id=$admin_id";
+   $display3 ="select * from treatment where sno=$show[sno] AND admin_id=$admin_id";
    $query5  = mysqli_query($conn, $display3);
    $Con  = mysqli_num_rows($query5);
  
