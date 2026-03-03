@@ -209,30 +209,46 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
      
       }
+    
       else{
-//  echo"<h1 style='background:white;'>without due date $treat and  $fid1 </h1>";////
-
-	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) values('$date', '$treat',$advance, $online, $amt,$fid1,$admin_id)";
-	$treatQuery =  mysqli_query($conn, $insert);
-   
-   if($treatQuery)
+   echo"<h1 style='background:white;'>else pae</h1>";////
+	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) values(?, ?, ?, ?, ?, ?, ?)";
+	$treatQuery =  mysqli_prepare($conn, $insert);
+     mysqli_stmt_bind_param($treatQuery, "ssiiiii",
+    $date,
+    $treat,
+    $advance,
+    $online,
+    $amt,
+    $fid1,
+    $admin_id
+  );
+  mysqli_stmt_execute($treatQuery);
+  $rowCount = mysqli_stmt_affected_rows($treatQuery);
+        mysqli_stmt_close($treatQuery);
+ 
+  
+   if($rowCount>0)
     {
+      echo"<h1 style='background:white;'>row count = $rowCount </h1>";////
           // echo"<span class='errorMessage'>Treatment /nserted".$dueDate."</span><br>";
         echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment </h3>";
 
-} else {
-    echo "<h1>Error: " . mysqli_error($conn)."</h1>";
-}
+ }
+ else {
+     
+   echo "<h1>Error: " . mysqli_error($conn)."</h1>";
+} 
+
+      }
 
       }
 
       }
 // if ($treatCont41!=0) {
 //   # code...
-//   echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient already exis<a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a></h3>";
-// }
- //    }
-}
+//   echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatm
+
 
 ?>
 
