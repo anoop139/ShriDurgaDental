@@ -183,16 +183,16 @@ $insert = "INSERT INTO treatment
 (dueDate, date, treatment, advance, online, amount, sno, admin_id) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   $smt= mysqli_prepare($conn, $insert);
-  mysqli_stmt_bind_param($smt, "sssiiiii",
-    $date,
+mysqli_stmt_bind_param($smt, "sssiiiii",
     $dueDate,
+    $date,
     $treat,
     $advance,
     $online,
     $amt,
     $fid1,
     $admin_id
-  );
+);
       mysqli_stmt_execute($smt);
     $treatQuery = mysqli_stmt_affected_rows($smt);
 
@@ -211,7 +211,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
       }
     
       else{
-   echo"<h1 style='background:white;'>else pae</h1>";////
+  //  echo"<h1 style='background:white;'>else pae</h1>";////
 	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) values(?, ?, ?, ?, ?, ?, ?)";
 	$treatQuery =  mysqli_prepare($conn, $insert);
      mysqli_stmt_bind_param($treatQuery, "ssiiiii",
@@ -228,27 +228,25 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         mysqli_stmt_close($treatQuery);
  
   
-   if($rowCount>0)
+   if($rowCount>0 && $treatCont41==0)
     {
-      echo"<h1 style='background:white;'>row count = $rowCount </h1>";////
+      echo"<h1/ style='background:white;'>new	$treatCont41 </h1>";////
           // echo"<span class='errorMessage'>Treatment /nserted".$dueDate."</span><br>";
-        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view </a>treatment </h3>";
+        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$rowCount'>Click here to view </a>treatment else </h3>";
 
  }
- else {
-     
-   echo "<h1>Error: " . mysqli_error($conn)."</h1>";
-} 
+
 
       }
 
       }
 
-      }
-// if ($treatCont41!=0) {
-//   # code...
-//   echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatm
-
+    
+if ($treatCont41!=0) {
+  # code...
+  echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient existed";
+}
+  }
 
 ?>
 
