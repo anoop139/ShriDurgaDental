@@ -168,15 +168,23 @@ $pr = $_POST['pr'];
 $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
 $admin_id = $_SESSION['admin_id'];
-	$treatmentName = "Select treatment from treatment where treatment = '$treat'";
-	$query1 =  mysqli_query($conn, $treatmentName);
-	$treatCont41   =  mysqli_num_rows($query1);
-	$fetchName =  mysqli_fetch_assoc($query1);
-// echo"<h1 style='background:white;'>$treat and  $fid1 </h1>";////
-  
-	if(isset($name) && $treatCont41==0)
+	// $treatmentName = "Select treatment from treatment where treatment = '$treat'";
+	// $query1 =  mysqli_query($conn, $treatmentName);
+	// $treatCont41   =  mysqli_num_rows($query1);
+	// $fetchName =  mysqli_fetch_assoc($query1);
+  	$treatmentName = "Select treatment from treatment where treatment = ?";
+  $query1        = mysqli_prepare($conn, $treatmentName);
+  mysqli_stmt_bind_param($query1, 's', $treat);
+   mysqli_stmt_execute($query1);
+ mysqli_stmt_store_result($query1);   // important
+
+$treatCont41 = mysqli_stmt_num_rows($query1);
+   mysqli_stmt_close($query1);
+
+	if(isset($name))
      {
- 
+//  echo"<h1 style='background:white;'>test $treatCont41 </h1>";////
+  
 if ($dueDate!="" && $dueDate!=$date) {
  ///echo"<h1 style='background:white;'>$treat and  $fid1 </h1>";////
 $insert = "INSERT INTO treatment 
@@ -198,14 +206,19 @@ mysqli_stmt_bind_param($smt, "sssiiiii",
 
         mysqli_stmt_close($smt);
   //  echo'hello';
-   if($treatQuery>0)
+   if($treatQuery>=0)
     {
        
         echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br>
+ <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view    </a>treatment if 
+        </h3>";
+ }
+ if($treatCont41>0){
+  
+        echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Treatment existed<br>
  <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view  </a>treatment 
         </h3>";
-
-}
+ }
 
      
       }
@@ -228,10 +241,10 @@ mysqli_stmt_bind_param($smt, "sssiiiii",
         mysqli_stmt_close($treatQuery);
  
   
-   if($rowCount>0 && $treatCont41==0)
+//    if($rowCount>=0 && $treatCont41==0)
     {
-      echo"<h1/ style='background:white;'>new	$treatCont41 </h1>";////
-          // echo"<span class='errorMessage'>Treatment /nserted".$dueDate."</span><br>";
+      echo"<h1/ style='background:white;'>new	$rowCount </h1>";////
+          // echo"<span class='errorMessage'/>Treatment /nserted".$dueDate."</span><br>";
         echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$rowCount'>Click here to view </a>treatment else </h3>";
 
  }
@@ -242,10 +255,10 @@ mysqli_stmt_bind_param($smt, "sssiiiii",
       }
 
     
-if ($treatCont41!=0) {
-  # code...
-  echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient existed";
-}
+// if ($treatCont41!=0) {
+//   # code...
+//   echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Sorry treatment for the patient existed";
+// }
   }
 
 ?>
