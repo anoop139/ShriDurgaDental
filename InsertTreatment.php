@@ -105,7 +105,7 @@ if ($smb) {
    }     
 
 // mysqli_stmt_close()
-}
+}	
 
 
 
@@ -133,20 +133,20 @@ if ($smb) {
   <form action="" onsubmit="return Submit()" method="POST">
     <textarea name="treat" id="treat1" class="treat"></textarea><br>
     <div class="errorMessage" id="errorMessage1"></div> <br>
-   &nbsp; <input type="date" name="dueDate" id="dueDate">
-   &nbsp; <input type="text" name="dueDate" id="dueDateInput" hidden>
+   &nbsp; <input type="date" name="dueDate1" id="dueDate">
+   &nbsp; <input type="hidden" name="dueDate" id="dueDateInput" hidden>
     
     <br><br>
     <input type="text" name="advanceAmount" id="Advance" class="treat" ><br><br><br>
     <input type="number" name="onlineAmount" id="onlinePayment" class="treat" ><br><br><br>
     <input type="number" name="amt" id="receivedAmount" class="treat" ><br><br>
   
-    <input type="text" name="name" hidden id="pname"  value="<?php echo$patientName; ?>" class="treat">
+    <input type="text" name="name" hidden id="pname"  value="<?php echo htmlspecialchars($patientName??''); ?>" class="treat">
     <input type="number" name="fid" hidden id="pname1"   value="<?php echo$fid; ?>" class="treat">
-    <input type="hidden" name="pname" value=<?php echo $n;?>/>
-    <input type="hidden" name="pr" value=<?php echo $_GET['patientRecord'];?>>
-    <input type="hidden" name="tp" value=<?php echo $_GET['tp'];?>/>
-     <input type="hidden" name="sbm" value=<?php echo $_GET['sbm'];?>>
+    <input type="hidden" name="pname" value="<?php echo htmlspecialchars($n);?>"/>
+    <input type="hidden" name="pr" value="<?php echo htmlspecialchars($_GET['patientRecord']?? '');?>">
+    <input type="hidden" name="tp" value="<?php echo htmlspecialchars($_GET['tp']?? '');?>"/>
+     <input type="hidden" name="sbm" value="<?php echo htmlspecialchars($_GET['sbm']?? '');?>"/>
      <input type="text" name="date" id="date2"  hidden>
     <input type="submit" name="sub" id="sub" class="treat" ><br>
 	<?php
@@ -180,20 +180,21 @@ $admin_id = $_SESSION['admin_id'];
 
 $treatCont41 = mysqli_stmt_num_rows($query1);
    mysqli_stmt_close($query1);
-
+$treatQuery=0;
+$rowCount = 0;
 	if(isset($name))
      {
 //  echo"<h1 style='background:white;'>test $treatCont41 </h1>";////
   
 if ($dueDate!="") {
- ///echo"<h1 style='background:white;'>$treat and  $fid1 </h1>";////
+ ///echo"<h1 style='background:white;'> and  $fid1 </h1>";////
   if ($dueDate!=$date && $treatCont41===0) {
     # code...
     $insert = "INSERT INTO treatment 
 (dueDate, date, treatment, advance, online, amount, sno, admin_id) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   $smt= mysqli_prepare($conn, $insert);
- if ($smt==true) {
+ if ($smt) {
   # code...
   mysqli_stmt_bind_param($smt, "sssiiiii",
     $dueDate,
@@ -215,13 +216,13 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     {
        
         echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br>
- <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view    </a>treatment if 
+ <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view    </a>treatment  
         </h3>";
  }
 
 
   }
-      if($treatCont41>0){
+      else if($treatCont41>0){
   
         echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Treatment existed<br>
  <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view  </a>treatment 
@@ -235,10 +236,10 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   //  echo"<h1 style='background:white;'>else part new</h1>";/////
 
   	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) values(?, ?, ?, ?, ?, ?, ?)";
-	$treatQuery =  mysqli_prepare($conn, $insert);
-   if ($treatQuery==true) {
+	$smt1 =  mysqli_prepare($conn, $insert);
+   if ($smt1) {
     # code...
-      mysqli_stmt_bind_param($treatQuery, "ssiiiii",
+      mysqli_stmt_bind_param($smt1, "ssiiiii",
     $date,
     $treat,
     $advance,
@@ -247,20 +248,20 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $fid1,
     $admin_id
   );
-  mysqli_stmt_execute($treatQuery);
-  $rowCount = mysqli_stmt_affected_rows($treatQuery);
-        mysqli_stmt_close($treatQuery);
+  mysqli_stmt_execute($smt1);
+  $rowCount = mysqli_stmt_affected_rows($smt1);
+        mysqli_stmt_close($smt1);
    }
  
           // echo"<span class='errorMessage'/>Treatment /nserted".$dueDate."</span><br>";
-        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$rowCount'>Click here to view </a>treatment else </h3>";
+        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$rowCount'>Click here to view </a>treatment  </h3>";
 
 }
 else {
         // echo"<h1/ style='background:red'>Sory</h1>";/////////
 
         echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Treatment existed<br>
- <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view  </a>treatment 
+ <a href='TreatmentDetail.php?id=$fid1&treatInserted=$rowCount'>Click here to view  </a>treatment 
         </h3>";
 }
  }
