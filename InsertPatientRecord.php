@@ -80,12 +80,21 @@ $admin_id = $_SESSION['admin_id'];
 <body>
     <div id="output">
  <?php
-$date = $_POST['date'] ?? '';
-  $name = $_POST['name'];
-  $age = $_POST['age'];
-  $gender = $_POST['gen'];
-  $phone = $_POST['pho'];
-  // echo"<h1>Age = $date</h1>";
+ 
+ 
+ $date = trim($_POST['date'] ?? '');
+$name = trim($_POST['name'] ?? '');
+$age = trim($_POST['age'] ?? '');
+$gender = trim($_POST['gen'] ?? '');
+$phone = trim($_POST['pho'] ?? '');
+if (!is_numeric($age) || $age <= 0 || $age > 120) {
+    echo "Invalid age";
+    exit();
+}
+ if (!preg_match('/^[0-9]{10}$/', $phone)) {
+    echo "Invalid phone number";
+    exit();
+}
 $fetch = "SELECT sno, name, phoNo 
 FROM patient 
 WHERE phoNo=? AND admin_id=?";
@@ -104,7 +113,7 @@ mysqli_stmt_close($prepared);
     
 if ($num>0)
  {
-   echo"<h1 style='color:red; margin-top:100px'>{$patientName}'s record exists, to add treatment
+   echo"<h1 style='color:red; margin-top:100px'>".htmlspecialchars($patientName)."'s record exists, to add treatment
     <a href='./InsertTreatment.php?id=$sno'>Click here  </a> 
     </h1>";
     echo"<h1>OR</h1>";
