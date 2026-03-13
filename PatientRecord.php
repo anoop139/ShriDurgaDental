@@ -74,7 +74,7 @@ if(!isset($_SESSION['user'])){
   
 <input type="hidden" name="toDate" id="date" value="he"/>
 <!-- <input type="hidden" name="ss" id="h" value="he"/> -->
-<input type="hidden" name="fid1" id="fid1" value="<?php echo$_GET['fid']; ?>"/>
+<input type="hidden" name="fid1" id="fid1" value="<?php echo htmlspecialchars($_GET['fid'] ?? ''); ?>"/>
 </form>
   <?php
   
@@ -153,10 +153,10 @@ $no = mysqli_num_rows($result);
  $result5 = mysqli_stmt_get_result($query5);
   $Con  = mysqli_num_rows($result5);
     echo"<tr>
-	<td>$show[name]</td>
-	<td style='text-align:center'>$show[age]</td>
-	<td style='text-align:center'>$show[gen]</td>
-	<td>$show[phoNo]</td>
+	<td>".htmlspecialchars($show['name'])."</td>
+<td>".htmlspecialchars($show['age'])."</td>
+<td>".htmlspecialchars($show['gen'])."</td>
+<td>".htmlspecialchars($show['phoNo'])."</td>
 	<td style='text-align:center;'><a href='TreatmentDetail.php?id=$show[sno]' class='ank' title='Click here to view treatment details'>$Con</a></td>
 	<td style='text-align:center;'><a href='InsertTreatment.php?id=$show[sno]&patientRecord=true' class='ank' title='Click here to add treatment details'>Add treatment details</a></td>
 	<td style='text-align:center;'><a href='Edit.php?id=$show[sno]' class='ank'>Edit</a></td>
