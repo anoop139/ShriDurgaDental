@@ -117,16 +117,15 @@ if(!isset($_SESSION['user'])){
 
   $todayDate = $_POST['toDate'];
 $admin_id = $_SESSION['admin_id'];
-
-$display = "SELECT * FROM patient 
-            WHERE date = '$todayDate' 
-            AND admin_id = '$admin_id'";
-   $query   =  mysqli_query($conn, $display);
-   $dateQuery   =  mysqli_query($conn, $display);
-  $no    = mysqli_num_rows($query);
+$display ="Select * from patient where date=? and admin_id=?";
+$query   = mysqli_prepare($conn, $display);
+mysqli_stmt_bind_param($query, "si", $todayDate, $admin_id);
+mysqli_stmt_execute($query);
+$result = mysqli_stmt_get_result($query);
+$no = mysqli_num_rows($result);
  if($no>0 && !isset($_GET['name']))
 {
-  //  echo"<h1>Today is ".$todayDate."</h1>";
+  //  echo"<h1>Today is ".$ /////no."</h1>";
 	echo"<table border='2'>
   <th>Name</th>
   <th>Age</th>
@@ -135,19 +134,24 @@ $display = "SELECT * FROM patient
   <th>No. of treatment</th>
   <th>Treatment details</th>
   <th>Edit</th>";
-   while( $show    = mysqli_fetch_assoc($query))
+   while( $show    = mysqli_fetch_assoc($result))
    {
-    $storeDate = "$show[date]";
+    $storeDate = $show['date'];
 
     // if ($todayDate>$storeDate)
      {
     # code...
         // echo"<h2>the date are /$todayDate</h2>";
     
-   $display3 ="select * from treatment where sno=$show[sno] AND admin_id=$admin_id";
-   $query5  = mysqli_query($conn, $display3);
-   $Con  = mysqli_num_rows($query5);
- 
+ ///  $display3 ="select * from treatment where sno=$show[sno]";
+  //  $query5  = mysqli_query($conn, $display3);
+  //  $Con  = mysqli_num_rows($query5);
+ $display3 ="select * from treatment where sno =?";
+  $query5 = mysqli_prepare($conn,$display3);
+  mysqli_stmt_bind_param($query5, 'i', $show['sno']);
+  mysqli_stmt_execute($query5);
+ $result5 = mysqli_stmt_get_result($query5);
+  $Con  = mysqli_num_rows($result5);
     echo"<tr>
 	<td>$show[name]</td>
 	<td style='text-align:center'>$show[age]</td>
@@ -163,36 +167,6 @@ $display = "SELECT * FROM patient
  else if ($no==0) {
    echo"<h1 style='padding-left:100px;' id='del11'>No Patient record for today</h1>";
  }
- if($no2>0 && isset($_GET['name']))
-   {
-     $name = $_GET['name'];
-     echo"<h1 id='patientName'> Treatment for '$name has been inserted successfully'</h1>";
-    echo"<table border='2'> 
-  <th>Name</th>
-  <th>Age</th>
-  <th>Gender</th>
-  <th>Phone Number</th>
-  <th>No. of treatment</th>
-  <th>Treatment details</th>
-  <th>Edit</th>";
-   while( $show    = mysqli_fetch_assoc($query))
-   {
-   $display3 ="select * from treatment where tid=$show[sno] AND admin_id=$admin_id";
-   $query5  = mysqli_query($conn, $display3);
-   $Con  = mysqli_num_rows($query5);
- 
-    echo"<tr>
-	<td>$show[name]</td>
-	<td style='text-align:center'>$show[age]</td>
-	<td style='text-align:center'>$show[gen]</td>
-	<td>$show[phoNo]</td>
-	<td style='text-align:center;'><a href='Info.php?v=$show[sno]' class='ank' title='Click here to view treatment details'>$Con</a></td>
-	<td style='text-align:center;'><a href='T1.php?v=$show[sno]' class='ank' title='Click here to add treatment details fast'>Add treatment details</a></td>
-	<td style='text-align:center;'><a href='Edit.php?id=$show[sno]' class='ank'>Edit</a></td>
-	</tr>"; 	
-   }
-
-   }
 
 
  ?> </table>
