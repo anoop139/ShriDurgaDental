@@ -94,7 +94,7 @@ if ($smb) {
   mysqli_stmt_close($smb);   // 🔥 CLOSE IT
 
      if (!empty($patientName)) {
-   echo"<h1 id='del'>Treatment for  "."$patientName"."</h1>";
+echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
      }         
    else{
     echo"ecf";
@@ -163,26 +163,22 @@ $treat = $_POST['treat'];
 $fid1 = intval($_POST['fid']);
 $advance = intval($_POST['advanceAmount']);///200
 $online =intval($_POST['onlineAmount']);//200
-$amt = $_POST['amt'];//totoal 1000 
+$amt = intval($_POST['amt']);
 $pr = $_POST['pr'];
 $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
 $admin_id = $_SESSION['admin_id'];
-	// $treatmentName = "Select treatment from treatment where treatment = '$treat'";
-	// $query1 =  mysqli_query($conn, $treatmentName);
-	// $treatCont41   =  mysqli_num_rows($query1);
-	// $fetchName =  mysqli_fetch_assoc($query1);
-  	$treatmentName = "Select treatment from treatment where treatment = ?";
+  	$treatmentName = "Select treatment from treatment where treatment = ? and admin_id= ? and sno= ?";
   $query1        = mysqli_prepare($conn, $treatmentName);
-  mysqli_stmt_bind_param($query1, 's', $treat);
+mysqli_stmt_bind_param($query1, 'sii', $treat, $admin_id, $fid1);
    mysqli_stmt_execute($query1);
  mysqli_stmt_store_result($query1);   // important
 
 $treatCont41 = mysqli_stmt_num_rows($query1);
    mysqli_stmt_close($query1);
 $treatQuery=0;
-$rowCount = 0;
-	if(isset($name))
+// $rowCount = 0;
+	if(!empty($name))
      {
 //  echo"<h1 style='background:white;'>test $treatCont41 </h1>";////
   
@@ -233,7 +229,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
    else{
  if ($treatCont41==0) {
   # code...
-  //  echo"<h1 style='background:white;'>else part new</h1>";/////
+   echo"<h1 style='background:white;'>else part new $admin_id</h1>";/////
 
   	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) values(?, ?, ?, ?, ?, ?, ?)";
 	$smt1 =  mysqli_prepare($conn, $insert);
@@ -247,14 +243,18 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $amt,
     $fid1,
     $admin_id
-  );
+);
   mysqli_stmt_execute($smt1);
   $rowCount = mysqli_stmt_affected_rows($smt1);
         mysqli_stmt_close($smt1);
+        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$rowCount'>Click here to view </a>treatment  </h3>";
+
    }
  
-          // echo"<span class='errorMessage'/>Treatment /nserted".$dueDate."</span><br>";
-        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$rowCount'>Click here to view </a>treatment  </h3>";
+if (!$smt1) {
+    echo "Prepare failed: ".mysqli_error($conn);
+}
+          // echo"<span class='errorMessage'/>Treatment /nserted".$rowCount."</span><br>";
 
 }
 else {
