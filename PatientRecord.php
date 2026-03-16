@@ -81,7 +81,7 @@ if(!isset($_SESSION['user'])){
   // 
   if (isset($_GET['fid'])) {
     
-    $treamentInsert = $_GET['fid'];
+    $treamentInsert = $_GET['fid'] ?? '';
     if ($treamentInsert=="true") {
           echo"<h1 id='trefo'>Treatment Inseted </h1>";
 
@@ -115,7 +115,7 @@ if(!isset($_SESSION['user'])){
 
  <?php
 
-  $todayDate = $_POST['toDate'];
+  $todayDate = htmlspecialchars($_POST['toDate']);
 $admin_id = $_SESSION['admin_id'];
 $display ="Select * from patient where date=? and admin_id=?";
 $query   = mysqli_prepare($conn, $display);
@@ -139,13 +139,8 @@ $no = mysqli_num_rows($result);
     $storeDate = $show['date'];
 
     // if ($todayDate>$storeDate)
-     {
-    # code...
-        // echo"<h2>the date are /$todayDate</h2>";
-    
- ///  $display3 ="select * from treatment where sno=$show[sno]";
-  //  $query5  = mysqli_query($conn, $display3);
-  //  $Con  = mysqli_num_rows($query5);
+     { 
+      $id = htmlspecialchars($show['sno']);
  $display3 ="select * from treatment where sno =?";
   $query5 = mysqli_prepare($conn,$display3);
   mysqli_stmt_bind_param($query5, 'i', $show['sno']);
@@ -157,9 +152,9 @@ $no = mysqli_num_rows($result);
 <td>".htmlspecialchars($show['age'])."</td>
 <td>".htmlspecialchars($show['gen'])."</td>
 <td>".htmlspecialchars($show['phoNo'])."</td>
-	<td style='text-align:center;'><a href='TreatmentDetail.php?id=$show[sno]' class='ank' title='Click here to view treatment details'>$Con</a></td>
-	<td style='text-align:center;'><a href='InsertTreatment.php?id=$show[sno]&patientRecord=true' class='ank' title='Click here to add treatment details'>Add treatment details</a></td>
-	<td style='text-align:center;'><a href='Edit.php?id=$show[sno]' class='ank'>Edit</a></td>
+	<td style='text-align:center;'><a href='TreatmentDetail.php?id=$id' class='ank' title='Click here to view treatment details'>$Con</a></td>
+	<td style='text-align:center;'><a href='InsertTreatment.php?id=$id&patientRecord=true' class='ank' title='Click here to add treatment details'>Add treatment details</a></td>
+	<td style='text-align:center;'><a href='Edit.php?id=$id' class='ank'>Edit</a></td>
 	</tr>"; 	
    }
    }
