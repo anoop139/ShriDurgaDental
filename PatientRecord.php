@@ -72,7 +72,7 @@ if(!isset($_SESSION['user'])){
 <div id="dis">     
 <form action="" id="dateForm" method="POST">
   
-<input type="hidden" name="toDate" id="date" value="he"/>
+<!-- <input type="hidden" nam/e="toDate" id="date" value="he"/> -->
 <!-- <input type="hidden" name="ss" id="h" value="he"/> -->
 <input type="hidden" name="fid1" id="fid1" value="<?php echo htmlspecialchars($_GET['fid'] ?? ''); ?>"/>
 </form>
@@ -115,7 +115,7 @@ if(!isset($_SESSION['user'])){
 
  <?php
 
-  $todayDate = htmlspecialchars($_POST['toDate']);
+  $todayDate = date("d - m - Y");
 $admin_id = $_SESSION['admin_id'];
 $display ="Select * from patient where date=? and admin_id=?";
 $query   = mysqli_prepare($conn, $display);
@@ -125,7 +125,6 @@ $result = mysqli_stmt_get_result($query);
 $no = mysqli_num_rows($result);
  if($no>0 && !isset($_GET['name']))
 {
-  //  echo"<h1>Today is ".$ /////no."</h1>";
 	echo"<table border='2'>
   <th>Name</th>
   <th>Age</th>
@@ -160,7 +159,9 @@ $no = mysqli_num_rows($result);
    }
   }
  else if ($no==0) {
-   echo"<h1 style='padding-left:100px;' id='del11'>No Patient record for today</h1>";
+  //  echo"<h1>Today //is ".$toDate."</h1>";
+
+ echo"<h1 style='padding-left:100px;' id='del11'>No Patient record for today</h1>";
  }
 
 

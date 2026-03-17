@@ -156,10 +156,10 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
 if(isset($_POST['sub']))
 {  
   
-   $date = $_POST['date'];
-   $dueDate = $_POST['dueDate'];
+   $date = date("d - m - y");
+   $dueDate =date("d - m - y");
    $name = $_POST['name'];
-$treat = $_POST['treat'];
+$treat = strtolower(trim($_POST['treat']));
 $fid1 = intval($_POST['fid']);
 $advance = intval($_POST['advanceAmount']);///200
 $online =intval($_POST['onlineAmount']);//200
@@ -229,7 +229,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
    else{
  if ($treatCont41==0) {
   # code...
-   echo"<h1 style='background:white;'>else part new $admin_id</h1>";/////
+   echo"<h1 style='background:white;'>else part new $date</h1>";/////
 
   	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) values(?, ?, ?, ?, ?, ?, ?)";
 	$smt1 =  mysqli_prepare($conn, $insert);

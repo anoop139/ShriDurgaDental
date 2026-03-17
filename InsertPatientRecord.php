@@ -82,7 +82,7 @@ $admin_id = $_SESSION['admin_id'];
  <?php
  
  
- $date = trim($_POST['date'] ?? '');
+ $date = date('d - m - Y');//trim($_POST['date'] ?? '');
 $name = trim($_POST['name'] ?? '');
 $age = trim($_POST['age'] ?? '');
 $gender = trim($_POST['gen'] ?? '');
