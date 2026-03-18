@@ -82,7 +82,7 @@ $admin_id = $_SESSION['admin_id'];
  <?php
  
  
- $date = date('d - m - Y');//trim($_POST['date'] ?? '');
+ $date =trim($_POST['date'] ?? '');
 $name = trim($_POST['name'] ?? '');
 $age = trim($_POST['age'] ?? '');
 $gender = trim($_POST['gen'] ?? '');
@@ -120,6 +120,7 @@ if ($num>0)
        echo"<h1 style='color:red; margin-top:100px'>to view treatment details
     <a href='./TreatmentDetail.php?id=$sno&tp=True' >Click here  </a> 
     </h1>";
+   exit(); // ✅ ADD THIS
 }
 
 //}
@@ -138,14 +139,17 @@ mysqli_stmt_close($insertPrepare);
 
 if ($rows>0) {
 //     # code...
-    echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully</h1>";
+    echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully </h1>";
+     
 }
 }
 
 //    echo"<h1 style='color:red; margin-top:100px'>As phone number or the patient record exists, to add treatment
 //     <a href='./InsertTreatment.php?id=$queryId[sno]&tp=True' >Click here  </a> 
 //     </h1>".mysqli_connect_error();
+
 }
+   
 ?>
 
 </div>
