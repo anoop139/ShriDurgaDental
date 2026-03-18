@@ -65,7 +65,7 @@ error_reporting(0);
 </head>
 <body>
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
-   <     <ul style="background:white; height: 40px; padding-left:1010px; width:340px"  >
+   <ul style="background:white; height: 40px; padding-left:1010px; width:340px"  >
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient </a></li>&nbsp;
@@ -93,16 +93,26 @@ error_reporting(0);
    		<?php
 	if(isset($_POST['Sub']))
 
-{    
-	$date =  $_POST['Date'];
-    echo"<h1>Patient recod on ".$date."</h1><br>";
+{    $date = $_POST['Date'];
+
+if (!preg_match('/^\d{2} - \d{2} - \d{4}$/', $date)) {
+    echo "Invalid date format";
+    exit();
+}
+    echo"<h1>Patient record on ".$date."</h1><br>";
    
 
-   $patientInfo = "SELECT * FROM patient WHERE date= '$date'";
+   $patientInfo = "SELECT * FROM patient WHERE date=?";
+//    mysqli_prepare
+	$query       = mysqli_prepare($conn, $patientInfo);
+    mysqli_stmt_bind_param($query,  's', $date);
+	
+    mysqli_stmt_execute($query);
+   $result = mysqli_stmt_get_result($query);   // important
 
-	$query       = mysqli_query($conn, $patientInfo);
-	$no           = mysqli_num_rows($query);
-	 
+$no = mysqli_num_rows($result);
+   
+	//    echo"<h1>Affected ".$no."</h1><br>";
 	
 	
 	if($no>0)
@@ -118,21 +128,26 @@ error_reporting(0);
 	 <th style='padding:5px;'>Phone Number</th>
 	 <th style='padding:5px;'>Edit</th>
 	 </tr>";
-      while($fetch =mysqli_fetch_assoc($query))
+      while($fetch =mysqli_fetch_assoc($result))
 	  { 
-        $id ="select * from treatment where sno=$fetch[sno]";
-		$query2       = mysqli_query($conn, $id);
-	    $no2           = mysqli_num_rows($query2);   
-		 ///  echo"hi $fetch[sno]";
-           		echo"<tr>
-		  <td class='td' style='padding:7px'>$fetch[name]</td>
-	 <td style='text-align:center;' class='td'>$fetch[age]</td>
-	 <td style='text-align:center' class='td'>$fetch[gen]</td>
-	 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=$fetch[sno]'>$no2</a></td>
-	 <td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&tp=True'>Click here to add treatment</a></td>
-	 <td class='td'style='padding:7px'>$fetch[phoNo]</td>
-	 <td class='td'style='padding:7px'><a href='Edit.php?id=$fetch[sno]'>Edit</a></td>
-	 </tr>";		  
+        $id ="select * from treatment where sno=?";
+        $query2 = mysqli_prepare($conn, $id);
+        $idContain = $fetch['sno'];
+        mysqli_stmt_bind_param($query2, 's', $idContain);
+		mysqli_stmt_execute($query2);///
+   $result2 = mysqli_stmt_get_result($query2);   // important
+ $no2           = mysqli_num_rows($result2);   
+      mysqli_stmt_close($query2);///
+
+           		echo "<tr>
+<td class='td' style='padding:7px'>".htmlspecialchars($fetch['name'])."</td>
+<td style='text-align:center;' class='td'>".htmlspecialchars($fetch['age'])."</td>
+<td style='text-align:center' class='td'>".htmlspecialchars($fetch['gen'])."</td>
+<td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".$fetch['sno']."'>$no2</a></td>
+<td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=".$fetch['sno']."&tp=True'>Click here to add treatment</a></td>
+<td class='td' style='padding:7px'>".htmlspecialchars($fetch['phoNo'])."</td>
+<td class='td' style='padding:7px'><a href='Edit.php?id=".$fetch['sno']."'>Edit</a></td>
+</tr>";
 	  }
        echo"</table><br>";
 	}
@@ -140,7 +155,7 @@ error_reporting(0);
 	{
 		echo"<h1 >No recod found</h1>";
 	}
-
+mysqli_stmt_close($query);
 }
 
 ?>
@@ -161,46 +176,8 @@ error_reporting(0);
         else{ 
       
        x = dateVal.split("-").reverse().join(" - ")
-    let date = x.slice(0,7)
-    if (Number(x.slice(0,2))<10 && Number(x.slice(5,8))<10) //date less than 10 and moth
-    {    
-        // alert("yes if part get ready date "+x.slice(1,2))
-       date=date.replace(v, "")
-      date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
-     dateVal2.value=date//date
-
-    }   
-    else if (x.slice(1, 2)==0 && Number(x.slice(5,8))<10) 
-    { 
-    
-      x1 = x.split("-")
-      x2 = x1[1]*1
-      //if (x[1]=='0')
-       {
-        dateVal2.value=x.slice(0, x.indexOf("-")+1)+" "+x2+" "+x.slice(x.lastIndexOf("-"))
-    //   alert("yes im 10")/
-       }  
-      //
- 
-    }    
-    else if (Number(x.slice(0, 2))>10 && Number(x.slice(5,8))<10) 
-    {
-       date=date.replace(v, "")
-     date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
-      dateVal2.value=date//date
-/////    alert("HI ")
-    }   
-else if (Number(x.slice(5, 8))>=10) 
-    {   
-        if (Number(x.slice(0, 2))<10) {
-       dateVal2.value=x.replace(v, ""); 
-    //    alert("you r else part get ready date<10 and mmont >=10 ")
-        }       
-        else if (Number(x.slice(0, 2))>=10) { 
-            //  alert("you r else part get ready date>=10 and mmont >=10 ")
-       dateVal2.value=x
-        }
-    } 
+    // let date = x.slice(//0,7)   
+      dateVal2.value=x;
    }
  }
     window.oninput = ()=>{
