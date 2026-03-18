@@ -1,4 +1,7 @@
-       let errInfo = document.getElementById("errInfo") 
+// onload = ()=>{
+// 	alert(0)
+// }    
+	let errInfo = document.getElementById("errInfo") 
 
       let errInfo1 = document.getElementById("errInfo1") 
 function insert() {
@@ -11,6 +14,14 @@ let d = date.getDate()
 let mo = date.getMonth()+1
 let y = date.getFullYear()
 let toDate = ""
+if (mo<10) {
+	mo = 0+mo.toString() 
+	alert("hello "+d)
+}
+if (d<10) {
+	d = 0+d.toString() 
+	alert("hello "+d)
+}
 toDate=d.toString()+" - "+mo.toString()+" - "+y
 let date2 = document.getElementById("date2")
 
@@ -78,9 +89,9 @@ let date2 = document.getElementById("date2")
 	else{
 /////
 		date2.value=toDate;
-	    // errInfo.innerHTML=date2.//value
-//		 alert("hello testing timestamp")//
-		//  return //false
+	    errInfo.innerHTML=date2
+		//  alert("hello testing  timestamp 	"+toDate)//
+		//  return false/////
 	}
 
 }
