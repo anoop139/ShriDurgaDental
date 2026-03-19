@@ -7,6 +7,9 @@ if(!isset($_SESSION['user'])){
     header("Location: LogIn.php");
     exit();
 }
+if (empty($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
 ?>
 <html lang="en">
 <head>
@@ -141,13 +144,13 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
     <input type="number" name="onlineAmount" id="onlinePayment" class="treat" ><br><br><br>
     <input type="number" name="amt" id="receivedAmount" class="treat" ><br><br>
   
-    <input type="text" name="name" hidden id="pname"  value="<?php echo htmlspecialchars($patientName??''); ?>" class="treat">
-    <input type="number" name="fid" hidden id="pname1"   value="<?php echo$fid; ?>" class="treat">
+ 
     <input type="hidden" name="pname" value="<?php echo htmlspecialchars($n);?>"/>
     <input type="hidden" name="pr" value="<?php echo htmlspecialchars($_GET['patientRecord']?? '');?>">
     <input type="hidden" name="tp" value="<?php echo htmlspecialchars($_GET['tp']?? '');?>"/>
      <input type="hidden" name="sbm" value="<?php echo htmlspecialchars($_GET['sbm']?? '');?>"/>
      <input type="text" name="date" id="date2"  hidden>
+     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
     <input type="submit" name="sub" id="sub" class="treat" ><br>
 	<?php
 
@@ -155,12 +158,14 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
  
 if(isset($_POST['sub']))
 {  
-  
-   $date = date("d - m - y");
-   $dueDate =date("d - m - y");
-   $name = $_POST['name'];
+  if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+    die("CSRF attack detected");
+}
+   $date  = $_POST['date'];
+   $dueDate  = $_POST['dueDate'];
+   $name = $patientName;
 $treat = strtolower(trim($_POST['treat']));
-$fid1 = intval($_POST['fid']);
+$fid1 = $fid;
 $advance = intval($_POST['advanceAmount']);///200
 $online =intval($_POST['onlineAmount']);//200
 $amt = intval($_POST['amt']);
@@ -168,9 +173,28 @@ $pr = $_POST['pr'];
 $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
 $admin_id = $_SESSION['admin_id'];
-  	$treatmentName = "Select treatment from treatment where treatment = ? and admin_id= ? and sno= ?";
+
+
+if (empty($treat)) {
+    die("Invalid treatment");
+}
+if ($fid1 <= 0) {
+    die("Invalid patient");
+}$check = "SELECT sno FROM patient WHERE sno = ? AND admin_id = ?";
+$stmt = mysqli_prepare($conn, $check);
+
+mysqli_stmt_bind_param($stmt, "ii", $fid, $admin_id);
+mysqli_stmt_execute($stmt);
+mysqli_stmt_store_result($stmt);
+
+if (mysqli_stmt_num_rows($stmt) === 0) {
+    die("Unauthorized access");
+}
+
+mysqli_stmt_close($stmt);
+  	$treatmentName = "Select treatment from treatment where treatment = ? and admin_id= ? and sno= ? and date =?";
   $query1        = mysqli_prepare($conn, $treatmentName);
-mysqli_stmt_bind_param($query1, 'sii', $treat, $admin_id, $fid1);
+mysqli_stmt_bind_param($query1, 'siis', $treat, $admin_id, $fid1,$date);
    mysqli_stmt_execute($query1);
  mysqli_stmt_store_result($query1);   // important
 
@@ -181,8 +205,7 @@ $treatQuery=0;
 	if(!empty($name))
      {
 //  echo"<h1 style='background:white;'>test $treatCont41 </h1>";////
-  
-if ($dueDate!="") {
+if (!empty($dueDate) && $dueDate !== "None"){
  ///echo"<h1 style='background:white;'> and  $fid1 </h1>";////
   if ($dueDate!=$date && $treatCont41===0) {
     # code...
@@ -210,18 +233,21 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   //  echo'hello';
    if($treatQuery>0)
     {
-       
+       $id_safe = htmlspecialchars($fid1);
+$count_safe = htmlspecialchars($treatQuery);
         echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br>
- <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view    </a>treatment  
+ <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$count_safe'>Click here to view    </a>treatment  
         </h3>";
  }
 
 
   }
       else if($treatCont41>0){
-  
+ 
+      $id_safe = htmlspecialchars($fid1);
+     $count_safe = htmlspecialchars($treatQuery);
         echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Treatment existed<br>
- <a href='TreatmentDetail.php?id=$fid1&treatInserted=$treatQuery'>Click here to view  </a>treatment 
+ <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$count_safe'>Click here to view  </a>treatment 
         </h3>";
  }
       }
@@ -229,7 +255,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
    else{
  if ($treatCont41==0) {
   # code...
-   echo"<h1 style='background:white;'>else part new $date</h1>";/////
+  //  echo"<h1/ style='background:white;'>else part new $date</h1>";/////
 
   	$insert ="insert into treatment(date, treatment, advance, online, amount, sno, admin_id) values(?, ?, ?, ?, ?, ?, ?)";
 	$smt1 =  mysqli_prepare($conn, $insert);
@@ -243,11 +269,15 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $amt,
     $fid1,
     $admin_id
+    
 );
+
   mysqli_stmt_execute($smt1);
   $rowCount = mysqli_stmt_affected_rows($smt1);
+$id_safe = htmlspecialchars($fid1);
+   $row_safe = htmlspecialchars($rowCount);
         mysqli_stmt_close($smt1);
-        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$fid1&treatInserted=$rowCount'>Click here to view </a>treatment  </h3>";
+        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br> <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$row_safe'>Click here to view </a>treatment  </h3>";
 
    }
  
@@ -258,10 +288,10 @@ if (!$smt1) {
 
 }
 else {
-        // echo"<h1/ style='background:red'>Sory</h1>";/////////
-
+    $id_safe = htmlspecialchars($fid1, ENT_QUOTES, 'UTF-8');
+    $row_safe = 0;
         echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Treatment existed<br>
- <a href='TreatmentDetail.php?id=$fid1&treatInserted=$rowCount'>Click here to view  </a>treatment 
+ <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$row_safe'>Click here to view  </a>treatment 
         </h3>";
 }
  }
