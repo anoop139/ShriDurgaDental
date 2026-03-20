@@ -137,7 +137,7 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
     <textarea name="treat" id="treat1" class="treat"></textarea><br>
     <div class="errorMessage" id="errorMessage1"></div> <br>
    &nbsp; <input type="date" name="dueDate1" id="dueDate">
-   &nbsp; <input type="hidden" name="dueDate" id="dueDateInput" hidden>
+   &nbsp; <input type="text" name="dueDate" id="dueDateInput" hidden>
     
     <br><br>
     <input type="text" name="advanceAmount" id="Advance" class="treat" ><br><br><br>
@@ -160,9 +160,10 @@ if(isset($_POST['sub']))
 {  
   if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
     die("CSRF attack detected");
-}
-   $date  = $_POST['date'];
-   $dueDate  = $_POST['dueDate'];
+} // not d-m-Y
+  $date = date('d-m-Y');        // current date
+$dueDate = $_POST['dueDate']; // user input
+
    $name = $patientName;
 $treat = strtolower(trim($_POST['treat']));
 $fid1 = $fid;
@@ -174,7 +175,9 @@ $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
 $admin_id = $_SESSION['admin_id'];
 
-
+// if (!empty($dueDate) && $dueDate !== "None" && strtotime($dueDate) < strtotime($date)) {
+//     die("Invalid due date");
+// }
 if (empty($treat)) {
     die("Invalid treatment");
 }
@@ -233,19 +236,22 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   //  echo'hello';
    if($treatQuery>0)
     {
-       $id_safe = htmlspecialchars($fid1);
-$count_safe = htmlspecialchars($treatQuery);
+       $id_safe = urlencode($fid1);
+$count_safe = urlencode($treatQuery);
         echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br>
- <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$count_safe'>Click here to view    </a>treatment  
-        </h3>";
+ <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$count_safe'>Click here to view     </a>treatment  
+        </h3>";    $_SESSION['token'] = bin2hex(random_bytes(32));
+    $_SESSION['token_time'] = time();
  }
+    // ✅ Correct place to refresh token
+
 
 
   }
       else if($treatCont41>0){
  
-      $id_safe = htmlspecialchars($fid1);
-     $count_safe = htmlspecialchars($treatQuery);
+      $id_safe = urlencode($fid1);
+$count_safe = urlencode($treatQuery);
         echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Treatment existed<br>
  <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$count_safe'>Click here to view  </a>treatment 
         </h3>";
@@ -297,6 +303,9 @@ else {
  }
 //    
 
+}if ($rowCount > 0) {
+   $_SESSION['token'] = bin2hex(random_bytes(32));
+   $_SESSION['token_time'] = time();
 }
 }
 
@@ -349,8 +358,9 @@ else {
         let toDate = ""
         toDate=d.toString()+" - "+mo.toString()+" - "+y
 	date2.value=toDate;
-  // alert(""+dueDate.value.length)
-//  return false
+  dueDateInput.value =dueDate.value;
+  // alert("You came here "+dueDateInput.value)
+//  return fals/e
   
     }
 if (advan> 0 && tot==0) {
@@ -431,12 +441,13 @@ else{
       //  alert("you/ r else part get ready date<10 and mmont >=10 ")////
         }       
         else if (Number(x.slice(0, 2))>=10) { 
-    //         alert("jw "+x)
+
       dueDateInput.value=x
         }
        
     } 
 }
+            // alert('hi'/)
 }
 
  window.oninput = (() => {
