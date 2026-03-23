@@ -1,7 +1,7 @@
 <?php
 include("Connection/Connect.php");
 error_reporting(0);
-$name = $_GET['n'];
+$name = htmlspecialchars($_GET['n'] ?? '');
 session_start();
 if(!isset($_SESSION['user'])){
     header("Location: LogIn.php");
@@ -59,13 +59,13 @@ if(!isset($_SESSION['user'])){
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
        <ul id="ul" style="padding-left:1000px; background-color:lightblue; height: 40px; width: 255px; ">
         <li><a href="./DentalHomePage.php">Home </a></li>&nbsp;
-        <li><a href="PatientFom.html">Add Patient</a></li>&nbsp;
+        <li><a href="PatientFom.php">Add Patient</a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul>
-            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">number</a></li>
+            <li><a href="SearchByName.php">Name</a></li><br>
+            <li><a href="SearchByDate.php">Date</a></li><br>
+            <li><a href="SearchByNumber.php">number</a></li>
         </ul>
         </li>
       </ul>
@@ -92,17 +92,17 @@ if(!isset($_SESSION['user'])){
   let date = new Date()
   let month =date.getMonth()+1
      let today = date.getDate()+" - "+month+" - "+date.getFullYear()
-  if (!window.localStorage.getItem("fomSubmited")) {
-    window.localStorage.setItem("fomSubmited", "true");
-    document.getElementById("date").value=today
-    document.getElementById("dateForm").submit()
+  // if (!window.localStorage.getItem("fomSubmited")) {
+  //   window.localStorage.setItem("fomSubmited", "true");
+  //   // document.getElementById("date").value=toda/y
+  //   document.getElementById("dateForm").submit()
     
-  }
-  else{
-    onbeforeunload=()=>{
-   window.localStorage.clear()
-    }
-  }
+  // }
+  // else{
+  //   onbeforeunload=()=>{
+  //  window.localStorage.clear()
+  //   }
+  // }
   onload = ()=>{
       document.getElementById("trefo").style.transform="translateY(50px)"
   }
@@ -139,7 +139,7 @@ $no = mysqli_num_rows($result);
 
     // if ($todayDate>$storeDate)
      { 
-      $id = htmlspecialchars($show['sno']);
+      $id = urlencode($show['sno']);
  $display3 ="select * from treatment where sno =?";
   $query5 = mysqli_prepare($conn,$display3);
   mysqli_stmt_bind_param($query5, 'i', $show['sno']);
