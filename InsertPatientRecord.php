@@ -8,6 +8,13 @@ if(!isset($_SESSION['user'])){
     exit();
 }
 $admin_id = $_SESSION['admin_id'];
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    exit("Invalid request");
+}
+
+if (!isset($_POST['token']) || trim($_POST['token']) !== $_SESSION['token']) {
+    die("CSRF attack detected i m stopping");
+}
 ?>
 <style>
  
@@ -80,7 +87,7 @@ $admin_id = $_SESSION['admin_id'];
 <body>
     <div id="output">
  <?php
- 
+
  
  $date =trim($_POST['date'] ?? '');
 $name = trim($_POST['name'] ?? '');
@@ -113,14 +120,19 @@ mysqli_stmt_close($prepared);
     
 if ($num>0)
  {
+    $sno = urlencode($sno);
    echo"<h1 style='color:red; margin-top:100px'>".htmlspecialchars($patientName)."'s record exists, to add treatment
     <a href='./InsertTreatment.php?id=$sno'>Click here  </a> 
-    </h1>";
+    </h1>";    // ✅ ADD THIS
+    $_SESSION['token'] = bin2hex(random_bytes(32));
     echo"<h1>OR</h1>";
        echo"<h1 style='color:red; margin-top:100px'>to view treatment details
     <a href='./TreatmentDetail.php?id=$sno&tp=True' >Click here  </a> 
-    </h1>";
-   exit(); // ✅ ADD THIS
+    </h1>";  // ✅ regenerate token BEFORE exit
+
+
+
+    exit();
 }
 
 //}
@@ -141,12 +153,10 @@ if ($rows>0) {
 //     # code...
     echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully </h1>";
      
+    // ✅ ADD THIS (VERY IMPORTANT)
+    $_SESSION['token'] = bin2hex(random_bytes(32));
 }
 }
-
-//    echo"<h1 style='color:red; margin-top:100px'>As phone number or the patient record exists, to add treatment
-//     <a href='./InsertTreatment.php?id=$queryId[sno]&tp=True' >Click here  </a> 
-//     </h1>".mysqli_connect_error();
 
 }
    
@@ -155,9 +165,10 @@ if ($rows>0) {
 </div>
 <div id="blank">
   </div>
-  <form action="./PatientFom.html" id="back">
+  <form action="./PatientFom.php" id="back">
     <input type="submit" value="Back" class="btn">
-  </form>
+</form>
+
   <form action="./PatientRecord.php" id="next">
     <input type="submit" value="Next" class="btn">
   </form>
