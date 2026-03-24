@@ -116,7 +116,7 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
    <ul style="padding-left:985px; height: 40px;" id="ul">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="PatientRecord.php">Patient List</a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient</a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient</a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul>
@@ -158,7 +158,7 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
  
 if(isset($_POST['sub']))
 {  
-  if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+  if (!isset($_POST['token']) || trim($_POST['token']) !== $_SESSION['token']) {
     die("CSRF attack detected");
 } // not d-m-Y
   $date = date('d-m-Y');        // current date
