@@ -37,10 +37,17 @@ error_reporting(0);
    window.onload = ()=>{
 
   let date = new Date()
+  let date1 =date.getDate()
   let month =date.getMonth()+1
-      today = date.getDate()+" - "+month+" - "+date.getFullYear()
+  if (date1<10) {
+    date1 = 0+date1.toString()
+  }
+  if (month<10) {
+    month = 0+month.toString()
+  }
+      today = date1+" - "+month+" - "+date.getFullYear()
   let dateId  = document.getElementById("dateId").value=today
-    // alert('date '+dateId)/
+    // alert('date '+date1)///
    }
     </script>
     <div id="contain">
@@ -93,18 +100,21 @@ error_reporting(0);
               $primery ="SELECT  DISTINCT patient.sno, patient.name from patient 
                 natural join treatment where patient.date='$getDate'";
                 $joinedQuery = mysqli_query($conn, $primery);
-                $tcount    = mysqli_num_rows($joinedQuery);
-
+               echo$tcount    = mysqli_num_rows($joinedQuery);
+                if ($tcount>0)
+                 {
                 echo" 
                <table border='2' id='treatment' cellpadding='6'>  
                 <tr>
                </tr>
                 <tr>
                 <th colspan='6'>Treatment Detail </th>
-                </tr>";
+                </tr>";   # code...             
+              
+                # code...
+                 echo"<h1>id is   $tcount</h1>";
                while ( $fetch0 = mysqli_fetch_assoc($joinedQuery)) {
-                # code...             
-              //  echo"<h1>id is   $fetch0[sno]</h1>";//`; /.
+             
                 $treatment ="select * from treatment where sno=$fetch0[sno]";
                 $treatmenQuery = mysqli_query($conn, $treatment);
 
@@ -145,6 +155,7 @@ error_reporting(0);
               <th colspan='5' style='text-align:left'>Total</th>
               <th id='dwTotalAmount'>$total1</th>
               </tr>";
+              }
           
                
          }
