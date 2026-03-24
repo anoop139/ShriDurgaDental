@@ -1,9 +1,24 @@
-// onload = ()=>{
-// 	alert(0)
-// }    
-	let errInfo = document.getElementById("errInfo") 
+	let errInfo; 
+  let errInfo1; 
+  let input;
+  let input2
+  window.onload = function () {
+    // alert('UPDATED nee');
 
-      let errInfo1 = document.getElementById("errInfo1") 
+    errInfo = document.getElementById("errInfo");
+    errInfo1 = document.getElementById("errInfo1");
+		input = document.getElementById("input1");
+		input2 = document.getElementById("input2");
+	
+    document.getElementById("pho").oninput = function () {
+        errInfo.innerHTML = "";
+    };
+	 document.getElementById("age").oninput = function () {
+			errInfo1.innerHTML = "";
+		};
+}
+
+
 function insert() {
 	let pname = document.getElementById("name0").value;
 	let m = document.getElementById("Male");
@@ -16,15 +31,15 @@ let y = date.getFullYear()
 let toDate = ""
 if (mo<10) {
 	mo = 0+mo.toString() 
-	alert("hello "+d)
+	// alert("hello "+d)
 }
 if (d<10) {
 	d = 0+d.toString() 
-	alert("hello "+d)
+
 }
 toDate=d.toString()+" - "+mo.toString()+" - "+y
 let date2 = document.getElementById("date2")
-
+	// alert("hello "+toDate)
      
 	let nameErr = document.getElementById("nameErr");
       let phoNo = document.getElementById("pho").value
@@ -32,7 +47,8 @@ let date2 = document.getElementById("date2")
 	  let reg =/^[0-9]*$/
 	  let match = reg.test(phoNo);
 	  let reg2 = /^[a-z\s]*$/i
-       let match2 = reg2.test(name);
+       let match2 = reg2.test(pname);
+	   if (!pname) return false;
    let cap = pname[0].toUpperCase();
    if (pname[0]!=cap) {
 	nameErr.innerHTML="The first letter should be in capital letter "
@@ -47,14 +63,15 @@ let date2 = document.getElementById("date2")
    }
    if (m.checked==true) {
     value1.value="M"
-	date2.value=toDate
+	
     // alert( toDate)        
    }
 
    else if (f.checked==true) {
     value1.value="F"
-   //  alert(value1)
+   // 
    }
+   date2.value=toDate
 
   if(age<0)
   {
@@ -63,8 +80,8 @@ let date2 = document.getElementById("date2")
 	  return false
   }
 	  if(phoNo.length<10)
-	  {
-		  errInfo.innerHTML="Number should have 10 digits ";
+	  {	  
+		errInfo.innerHTML="Number should have 10 digits ";
 		  errInfo.style.backgroundColor="white"
 		  return false;
 	  }
@@ -89,14 +106,13 @@ let date2 = document.getElementById("date2")
 	else{
 /////
 		date2.value=toDate;
-	    errInfo.innerHTML=date2
-		//  alert("hello testing  timestamp 	"+toDate)//
+	    // errInfo.innerHTML=datne2
+		//  alert("You are solving "+date2.value)//
 		//  return false/////
 	}
 
 }
-	let input = document.getElementById("input1")
-    let input2 = document.getElementById("input2")///
+	
 function checkInput() {
 	// let input = document.getElementById("input1").value//;
     // let input2 = document.getElementById("input2").value;
@@ -136,17 +152,3 @@ function checkInput() {
 // \
 }
 }
-oninput = ()=>{
-		 
-
-  errInfo.innerHTML="";
- errInfo1.innerHTML="";
-
-}
-
-
-
-
-
-
-   //wfuzz -c -z file,/usr/share/wfuzz/wordlist/Injections/params.txt --hc 404 http://demo.testfire.net/index.jsp?FUZZ=test
