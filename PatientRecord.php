@@ -76,18 +76,7 @@ if(!isset($_SESSION['user'])){
 <!-- <input type="hidden" name="ss" id="h" value="he"/> -->
 <input type="hidden" name="fid1" id="fid1" value="<?php echo htmlspecialchars($_GET['fid'] ?? ''); ?>"/>
 </form>
-  <?php
   
-  // 
-  if (isset($_GET['fid'])) {
-    
-    $treamentInsert = $_GET['fid'] ?? '';
-    if ($treamentInsert=="true") {
-          echo"<h1 id='trefo'>Treatment Inseted </h1>";
-
-    }
-  }///
-  ?>
 <script>
   let date = new Date()
   let month =date.getMonth()+1
@@ -167,6 +156,7 @@ $no = mysqli_num_rows($result);
 
  ?> </table>
 <form action="./Export.php"  name="export" method="POST" id="export">
+  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
 <input type="submit" name="export7" value="Export">
 </form>
 
