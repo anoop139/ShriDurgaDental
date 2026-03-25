@@ -1,6 +1,19 @@
 <?php
 include("Connection/Connect.php");
 error_reporting(0);
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    exit("Invalid request");
+}
+
+if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+    die("CSRF attack detected");
+}
+if (empty($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,10 +110,12 @@ error_reporting(0);
           echo"</td><td valign='top'>";
 
               //  //here right/
+              // echo"<h1>date   m$getDate</h1>";
               $primery ="SELECT  DISTINCT patient.sno, patient.name from patient 
-                natural join treatment where patient.date='$getDate'";
+                 join treatment
+                  on patient.sno = treatment.sno where patient.date='$getDate'";
                 $joinedQuery = mysqli_query($conn, $primery);
-               echo$tcount    = mysqli_num_rows($joinedQuery);
+               $tcount    = mysqli_num_rows($joinedQuery);
                 if ($tcount>0)
                  {
                 echo" 
@@ -112,7 +127,7 @@ error_reporting(0);
                 </tr>";   # code...             
               
                 # code...
-                 echo"<h1>id is   $tcount</h1>";
+                //  echo"<h1>id is   $tcount</h1>";
                while ( $fetch0 = mysqli_fetch_assoc($joinedQuery)) {
              
                 $treatment ="select * from treatment where sno=$fetch0[sno]";
@@ -168,6 +183,7 @@ error_reporting(0);
     <div id="buttons" style="margin-top: 10px; margin-left:980px;">
       <input type="hidden" name="date" id="dateId">
       <button type="submit" name="p" >Download Today's Record</button>
+      <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
     <button type="button" onclick="expotToExcel()">Export</button>
 
 
