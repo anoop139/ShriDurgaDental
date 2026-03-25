@@ -92,7 +92,7 @@ if (!isset($_POST['token']) || trim($_POST['token']) !== $_SESSION['token']) {
  $date =trim($_POST['date'] ?? '');
 $name = trim($_POST['name'] ?? '');
 $age = trim($_POST['age'] ?? '');
-$gender = trim($_POST['gen'] ?? '');
+$gender = trim($_POST['Gender'] ?? '');
 $phone = trim($_POST['pho'] ?? '');
 if (!is_numeric($age) || $age <= 0 || $age > 120) {
     echo "Invalid age";
@@ -122,7 +122,7 @@ if ($num>0)
  {
     $sno = urlencode($sno);
    echo"<h1 style='color:red; margin-top:100px'>".htmlspecialchars($patientName)."'s record exists, to add treatment
-    <a href='./InsertTreatment.php?id=$sno'>Click here  </a> 
+    <a href='./InsertTreatment.php?id=$sno'>Click here </a> 
     </h1>";    // ✅ ADD THIS
     $_SESSION['token'] = bin2hex(random_bytes(32));
     echo"<h1>OR</h1>";
@@ -151,7 +151,7 @@ mysqli_stmt_close($insertPrepare);
 
 if ($rows>0) {
 //     # code...
-    echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully </h1>";
+    echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully</h1>";
      
     // ✅ ADD THIS (VERY IMPORTANT)
     $_SESSION['token'] = bin2hex(random_bytes(32));
