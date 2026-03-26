@@ -1,6 +1,20 @@
 <?php
 include("Connection/Connect.php");
 error_reporting(0);
+session_start();
+session_regenerate_id(true);
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
+header("X-XSS-Protection: 1; mode=block");
+if(!isset($_SESSION['user'])){
+    header("Location: LogIn.php");
+    exit();
+}
+if (empty($_SESSION['token'])) {
+    # code...
+      $_SESSION['token'] = bin2hex(random_bytes(32));
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="javascriptract">
@@ -68,7 +82,7 @@ error_reporting(0);
    <ul style="background:white; height: 40px; padding-left:1010px; width:340px"  >
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
    <ul>
@@ -84,6 +98,7 @@ error_reporting(0);
 <form id="dateInput" method="POST" onsubmit="return changeFomat()">
     <input type="date" name="Date0" id="date0">   
     <input type="hidden" name="Date" id="date">   
+    <input type="hidden" name="token" value="<?php echo $_SESSION['token']?>">
      <input type="submit" name="Sub"value="Click here"><br><br><br><br>
     <h1 id="err"></h1>
 
@@ -93,7 +108,13 @@ error_reporting(0);
    		<?php
 	if(isset($_POST['Sub']))
 
-{    $date = $_POST['Date'];
+{ 
+     if (!isset($_POST['token']) ||!hash_equals($_SESSION['token'], $_POST['token'])) {
+    die("CSRF attack detected");
+ 
+}
+   $_SESSION['token'] = bin2hex(random_bytes(32));
+$date = $_POST['Date'];
 
 if (!preg_match('/^\d{2} - \d{2} - \d{4}$/', $date)) {
     echo "Invalid date format";
@@ -133,19 +154,19 @@ $no = mysqli_num_rows($result);
         $id ="select * from treatment where sno=?";
         $query2 = mysqli_prepare($conn, $id);
         $idContain = $fetch['sno'];
-        mysqli_stmt_bind_param($query2, 's', $idContain);
+        mysqli_stmt_bind_param($query2, 'i', $idContain);
 		mysqli_stmt_execute($query2);///
    $result2 = mysqli_stmt_get_result($query2);   // important
  $no2           = mysqli_num_rows($result2);   
       mysqli_stmt_close($query2);///
 
            		echo "<tr>
-<td class='td' style='padding:7px'>".htmlspecialchars($fetch['name'])."</td>
-<td style='text-align:center;' class='td'>".htmlspecialchars($fetch['age'])."</td>
-<td style='text-align:center' class='td'>".htmlspecialchars($fetch['gen'])."</td>
+<td class='td' style='padding:7px'>".htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8')."</td>
+<td style='text-align:center;' class='td'>".htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8')."</td>
+<td style='text-align:center' class='td'>".htmlspecialchars($fetch['gen'],ENT_QUOTES, 'UTF-8' )."</td>
 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".$fetch['sno']."'>$no2</a></td>
 <td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=".$fetch['sno']."&tp=True'>Click here to add treatment</a></td>
-<td class='td' style='padding:7px'>".htmlspecialchars($fetch['phoNo'])."</td>
+<td class='td' style='padding:7px'>".htmlspecialchars($fetch['phoNo'],ENT_QUOTES, 'UTF-8')."</td>
 <td class='td' style='padding:7px'><a href='Edit.php?id=".$fetch['sno']."'>Edit</a></td>
 </tr>";
 	  }
@@ -179,6 +200,7 @@ mysqli_stmt_close($query);
     // let date = x.slice(//0,7)   
       dateVal2.value=x;
    }
+   return true 
  }
     window.oninput = ()=>{
         error.innerHTML="";
