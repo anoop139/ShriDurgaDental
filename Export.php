@@ -3,11 +3,15 @@ include("Connection/Connect.php");
 error_reporting(0);
 session_start();
 
+if(!isset($_SESSION['user'])){
+    header("Location: LogIn.php");
+    exit();
+}
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit("Invalid request");
 }
 
-if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
     die("CSRF attack detected");
 }
 if (empty($_SESSION['token'])) {
@@ -37,7 +41,7 @@ if (empty($_SESSION['token'])) {
     left:       105px;
   }
   #table1{
-    padding-bottom: 25px;
+    margin-bottom: 97px;
   }
  
  #TotalAmount{
@@ -70,11 +74,14 @@ if (empty($_SESSION['token'])) {
        
             $getDate = $_POST["date"];    
             // $getDate2 =$getDate;
-        $todayRecord ="SELECT * FROM patient  where patient.date ='$getDate' ";
-        $dateQuery   = mysqli_query($conn, $todayRecord);
-        $count    = mysqli_num_rows($dateQuery);
+        $todayRecord ="SELECT * FROM patient  where patient.date =?";
+        $stmt        = mysqli_prepare($conn,$todayRecord);
+        mysqli_stmt_bind_param($stmt, 's', $getDate);
+        mysqli_stmt_execute($stmt);//_stmt
+        $result = mysqli_stmt_get_result($stmt);
+        $count    = mysqli_num_rows($result);
        $name;
-
+  // 
         if ($count==0) {
             # code...
             echo"<h1 style='text-align:center'>No record for the day</h1>";
@@ -96,15 +103,15 @@ if (empty($_SESSION['token'])) {
              <th>Phone Number</th>
              </tr>";
             
-          while( $fetch = mysqli_fetch_assoc($dateQuery))
+          while( $fetch = mysqli_fetch_assoc($result))
           {//NOT HERE
             $name ="$fetch[sno]";
           echo"<tr>
-            <td>$fetch[date]</td>
-             <td>$fetch[name]</td>
-             <td  style='text-align:center'>$fetch[age]</td>
-             <td>$fetch[phoNo]</td>
-               </tr>";
+            <td>".htmlspecialchars($fetch['date'], ENT_QUOTES, 'UTF-8')."</td>".
+            "<td>".htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8')."</td>". 
+            "<td>".htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8')."</td>" .
+            "<td>".htmlspecialchars($fetch['phoNo'], ENT_QUOTES, 'UTF-8')."</td>". 
+               "</tr>";
           }
           echo"</table> <td></td>";   // <-- add space here
           echo"</td><td valign='top'>";
@@ -113,9 +120,14 @@ if (empty($_SESSION['token'])) {
               // echo"<h1>date   m$getDate</h1>";
               $primery ="SELECT  DISTINCT patient.sno, patient.name from patient 
                  join treatment
-                  on patient.sno = treatment.sno where patient.date='$getDate'";
-                $joinedQuery = mysqli_query($conn, $primery);
-               $tcount    = mysqli_num_rows($joinedQuery);
+                  on patient.sno = treatment.sno where patient.date=?";
+                  $stmt1 = mysqli_prepare($conn, $primery);
+                 mysqli_stmt_bind_param($stmt1, 's', $getDate);
+                 mysqli_stmt_execute($stmt1);
+                $tresult = mysqli_stmt_get_result($stmt1);
+                // $joinedQuery = mysqli_query($conn, $primery);
+               $tcount    = mysqli_num_rows($tresult);
+                // echo"<h1 style='text-align:center'>count = $tcount </h1>";
                 if ($tcount>0)
                  {
                 echo" 
@@ -127,19 +139,26 @@ if (empty($_SESSION['token'])) {
                 </tr>";   # code...             
               
                 # code...
-                //  echo"<h1>id is   $tcount</h1>";
-               while ( $fetch0 = mysqli_fetch_assoc($joinedQuery)) {
-             
-                $treatment ="select * from treatment where sno=$fetch0[sno]";
-                $treatmenQuery = mysqli_query($conn, $treatment);
+               
+               while ( $fetch0 = mysqli_fetch_assoc($tresult)) {
+              $id = (int)$fetch0['sno'];
+                $treatment ="select * from treatment where sno=?";
+                 $stmt3 = mysqli_prepare($conn, $treatment);
+                 mysqli_stmt_bind_param($stmt3, 'i',  $id);
+              mysqli_stmt_execute($stmt3);
+                $tsum = mysqli_stmt_get_result($stmt3);
 
+              $stmtSum = mysqli_prepare($conn, "SELECT SUM(amount) as total FROM treatment WHERE sno=?");
+mysqli_stmt_bind_param($stmtSum, 'i', $id);
+mysqli_stmt_execute($stmtSum);
+$sumResult = mysqli_stmt_get_result($stmtSum);
+$fetchTotal = mysqli_fetch_assoc($sumResult);
 
-                $sum ="SELECT SUM(amount) as total from treatment where sno=$fetch0[sno]";
-                $sum1 ="SELECT SUM(online) as bank from treatment where sno=$fetch0[sno]";
-                $sumQuery = mysqli_query($conn, $sum);
-                $onlineQuery = mysqli_query($conn, $sum1);
-                $onlineTotal =  mysqli_fetch_assoc($onlineQuery);//
-                $fetchTotal =  mysqli_fetch_assoc($sumQuery);//
+$stmtOnline = mysqli_prepare($conn, "SELECT SUM(online) as bank FROM treatment WHERE sno=?");
+mysqli_stmt_bind_param($stmtOnline, 'i', $id);
+mysqli_stmt_execute($stmtOnline);
+$onlineResult = mysqli_stmt_get_result($stmtOnline);
+$onlineTotal = mysqli_fetch_assoc($onlineResult);
           $total1 = ($fetchTotal["total"] ?? 0) + ($onlineTotal["bank"] ?? 0);
                echo"
                 <tr>
@@ -148,24 +167,24 @@ if (empty($_SESSION['token'])) {
                 <tr>
                 <th>Date</th>
                 <th>Due Date</th>
-                <th style='text-align:left; padding-left:80px'>Treatment</th>
+                <th style='text-align:left; padding-left:10px'>Treatment</th>
                 <th>Advance</th>
                 <th>Online</th>
                 <th>Amount</th>
                 </tr>
                 ";
-               while ($treatmentDeatil = mysqli_fetch_assoc($treatmenQuery))
+               while ($treatmentDeatil = mysqli_fetch_assoc($tsum))
                {
                 
                 echo"<tr>
-                <td>$treatmentDeatil[date] </td>
-                <td>$treatmentDeatil[dueDate] </td>
-                <td>$treatmentDeatil[treatment] </td>
-                <td style='text-align:center'>$treatmentDeatil[advance] </td>
-                <td style='text-align:center'>$treatmentDeatil[online] </td>
-                <td style='text-align:center'>$treatmentDeatil[amount] </td>
-                </tr>
-                ";}
+                <td>".htmlspecialchars($treatmentDeatil['date'], ENT_QUOTES, 'UTF-8')."</td>".
+                "<td>".htmlspecialchars($treatmentDeatil['dueDate'], ENT_QUOTES, 'UTF-8')."</td>".
+                "<td>".htmlspecialchars($treatmentDeatil['treatment'], ENT_QUOTES, 'UTF-8')."</td>".
+                "<td style='text-align:center'>".htmlspecialchars($treatmentDeatil['advance'], ENT_QUOTES, 'UTF-8')."</td>".
+                "<td style='text-align:center'>".htmlspecialchars($treatmentDeatil['online'], ENT_QUOTES, 'UTF-8')."</td>".
+                "<td style='text-align:center'>".htmlspecialchars($treatmentDeatil['amount'], ENT_QUOTES, 'UTF-8')."</td>".
+             "</tr>";
+             }
               echo"<tr>
               <th colspan='5' style='text-align:left'>Total</th>
               <th id='dwTotalAmount'>$total1</th>
