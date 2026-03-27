@@ -1,22 +1,28 @@
 <?php
 include("Connection/Connect.php");
-error_reporting(0);
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 session_start();
-
+if (empty($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
 if(!isset($_SESSION['user'])){
     header("Location: LogIn.php");
     exit();
 }
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    exit("Invalid request");
+
+if (isset($_POST['p'])) {
+
+    if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
+        die("CSRF attack detected");
+    }
+// /if (empty($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+// }
+    // your main logic here
 }
 
-if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
-    die("CSRF attack detected");
-}
-if (empty($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-}
 
 ?>
 <!DOCTYPE html>
@@ -74,6 +80,9 @@ if (empty($_SESSION['token'])) {
        
             $getDate = $_POST["date"];    
             // $getDate2 =$getDate;
+if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
+    die("Invalid date format");
+}
         $todayRecord ="SELECT * FROM patient  where patient.date =?";
         $stmt        = mysqli_prepare($conn,$todayRecord);
         mysqli_stmt_bind_param($stmt, 's', $getDate);
@@ -81,7 +90,12 @@ if (empty($_SESSION['token'])) {
         $result = mysqli_stmt_get_result($stmt);
         $count    = mysqli_num_rows($result);
        $name;
-  // 
+  function safeExcel($value) {
+    if (preg_match('/^[=+\-@]/', $value)) {
+        return "'" . $value; // add single quote
+    }
+    return $value;
+}
         if ($count==0) {
             # code...
             echo"<h1 style='text-align:center'>No record for the day</h1>";
@@ -107,10 +121,10 @@ if (empty($_SESSION['token'])) {
           {//NOT HERE
             $name ="$fetch[sno]";
           echo"<tr>
-            <td>".htmlspecialchars($fetch['date'], ENT_QUOTES, 'UTF-8')."</td>".
-            "<td>".htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8')."</td>". 
-            "<td>".htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8')."</td>" .
-            "<td>".htmlspecialchars($fetch['phoNo'], ENT_QUOTES, 'UTF-8')."</td>". 
+            <td>".htmlspecialchars(safeExcel($fetch['date']), ENT_QUOTES, 'UTF-8')."</td>".
+            "<td>".htmlspecialchars(safeExcel($fetch['name']), ENT_QUOTES, 'UTF-8')."</td>". 
+            "<td>".htmlspecialchars(safeExcel($fetch['age']), ENT_QUOTES, 'UTF-8')."</td>" .
+            "<td>".htmlspecialchars(safeExcel($fetch['phoNo']), ENT_QUOTES, 'UTF-8')."</td>". 
                "</tr>";
           }
           echo"</table> <td></td>";   // <-- add space here
@@ -161,8 +175,8 @@ $onlineResult = mysqli_stmt_get_result($stmtOnline);
 $onlineTotal = mysqli_fetch_assoc($onlineResult);
           $total1 = ($fetchTotal["total"] ?? 0) + ($onlineTotal["bank"] ?? 0);
                echo"
-                <tr>
-                <th colspan='6' style='text-align:center'>$fetch0[name] </th>
+                <tr>".
+                "<th colspan='6' style='text-align:center'>".htmlspecialchars(safeExcel($fetch0['name']), ENT_QUOTES, 'UTF-8')."</th>
                 </tr>
                 <tr>
                 <th>Date</th>
@@ -177,18 +191,18 @@ $onlineTotal = mysqli_fetch_assoc($onlineResult);
                {
                 
                 echo"<tr>
-                <td>".htmlspecialchars($treatmentDeatil['date'], ENT_QUOTES, 'UTF-8')."</td>".
-                "<td>".htmlspecialchars($treatmentDeatil['dueDate'], ENT_QUOTES, 'UTF-8')."</td>".
-                "<td>".htmlspecialchars($treatmentDeatil['treatment'], ENT_QUOTES, 'UTF-8')."</td>".
-                "<td style='text-align:center'>".htmlspecialchars($treatmentDeatil['advance'], ENT_QUOTES, 'UTF-8')."</td>".
-                "<td style='text-align:center'>".htmlspecialchars($treatmentDeatil['online'], ENT_QUOTES, 'UTF-8')."</td>".
-                "<td style='text-align:center'>".htmlspecialchars($treatmentDeatil['amount'], ENT_QUOTES, 'UTF-8')."</td>".
+                <td>".htmlspecialchars(safeExcel($treatmentDeatil['date']), ENT_QUOTES, 'UTF-8')."</td>".
+                "<td>".htmlspecialchars(safeExcel($treatmentDeatil['dueDate']), ENT_QUOTES, 'UTF-8')."</td>".
+                "<td>".htmlspecialchars(safeExcel($treatmentDeatil['treatment']), ENT_QUOTES, 'UTF-8')."</td>".
+                "<td style='text-align:center'>".htmlspecialchars(safeExcel($treatmentDeatil['advance']), ENT_QUOTES, 'UTF-8')."</td>".
+                "<td style='text-align:center'>".htmlspecialchars(safeExcel($treatmentDeatil['online']), ENT_QUOTES, 'UTF-8')."</td>".
+                "<td style='text-align:center'>".htmlspecialchars(safeExcel($treatmentDeatil['amount']), ENT_QUOTES, 'UTF-8')."</td>".
              "</tr>";
              }
               echo"<tr>
-              <th colspan='5' style='text-align:left'>Total</th>
-              <th id='dwTotalAmount'>$total1</th>
-              </tr>";
+              <th colspan='5' style='text-align:left'>Total</th>".
+              "<th id='dwTotalAmount'>".htmlspecialchars($total1)."</th>".
+            "</tr>";
               }
           
                
