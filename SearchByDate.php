@@ -1,20 +1,20 @@
 <?php
 include("Connection/Connect.php");
 error_reporting(0);
-session_start();
-session_regenerate_id(true);
+session_start(); 
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
 header("X-XSS-Protection: 1; mode=block");
-if(!isset($_SESSION['user'])){
+if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
     header("Location: LogIn.php");
     exit();
 }
+$admin_id = $_SESSION['admin_id'];
 if (empty($_SESSION['token'])) {
     # code...
       $_SESSION['token'] = bin2hex(random_bytes(32));
 }
-
+    
 ?>
 <!DOCTYPE html>
 <html lang="javascriptract">
@@ -115,7 +115,10 @@ if (empty($_SESSION['token'])) {
 }
    $_SESSION['token'] = bin2hex(random_bytes(32));
 $date = $_POST['Date'];
-
+$dateObj = DateTime::createFromFormat('d - m - Y', $date);
+if (!$dateObj || $dateObj->format('d - m - Y') !== $date) {
+    die("Invalid date");
+}
 if (!preg_match('/^\d{2} - \d{2} - \d{4}$/', $date)) {
     echo "Invalid date format";
     exit();
@@ -123,10 +126,10 @@ if (!preg_match('/^\d{2} - \d{2} - \d{4}$/', $date)) {
     echo"<h1>Patient record on ".$date."</h1><br>";
    
 
-   $patientInfo = "SELECT * FROM patient WHERE date=?";
+   $patientInfo = "SELECT * FROM patient WHERE patient.date =? AND patient.admin_id = ?";
 //    mysqli_prepare
 	$query       = mysqli_prepare($conn, $patientInfo);
-    mysqli_stmt_bind_param($query,  's', $date);
+    mysqli_stmt_bind_param($query,  'si', $date, $admin_id);
 	
     mysqli_stmt_execute($query);
    $result = mysqli_stmt_get_result($query);   // important
@@ -151,10 +154,10 @@ $no = mysqli_num_rows($result);
 	 </tr>";
       while($fetch =mysqli_fetch_assoc($result))
 	  { 
-        $id ="select * from treatment where sno=?";
+        $id ="select * from treatment where sno=? and admin_id=?";
         $query2 = mysqli_prepare($conn, $id);
         $idContain = $fetch['sno'];
-        mysqli_stmt_bind_param($query2, 'i', $idContain);
+        mysqli_stmt_bind_param($query2, 'ii', $idContain, $admin_id);
 		mysqli_stmt_execute($query2);///
    $result2 = mysqli_stmt_get_result($query2);   // important
  $no2           = mysqli_num_rows($result2);   
@@ -164,10 +167,10 @@ $no = mysqli_num_rows($result);
 <td class='td' style='padding:7px'>".htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8')."</td>
 <td style='text-align:center;' class='td'>".htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8')."</td>
 <td style='text-align:center' class='td'>".htmlspecialchars($fetch['gen'],ENT_QUOTES, 'UTF-8' )."</td>
-<td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".$fetch['sno']."'>$no2</a></td>
-<td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=".$fetch['sno']."&tp=True'>Click here to add treatment</a></td>
+<td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".urlencode($fetch['sno'])."'>$no2</a></td>
+<td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=".urlencode($fetch['sno'])."&tp=True'>Click here to add treatment</a></td>
 <td class='td' style='padding:7px'>".htmlspecialchars($fetch['phoNo'],ENT_QUOTES, 'UTF-8')."</td>
-<td class='td' style='padding:7px'><a href='Edit.php?id=".$fetch['sno']."'>Edit</a></td>
+<td class='td' style='padding:7px'><a href='Edit.php?id=".htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8')."'>Edit</a></td>
 </tr>";
 	  }
        echo"</table><br>";
