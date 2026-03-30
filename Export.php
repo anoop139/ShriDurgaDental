@@ -1,5 +1,8 @@
 <?php
 include("Connection/Connect.php");
+header("X-Frame-Options: DENY");
+header("X-XSS-Protection: 1; mode=block");
+header("X-Content-Type-Options: nosniff");
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
@@ -7,10 +10,11 @@ session_start();
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
-if(!isset($_SESSION['user'])){
+if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
     header("Location: LogIn.php");
     exit();
 }
+$admin_id = $_SESSION['admin_id'];
 
 if (isset($_POST['p'])) {
 
@@ -22,7 +26,6 @@ if (isset($_POST['p'])) {
 // }
     // your main logic here
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -77,26 +80,27 @@ if (isset($_POST['p'])) {
       <h1  style="text-align:center">Click download button and export</h1>
        <?php
       if (isset($_POST['p'])) {
-       
-            $getDate = $_POST["date"];    
-            // $getDate2 =$getDate;
-if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
-    die("Invalid date format");
-}
-        $todayRecord ="SELECT * FROM patient  where patient.date =?";
-        $stmt        = mysqli_prepare($conn,$todayRecord);
-        mysqli_stmt_bind_param($stmt, 's', $getDate);
-        mysqli_stmt_execute($stmt);//_stmt
-        $result = mysqli_stmt_get_result($stmt);
-        $count    = mysqli_num_rows($result);
-       $name;
-  function safeExcel($value) {
+         function safeExcel($value) {
     if (preg_match('/^[=+\-@]/', $value)) {
         return "'" . $value; // add single quote
     }
     return $value;
 }
+            $getDate = $_POST["date"];    
+            // $getDate2 =$getDate;
+if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
+    die("Invalid date format");
+}
+        $todayRecord ="SELECT * FROM patient  where patient.date =? AND patient.admin_id = ?";
+        $stmt        = mysqli_prepare($conn,$todayRecord);
+        mysqli_stmt_bind_param($stmt, 'si', $getDate, $admin_id);
+        mysqli_stmt_execute($stmt);//_stmt
+        $result = mysqli_stmt_get_result($stmt);
+        $count    = mysqli_num_rows($result);
+       $name;
+mysqli_stmt_close($stmt);
         if ($count==0) {
+              echo"<h1>id "."$admin_id"."</h1>";
             # code...
             echo"<h1 style='text-align:center'>No record for the day</h1>";
         }
@@ -131,12 +135,12 @@ if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
           echo"</td><td valign='top'>";
 
               //  //here right/
-              // echo"<h1>date   m$getDate</h1>";
               $primery ="SELECT  DISTINCT patient.sno, patient.name from patient 
                  join treatment
-                  on patient.sno = treatment.sno where patient.date=?";
+                  on patient.sno = treatment.sno WHERE patient.date = ? AND patient.admin_id = ?";
                   $stmt1 = mysqli_prepare($conn, $primery);
-                 mysqli_stmt_bind_param($stmt1, 's', $getDate);
+
+                 mysqli_stmt_bind_param($stmt1, 'si', $getDate, $admin_id);
                  mysqli_stmt_execute($stmt1);
                 $tresult = mysqli_stmt_get_result($stmt1);
                 // $joinedQuery = mysqli_query($conn, $primery);
