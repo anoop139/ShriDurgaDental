@@ -22,7 +22,7 @@ if (isset($_POST['p'])) {
         die("CSRF attack detected");
     }
 // /if (empty($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
+    // $_SESSION['token'] = bin2hex(random_bytes(32));
 // }
     // your main logic here
 }
@@ -93,14 +93,23 @@ if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
 }
         $todayRecord ="SELECT * FROM patient  where patient.date =? AND patient.admin_id = ?";
         $stmt        = mysqli_prepare($conn,$todayRecord);
+        if (!$stmt) {
+    
+        die("Query failed");
+     
+    }
         mysqli_stmt_bind_param($stmt, 'si', $getDate, $admin_id);
-        mysqli_stmt_execute($stmt);//_stmt
+        // mysqli_stmt_execute($stmt);//_stmt
+      
+        if (!mysqli_stmt_execute($stmt)) {
+         die("Execution failed");
+         }
         $result = mysqli_stmt_get_result($stmt);
         $count    = mysqli_num_rows($result);
        $name;
-mysqli_stmt_close($stmt);
+        mysqli_stmt_close($stmt);
         if ($count==0) {
-              echo"<h1>id "."$admin_id"."</h1>";
+              // echo"<h1>id "."$admin_id"."</h1>";
             # code...
             echo"<h1 style='text-align:center'>No record for the day</h1>";
         }
@@ -139,9 +148,17 @@ mysqli_stmt_close($stmt);
                  join treatment
                   on patient.sno = treatment.sno WHERE patient.date = ? AND patient.admin_id = ?";
                   $stmt1 = mysqli_prepare($conn, $primery);
+                    if (!$stmt1) {
+    
+                   die("Query failed");
+     
+              }
 
                  mysqli_stmt_bind_param($stmt1, 'si', $getDate, $admin_id);
-                 mysqli_stmt_execute($stmt1);
+                //  mysqli_stmt_execute($stmt1);
+                    if (!mysqli_stmt_execute($stmt1)) {
+                      die("Execution failed");
+                     }
                 $tresult = mysqli_stmt_get_result($stmt1);
                 // $joinedQuery = mysqli_query($conn, $primery);
                $tcount    = mysqli_num_rows($tresult);
@@ -160,24 +177,34 @@ mysqli_stmt_close($stmt);
                
                while ( $fetch0 = mysqli_fetch_assoc($tresult)) {
               $id = (int)$fetch0['sno'];
-                $treatment ="select * from treatment where sno=?";
+                $treatment ="select * from treatment where sno=? and admin_id=?";
                  $stmt3 = mysqli_prepare($conn, $treatment);
-                 mysqli_stmt_bind_param($stmt3, 'i',  $id);
-              mysqli_stmt_execute($stmt3);
+                 if (!$stmt3) {
+    
+                   die("Query failed");
+     
+              }
+                 mysqli_stmt_bind_param($stmt3, 'ii',  $id, $admin_id);
+              // mysqli_stmt_execute($/stmt3);
+        if (!mysqli_stmt_execute($stmt3)) {
+         die("Execution failed");
+         }
                 $tsum = mysqli_stmt_get_result($stmt3);
 
-              $stmtSum = mysqli_prepare($conn, "SELECT SUM(amount) as total FROM treatment WHERE sno=?");
-mysqli_stmt_bind_param($stmtSum, 'i', $id);
-mysqli_stmt_execute($stmtSum);
-$sumResult = mysqli_stmt_get_result($stmtSum);
-$fetchTotal = mysqli_fetch_assoc($sumResult);
+              $stmtSum = mysqli_prepare($conn, "SELECT SUM(amount) as total, SUM(online) as bank FROM treatment WHERE sno=? and admin_id=?");
+              if (!$stmtSum) {
+    
+                   die("Query failed");
+     
+              }
+       mysqli_stmt_bind_param($stmtSum, 'ii', $id, $admin_id);
+       if (!mysqli_stmt_execute($stmtSum)) {
+                die("Execution failed");
+            }
+          $sumResult = mysqli_stmt_get_result($stmtSum);
+         $fetchTotal = mysqli_fetch_assoc($sumResult);
 
-$stmtOnline = mysqli_prepare($conn, "SELECT SUM(online) as bank FROM treatment WHERE sno=?");
-mysqli_stmt_bind_param($stmtOnline, 'i', $id);
-mysqli_stmt_execute($stmtOnline);
-$onlineResult = mysqli_stmt_get_result($stmtOnline);
-$onlineTotal = mysqli_fetch_assoc($onlineResult);
-          $total1 = ($fetchTotal["total"] ?? 0) + ($onlineTotal["bank"] ?? 0);
+          $total1 = ($fetchTotal["total"] ?? 0) + ($fetchTotal["bank"] ?? 0);
                echo"
                 <tr>".
                 "<th colspan='6' style='text-align:center'>".htmlspecialchars(safeExcel($fetch0['name']), ENT_QUOTES, 'UTF-8')."</th>
@@ -214,6 +241,7 @@ $onlineTotal = mysqli_fetch_assoc($onlineResult);
       echo "</table></td></tr></table>";
 
         }
+        $_SESSION['token'] = bin2hex(random_bytes(32));
       }
        ?>
        <form action="#" id="fom"  method="POST">
@@ -221,7 +249,7 @@ $onlineTotal = mysqli_fetch_assoc($onlineResult);
       <input type="hidden" name="date" id="dateId">
       <button type="submit" name="p" >Download Today's Record</button>
       <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-    <button type="button" onclick="expotToExcel()">Export</button>
+    <button type="button" onclick="exportToExcel()">Export</button>
 
 
        </form>
@@ -231,7 +259,7 @@ $onlineTotal = mysqli_fetch_assoc($onlineResult);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
 
    <script>
-  function expotToExcel() {
+  function exportToExcel() {
   let table = document.getElementById("allTable");
   // let treatment = document.getElementById("treatment");
    let a =table.outerHTML
