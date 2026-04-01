@@ -15,7 +15,8 @@ if(mysqli_num_rows($result) == 1){
     $_SESSION['user'] = $row['username'];
     $_SESSION['admin_id'] = $row['id'];
 
-    header("Location: DentalHomePage.php?name=$username");
+    header("Location: DentalHomePage.php");
+
     exit();
 
 } else {
