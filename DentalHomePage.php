@@ -11,7 +11,11 @@ if(!isset($_SESSION['user'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="title"> Welcom to Shri Durga Dental Clinic</title>
+<title>
+<?php 
+echo "Welcome to " . htmlspecialchars($_SESSION['user']) . " dental clinic"; 
+?>
+</title>
     <link rel="stylesheet" href="Header2.css">
     <!-- <link rel="stylesheet" href="Styl.css"> -->
     <style> 
@@ -61,7 +65,7 @@ if(!isset($_SESSION['user'])){
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
        <ul id="ul" style="padding-left:800px; background-color: white; height: 40px; width: 350px">
         <li><a href="LogOut.php">Log Out </a></li>&nbsp;
-        <li><a href="./PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="./PatientFom.php">Add Patient </a></li>&nbsp;
         <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
         
         <li><a href="">Search by</a>
@@ -81,7 +85,7 @@ if(!isset($_SESSION['user'])){
  let name = urls.get('name')
     
 if (name) {
-    name = name.replace(/'/g, '');
+    name = name.replace(/[^a-zA-Z0-9 ]/g, '');
     document.title = "Welcome to " + name + " dental clinic";
 }
 
