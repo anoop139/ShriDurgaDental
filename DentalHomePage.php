@@ -80,16 +80,6 @@ echo "Welcome to " . htmlspecialchars($_SESSION['user']) . " dental clinic";
         // 
     //  
    window.onload =()=>{
-
-  const urls = new URLSearchParams(window.location.search);
- let name = urls.get('name')
-    
-if (name) {
-    name = name.replace(/[^a-zA-Z0-9 ]/g, '');
-    document.title = "Welcome to " + name + " dental clinic";
-}
-
-
      let x   = new URLSearchParams(window.location.search)
      let d   = document.getElementById("deleted")
      let val = x.get("recordDeleted")
