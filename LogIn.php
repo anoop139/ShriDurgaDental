@@ -1,6 +1,7 @@
 <?php
 session_start();
 if(isset($_SESSION['user'])){
+  $admin_id = $_SESSION['admin_id'];
     header("Location: dashboard.php");
     exit();
 }
@@ -36,7 +37,7 @@ if(isset($_SESSION['user'])){
     fetch("GetUser.php")
     .then(response => response.text())
     .then((value) => {
-        document.getElementById("welcome").innerHTML=value;
+        document.getElementById("welcome").textContent=value;
     })
 </script>
 </body>
