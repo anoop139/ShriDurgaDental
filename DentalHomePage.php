@@ -1,9 +1,11 @@
 <?php
 session_start();
-if(!isset($_SESSION['user'])){
+if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
+
     header("Location: LogIn.php");
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -84,7 +86,7 @@ echo "Welcome to " . htmlspecialchars($_SESSION['user']) . " dental clinic";
      let d   = document.getElementById("deleted")
      let val = x.get("recordDeleted")
      if (val==="true") {
-       d.innerHTML="Record deleted successfully"  
+    d.textContent = "Record deleted successfully"
         //   document.getElementById("ul").style.marginTop="-10px";
 
     //  alert("x = "+x.get("recordDeleted")//
