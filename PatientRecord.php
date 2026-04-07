@@ -1,11 +1,44 @@
 <?php
 include("Connection/Connect.php");
-error_reporting(0);
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', 1); // only if using HTTPS
+ini_set('session.use_strict_mode', 1);
 $name = htmlspecialchars($_GET['n'] ?? '');
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => true,      // only if HTTPS
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
 session_start();
+$nonce = bin2hex(random_bytes(16));
+// header("Content-Security-Policy: default-src 'self'; img-src 'self' https://encrypted-tbn0.gstatic.com data:; script-src 'self' 'nonce-$nonce'; style-src 'self';");
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
+header("X-XSS-Protection: 1; mode=block");
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
+    session_unset();
+    session_destroy();
+    header("Location: LogIn.php");
+    exit();
+}
+$_SESSION['LAST_ACTIVITY'] = time();
+if (empty($_SESSION['token'])) {
+
+$_SESSION['token'] = bin2hex(random_bytes(32));
+}
 if(!isset($_SESSION['user'])){
     header("Location: LogIn.php");
     exit();
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+        die("CSRF validation failed");
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -72,8 +105,7 @@ if(!isset($_SESSION['user'])){
 <div id="dis">     
 <form action="" id="dateForm" method="POST">
   
-<!-- <input type="hidden" nam/e="toDate" id="date" value="he"/> -->
-<!-- <input type="hidden" name="ss" id="h" value="he"/> -->
+<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
 <input type="hidden" name="fid1" id="fid1" value="<?php echo htmlspecialchars($_GET['fid'] ?? ''); ?>"/>
 </form>
   
@@ -84,14 +116,7 @@ if(!isset($_SESSION['user'])){
   // if (!window.localStorage.getItem("fomSubmited")) {
   //   window.localStorage.setItem("fomSubmited", "true");
   //   // document.getElementById("date").value=toda/y
-  //   document.getElementById("dateForm").submit()
-    
-  // }
-  // else{
-  //   onbeforeunload=()=>{
-  //  window.localStorage.clear()
-  //   }
-  // }
+  
   onload = ()=>{
       document.getElementById("trefo").style.transform="translateY(50px)"
   }
@@ -105,11 +130,20 @@ if(!isset($_SESSION['user'])){
  <?php
 
   $todayDate = date("d - m - Y");
+  
+  if (!isset($_SESSION['admin_id'])) {
+    die("Unauthorized access");
+}
 $admin_id = $_SESSION['admin_id'];
 $display ="Select * from patient where date=? and admin_id=?";
 $query   = mysqli_prepare($conn, $display);
+if (!$query) {
+    die("Query prepare failed");
+}
 mysqli_stmt_bind_param($query, "si", $todayDate, $admin_id);
-mysqli_stmt_execute($query);
+if (!mysqli_stmt_execute($query)) {
+    die("Query execution failed");
+}
 $result = mysqli_stmt_get_result($query);
 $no = mysqli_num_rows($result);
  if($no>0 && !isset($_GET['name']))
@@ -128,11 +162,17 @@ $no = mysqli_num_rows($result);
 
     // if ($todayDate>$storeDate)
      { 
-      $id = urlencode($show['sno']);
+$id = (int)$show['sno'];
  $display3 ="select * from treatment where sno =?";
   $query5 = mysqli_prepare($conn,$display3);
+  if (!$query5) {
+    die("Query5 prepare failed");
+}
   mysqli_stmt_bind_param($query5, 'i', $show['sno']);
-  mysqli_stmt_execute($query5);
+  
+  if (!mysqli_stmt_execute($query5)) {
+    die("Query5 execution failed");
+}
  $result5 = mysqli_stmt_get_result($query5);
   $Con  = mysqli_num_rows($result5);
     echo"<tr>
@@ -140,9 +180,9 @@ $no = mysqli_num_rows($result);
 <td>".htmlspecialchars($show['age'])."</td>
 <td>".htmlspecialchars($show['gen'])."</td>
 <td>".htmlspecialchars($show['phoNo'])."</td>
-	<td style='text-align:center;'><a href='TreatmentDetail.php?id=$id' class='ank' title='Click here to view treatment details'>$Con</a></td>
-	<td style='text-align:center;'><a href='InsertTreatment.php?id=$id&patientRecord=true' class='ank' title='Click here to add treatment details'>Add treatment details</a></td>
-	<td style='text-align:center;'><a href='Edit.php?id=$id' class='ank'>Edit</a></td>
+	<td style='text-align:center;'><a href='TreatmentDetail.php?id=".htmlspecialchars($id)."'"." class='ank' title='Click here to view treatment details'>$Con</a></td>
+	<td style='text-align:center;'><a href='InsertTreatment.php?id=".htmlspecialchars($id)."&patientRecord=true' class='ank' title='Click here to add treatment details'>Add treatment details</a></td>
+	<td style='text-align:center;'><a href='Edit.php?id=".htmlspecialchars($id)."'"."class='ank'>Edit</a></td>
 	</tr>"; 	
    }
    }
@@ -152,7 +192,6 @@ $no = mysqli_num_rows($result);
 
  echo"<h1 style='padding-left:100px;' id='del11'>No Patient record for today</h1>";
  }
-
 
  ?> </table>
 <form action="./Export.php"  name="export" method="POST" id="export">
