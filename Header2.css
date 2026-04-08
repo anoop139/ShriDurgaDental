@@ -32,7 +32,59 @@ ul ul li{
 }
 ul li a:hover{
   text-decoration: underline;
-}
+}  
+#ul {
+	padding-left:800px;
+	 background-color:lightblue;
+	  height: 40px; 
+	  width: 350px;
+}  ul{
+        margin-left:10px ;
+      }   
+ 
+    ul ul li{
+        background-color:lightblue;
+    }
+    #body{
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV5tegbIR32oDRVB_qdMazaa-KJwDX04xfiA&s");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;  
+			
+        }
+      table tr th, td{
+        padding: 5px;
+      }
+      #trefo{
+        position: absolute;
+        top: -28px;
+      }
+       #trefo{
+        background-color:white;
+      } 
+      #trefo{
+        transition: transform, 3s
+      }
+       #export{
+        position: absolute;
+        top: 150px;
+        left: 1200px;
+      
+      }
+      #export input{
+        border: 2px solid black;
+      }
+      #export input{
+       padding: 10px;
+       background:blue;
+       color:white;
+       font-size:20px;
+      }
+ul { margin-left:10px; }
+  ul ul li { background-color:lightblue; }
+
+  body { background-image: url(...); }
+
 ul li:hover ul li{
 		display: block;
         color: white;
@@ -49,13 +101,7 @@ ul li:hover ul li{
             /* border:2px solid black; */
 			height:400px;
         }	
-		#body{
-            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV5tegbIR32oDRVB_qdMazaa-KJwDX04xfiA&s");
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;  
-			
-        }
+		
 		#dis{
             padding-top:140px;
            padding-left:400px;
