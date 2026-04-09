@@ -1,13 +1,21 @@
 <?php
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => false,   // localhost HTTP
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
 session_start();
 if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
 
     header("Location: LogIn.php");
     exit();
 }
+$nonce = bin2hex(random_bytes(16));
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self' 'unsafe-inline'; img-src 'self';");
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +26,7 @@ if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
 echo "Welcome to " . htmlspecialchars($_SESSION['user']) . " dental clinic"; 
 ?>
 </title>
-    <link rel="stylesheet" href="Header2.css">
+    <link rel="stylesheet" href="Header2.css?v=10">
     <!-- <link rel="stylesheet" href="Styl.css"> -->
     <style> 
     body{
@@ -78,9 +86,7 @@ echo "Welcome to " . htmlspecialchars($_SESSION['user']) . " dental clinic";
         </ul>
         </li>
       </ul>
-    <script>
-        // 
-    //  
+<script nonce="<?php echo $nonce; ?>">
    window.onload =()=>{
      let x   = new URLSearchParams(window.location.search)
      let d   = document.getElementById("deleted")
