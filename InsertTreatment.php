@@ -1,8 +1,9 @@
-<!DOCTYPE html>
 <?php
+//92
 include("Connection/Connect.php");
 error_reporting(0);
 session_start();
+// session_regenerate_id(true); // 🔥 MUST
 if(!isset($_SESSION['user'])){
     header("Location: LogIn.php");
     exit();
@@ -10,7 +11,19 @@ if(!isset($_SESSION['user'])){
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
+header("Content-Security-Policy:
+default-src 'self';
+script-src 'self';
+base-uri 'self';
+img-src 'self' data: https://encrypted-tbn0.gstatic.com;
+object-src 'none';
+frame-ancestors 'none';
+form-action 'self';
+");
 ?>
+
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -113,7 +126,7 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
 
 
 ?> 
-   <ul style="padding-left:985px; height: 40px;" id="ul">
+   <ul style="padding-left:955px; height: 40px;" id="ul">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="PatientRecord.php">Patient List</a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient</a></li>&nbsp;
@@ -161,8 +174,15 @@ if(isset($_POST['sub']))
   if (!isset($_POST['token']) || trim($_POST['token']) !== $_SESSION['token']) {
     die("CSRF attack detected");
 } // not d-m-Y
-  $date = date('d-m-Y');        // current date
-$dueDate = $_POST['dueDate']; // user input
+$dueDate = $_POST['dueDate'] ?? '';
+$date = date('d-m-Y');
+if (!empty($dueDate) && $dueDate !== "None") {
+    if ($dueDate == "None") {
+        // skip
+    } else if (strtotime(str_replace(" - ", "-", $dueDate)) < strtotime(str_replace(" - ", "-", $date))) {
+        die("Invalid date");
+    }
+}
 
    $name = $patientName;
 $treat = strtolower(trim($_POST['treat']));
