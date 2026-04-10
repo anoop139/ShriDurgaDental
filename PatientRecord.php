@@ -8,17 +8,15 @@ ini_set('session.cookie_httponly', 1);
 ini_set('session.cookie_secure', 0); // only if HTTPS
 ini_set('session.use_strict_mode', 1);
 
-// Start secure session
 session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
-    'domain' => '',
-    'secure' => false,      // only if HTTPS
+    'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
     'httponly' => true,
     'samesite' => 'Strict'
 ]);
 session_start();
-
+// header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
 // CSRF token
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
@@ -30,7 +28,7 @@ $nonce = bin2hex(random_bytes(16));
 // Security headers
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://encrypted-tbn0.gstatic.com;");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self'; img-src 'self' data: https://encrypted-tbn0.gstatic.com;");
 // Session timeout (15 minutes)
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
     session_unset();
