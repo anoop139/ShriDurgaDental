@@ -1,7 +1,21 @@
 <?php
 session_start();
-include("Connection/Connect.php");
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+    $_SESSION['lock_time'] = 0;
+}
 
+if ($_SESSION['login_attempts'] >= 5) {
+    if (time() - $_SESSION['lock_time'] < 900) {
+        die("Too many attempts. Try again after 15 minutes.");
+    } else {
+        $_SESSION['login_attempts'] = 0;
+    }
+}
+include("Connection/Connect.php");
+if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+    die("CSRF attack detected");
+}
 $username = $_POST['username'];
 
 $query = "SELECT * FROM admin WHERE username=?";
@@ -29,7 +43,7 @@ if($count == 1){
 
     }
     
-     
+
     else if($_POST['password'] === $dbPassword){
         // ⚠️ Old plain password → upgrade to hash
 session_regenerate_id(true);
@@ -48,12 +62,18 @@ $_SESSION['admin_id'] = $row['id'];
         // now password is hashed in DB
     } 
     
-    else {
-        header("Location: login.php?error=1");
-        exit();
-    }
+  else {
+    $_SESSION['login_attempts']++;
+    $_SESSION['lock_time'] = time();
+
+    header("Location: login.php?error=1");
+    exit();
 }
- else {
+}
+  else {
+    $_SESSION['login_attempts']++;
+    $_SESSION['lock_time'] = time();
+
     header("Location: login.php?error=1");
     exit();
 }
