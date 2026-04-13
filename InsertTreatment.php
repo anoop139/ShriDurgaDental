@@ -1,16 +1,36 @@
 <?php
 //92
 include("Connection/Connect.php");
-error_reporting(0);
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 session_start();
-// session_regenerate_id(true); // 🔥 MUST
+// $fid =intval($_GET['id']);
+if (!isset($_SESSION['admin_id'])) {
+    die("Unauthorized access");
+}
+
+$admin_id = $_SESSION['admin_id'];
+if (!isset($_GET['id'])) {
+    die("Invalid request");
+}
+$fid = intval($_GET['id']);
+if (
+    empty($_SESSION['token']) ||
+    empty($_SESSION['token_time']) ||
+    (time() - $_SESSION['token_time']) > 1800
+) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+    $_SESSION['token_time'] = time();
+}
 if(!isset($_SESSION['user'])){
     header("Location: LogIn.php");
     exit();
 }
-if (empty($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-}
+
+
+
+
 header("Content-Security-Policy:
 default-src 'self';
 script-src 'self';
@@ -93,20 +113,25 @@ form-action 'self';
 <body>
 <div id="header0" >
 <?php
-$fid =intval($_GET['id']);
+
 $n   = "No name";
 if (isset($fid)) {   
 
   // echo"<h1>Testing with new code</h1>";
-$patientName0 ="select name from patient where sno =?";
+$patientName0 ="select name from patient where sno =? and admin_id=?";
 $smb         = mysqli_prepare($conn,$patientName0);
 if ($smb) {
 
-  mysqli_stmt_bind_param($smb, "i", $fid);
+  mysqli_stmt_bind_param($smb, "ii", $fid, $admin_id);
       mysqli_stmt_execute($smb);
    mysqli_stmt_bind_result($smb, $patientName);
 
-  mysqli_stmt_fetch($smb);
+  
+if (mysqli_stmt_fetch($smb)) {
+    // value exists
+} else {
+    $patientName = '';
+}
   mysqli_stmt_close($smb);   // 🔥 CLOSE IT
 
      if (!empty($patientName)) {
@@ -183,7 +208,9 @@ if (!empty($dueDate) && $dueDate !== "None") {
         die("Invalid date");
     }
 }
-
+if (!$patientName) {
+    die("Invalid patient");
+}
    $name = $patientName;
 $treat = strtolower(trim($_POST['treat']));
 $fid1 = $fid;
@@ -193,8 +220,6 @@ $amt = intval($_POST['amt']);
 $pr = $_POST['pr'];
 $sbm = $_POST['sbm'];
 $td1 = $_POST['tp'];
-$admin_id = $_SESSION['admin_id'];
-
 // if (!empty($dueDate) && $dueDate !== "None" && strtotime($dueDate) < strtotime($date)) {
 //     die("Invalid due date");
 // }
@@ -251,7 +276,6 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
       mysqli_stmt_execute($smt);
     $treatQuery = mysqli_stmt_affected_rows($smt);
 
-        mysqli_stmt_close($smt);
  }
   //  echo'hello';
    if($treatQuery>0)
@@ -323,7 +347,9 @@ else {
  }
 //    
 
-}if ($rowCount > 0) {
+}
+
+if (isset($rowCount) && $rowCount > 0) {
    $_SESSION['token'] = bin2hex(random_bytes(32));
    $_SESSION['token_time'] = time();
 }
