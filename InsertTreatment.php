@@ -1,39 +1,52 @@
 <?php
 //92
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', 0); // change to 1 when using HTTPS
+ini_set('session.use_strict_mode', 1);
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => false, // true in HTTPS
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
+session_start();
+if (empty($_SESSION['csrf_token']) || empty($_SESSION['csrf_time'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    $_SESSION['csrf_time'] = time();
+}
+$max_time = 600; // 10 minutes
+
+if (
+    !isset($_SESSION['csrf_time']) ||
+    time() - $_SESSION['csrf_time'] > $max_time
+) {
+    unset($_SESSION['csrf_token'], $_SESSION['csrf_time']);
+    die("Session expired. Refresh page.");
+}
 include("Connection/Connect.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
-session_start();
-// $fid =intval($_GET['id']);
 if (!isset($_SESSION['admin_id'])) {
-    die("Unauthorized access");
+    header("Location: LogIn.php");
+    exit();
 }
-
 $admin_id = $_SESSION['admin_id'];
 if (!isset($_GET['id'])) {
     die("Invalid request");
 }
+
+if (strlen($pr) > 50) {
+    die("Invalid input");
+}
 $fid = intval($_GET['id']);
-if (
-    empty($_SESSION['token']) ||
-    empty($_SESSION['token_time']) ||
-    (time() - $_SESSION['token_time']) > 1800
-) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-    $_SESSION['token_time'] = time();
-}
-if(!isset($_SESSION['user'])){
-    header("Location: LogIn.php");
-    exit();
-}
-
-
-
-
 header("Content-Security-Policy:
 default-src 'self';
 script-src 'self';
+style-src 'self';
 base-uri 'self';
 img-src 'self' data: https://encrypted-tbn0.gstatic.com;
 object-src 'none';
@@ -114,8 +127,6 @@ form-action 'self';
 <div id="header0" >
 <?php
 
-$n   = "No name";
-if (isset($fid)) {   
 
   // echo"<h1>Testing with new code</h1>";
 $patientName0 ="select name from patient where sno =? and admin_id=?";
@@ -132,22 +143,19 @@ if (mysqli_stmt_fetch($smb)) {
 } else {
     $patientName = '';
 }
-  mysqli_stmt_close($smb);   // 🔥 CLOSE IT
+$n = $patientName;
+
+
+if (!$patientName) {
+    die("Invalid patient");
+    exit;
+}
+ mysqli_stmt_close($smb);   // 🔥 CLOSE IT
 
      if (!empty($patientName)) {
 echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
-     }         
-   else{
-    echo"ecf";
-   }       
-}
- else{
-    echo"ecf";
-   }     
-
-// mysqli_stmt_close()
+     }     
 }	
-
 
 
 ?> 
@@ -184,11 +192,11 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
   
  
     <input type="hidden" name="pname" value="<?php echo htmlspecialchars($n);?>"/>
-    <input type="hidden" name="pr" value="<?php echo htmlspecialchars($_GET['patientRecord']?? '');?>">
+    <input type="hidden" name="pr" value="<?php echo htmlspecialchars($pr);?>">
     <input type="hidden" name="tp" value="<?php echo htmlspecialchars($_GET['tp']?? '');?>"/>
      <input type="hidden" name="sbm" value="<?php echo htmlspecialchars($_GET['sbm']?? '');?>"/>
      <input type="text" name="date" id="date2"  hidden>
-     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
     <input type="submit" name="sub" id="sub" class="treat" ><br>
 	<?php
 
@@ -196,30 +204,73 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
  
 if(isset($_POST['sub']))
 {  
-  if (!isset($_POST['token']) || trim($_POST['token']) !== $_SESSION['token']) {
+if (
+    !isset($_POST['csrf_token']) ||
+    !isset($_SESSION['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+) {
     die("CSRF attack detected");
-} // not d-m-Y
+}
 $dueDate = $_POST['dueDate'] ?? '';
-$date = date('d-m-Y');
+echo"<h1>date</h1>";
 if (!empty($dueDate) && $dueDate !== "None") {
-    if ($dueDate == "None") {
-        // skip
-    } else if (strtotime(str_replace(" - ", "-", $dueDate)) < strtotime(str_replace(" - ", "-", $date))) {
+
+    // ✅ Strict format check: dd - mm - yyyy
+    if (!preg_match('/^\d{1,2} - \d{1,2} - \d{4}$/', $dueDate)) {
+        die("Invalid date format");
+    }
+
+    // ✅ Convert safely
+    $due = DateTime::createFromFormat('d - m - Y', $dueDate);
+
+     $today = new DateTime('today');
+    if (!$due) {
+        die("Invalid date");
+    }
+
+    if ($due < $today) {
         die("Invalid date");
     }
 }
-if (!$patientName) {
-    die("Invalid patient");
-}
-   $name = $patientName;
+
+$date = date('d-m-Y');
+
 $treat = strtolower(trim($_POST['treat']));
+if (!preg_match('/^[a-zA-Z0-9\s.,\-()\/#&]+$/', $treat)) {
+    die("Invalid treatment");
+}
+if (strlen($treat) > 255) {
+    die("Input too long");
+}
 $fid1 = $fid;
-$advance = intval($_POST['advanceAmount']);///200
-$online =intval($_POST['onlineAmount']);//200
-$amt = intval($_POST['amt']);
-$pr = $_POST['pr'];
-$sbm = $_POST['sbm'];
-$td1 = $_POST['tp'];
+$adv_raw =trim($_POST['advanceAmount'] ?? '');
+$advance = ($adv_raw === '') ? 0 : (
+    ctype_digit($adv_raw) ? intval($adv_raw) : die("Invalid")
+);
+$online_raw =trim($_POST['onlineAmount'] ?? '');
+$online = ($online_raw === '') ? 0 : (
+    ctype_digit($online_raw) ? intval($online_raw) : die("Invalid")
+);
+$amt_raw = trim($_POST['amt'] ?? '');
+$amt =  ($amt_raw === '') ? 0 : (
+    ctype_digit($amt_raw ) ? intval($amt_raw) : die("Invalid")
+);
+if ($advance > 1000000 || $online > 1000000 || $amt > 1000000) {
+    die("Amount too large");
+}
+if ($advance > 0 && $amt == 0) {
+    $amt = $advance;
+}
+$pr =  $_POST['pr'] ?? '';
+if (strlen($pr) > 50) {
+    die("Invalid input");
+}
+$tp = $_POST['tp'] ?? '';
+$sbm = $_POST['sbm'] ?? '';
+
+if (strlen($tp) > 50 || strlen($sbm) > 50) {
+    die("Invalid input");
+}
 // if (!empty($dueDate) && $dueDate !== "None" && strtotime($dueDate) < strtotime($date)) {
 //     die("Invalid due date");
 // }
@@ -250,13 +301,12 @@ $treatCont41 = mysqli_stmt_num_rows($query1);
    mysqli_stmt_close($query1);
 $treatQuery=0;
 // $rowCount = 0;
-	if(!empty($name))
-     {
-//  echo"<h1 style='background:white;'>test $treatCont41 </h1>";////
+	
+ echo"<h1 style='background:white;'>test $treatCont41 </h1>";////
 if (!empty($dueDate) && $dueDate !== "None"){
  ///echo"<h1 style='background:white;'> and  $fid1 </h1>";////
   if ($dueDate!=$date && $treatCont41===0) {
-    # code...
+
     $insert = "INSERT INTO treatment 
 (dueDate, date, treatment, advance, online, amount, sno, admin_id) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -277,15 +327,18 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $treatQuery = mysqli_stmt_affected_rows($smt);
 
  }
-  //  echo'hello';
+if ($smt) {
+    mysqli_stmt_close($smt);
+}
    if($treatQuery>0)
     {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    $_SESSION['csrf_time'] = time();
        $id_safe = urlencode($fid1);
 $count_safe = urlencode($treatQuery);
         echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br>
  <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$count_safe'>Click here to view     </a>treatment  
-        </h3>";    $_SESSION['token'] = bin2hex(random_bytes(32));
-    $_SESSION['token_time'] = time();
+        </h3>";  
  }
     // ✅ Correct place to refresh token
 
@@ -343,167 +396,19 @@ else {
         echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Treatment existed<br>
  <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$row_safe'>Click here to view  </a>treatment 
         </h3>";
-}
+
  }
 //    
 
 }
 
-if (isset($rowCount) && $rowCount > 0) {
-   $_SESSION['token'] = bin2hex(random_bytes(32));
-   $_SESSION['token_time'] = time();
-}
+
 }
 
     
 
 ?>
-
-<script>
-   let msg = document.getElementById("errorMessage1")
-   let treatExisted = document.getElementById("treatExisted")
-   let treat;
-         
-   function Submit() {
- let date2 = document.getElementById("date2")
- let dueDate = document.getElementById("dueDate")
- let dueDateInput = document.getElementById("dueDateInput")
-     treat = document.getElementById("treat1").value 
- let  advance = document.getElementById("Advance") 
- let  online = document.getElementById("onlinePayment") 
- let cashReceived = document.getElementById("receivedAmount")
-  let advan =  Number(advance.value) 
-  let tot =  Number(cashReceived.value)
-  let v   ="0";  
-    if (!treat) {
-      
-      msg.innerHTML="Enter treatment"
-      // alert("date is "+date)
-          return false 
-    }
-
-    if (advance.value<0 || online.value<0) {
-        
-    alert("Enter positive number");
-         return false;
-    }
-    if (tot<0) {
-        alert("Enter valid number");
-         return false;
-    }
- if (isNaN(advan) || advance.value.trim() === "") {
-    advance.value=0;
-  // alert("Enter advance number");
-    // return false;
-}
- else{
-         let date = new Date();
-         let d = date.getDate()
-         let mo = date.getMonth()+1
-        let y = date.getFullYear()
-        let toDate = ""
-        toDate=d.toString()+" - "+mo.toString()+" - "+y
-	date2.value=toDate;
-  dueDateInput.value =dueDate.value;
-  // alert("You came here "+dueDateInput.value)
-//  return fals/e
-  
-    }
-if (advan> 0 && tot==0) {
-  
-  cashReceived.value = advance.value
-  // alert("cash is converted "+cashReceived.value)
-  // return false
-}
-
-if (dueDate.value.length==0) {
-  // alert("no due date And advance is "+dueDate.value)///
-  dueDate.value="None"
-  }
-if (advance.value=="") {
-     advance.value=0;
-  //alert("no due date And advance is "+dueDate.value)///
-  //return false
-  
-}
-else{
-  
-  let x =dueDate.value.split("-").reverse().join(" - ")
-  let date = x.slice(0, 7)
-  let todayDate = Number(date2.value.slice(0, 2))
-  let currentMonth = Number(date2.value.slice(4, 7))
-  let due = Number(x.slice(0,2))
-  let dueMonth = Number(x.slice(5,7))
-  let dueYear = Number(x.slice(10,14))
-  let currentYear =Number(date2.value.slice(9))// Change to 9
-
-//  alert(advance) 
-  if (todayDate>due && currentMonth==dueMonth) {
-    alert("Sorry you entered wrong due date ")
-    return false
-    
-  } 
-    if (currentMonth>dueMonth && currentYear==dueYear) {
-    alert("Sorry you entered wrong due month")
-    return false
-    
-  }
-  if (currentYear>dueYear && x.length!=0) {
-    alert("Sorry you entered wrong due year ")
-    return false
-    
-  }
-  // else if
-   if (Number(x.slice(0,2))<10 && Number(x.slice(5,8))<10) //date less than 10 and moth
-    {    
-        // alert("yes if part get ready date "+x.slice(1,2))
-       date=date.replace(v, "")
-      date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
-     dueDateInput.value=date//date
-   }
-   else if (x.slice(1, 2)==0 && Number(x.slice(5,8))<10) 
-    { 
-    
-      x1 = x.split("-")
-      x2 = x1[1]*1
-      // if (x[1]=='0')
-       {
-        dueDateInput.value=x.slice(0, x.indexOf("-")+1)+" "+x2+" "+x.slice(x.lastIndexOf("-"))
-      //alert("yes im 10")
-       }  
-     }
-      else if (Number(x.slice(0, 2))>10 && Number(x.slice(5,8))<10) 
-    {
-       date=date.replace(v, "")+x.slice(x.lastIndexOf(" - "))
-
-      dueDateInput.value=date//date
-    // alert("now date is "+date)
-    } 
-      
-    else if (Number(x.slice(5, 8))>=10) 
-    {   
-        if (Number(x.slice(0, 2))<10) {
-       dueDateInput.value=x.replace(v, ""); 
-      //  alert("you/ r else part get ready date<10 and mmont >=10 ")////
-        }       
-        else if (Number(x.slice(0, 2))>=10) { 
-
-      dueDateInput.value=x
-        }
-       
-    } 
-}
-            // alert('hi'/)
-}
-
- window.oninput = (() => {
-  msg.innerHTML = "";
-
-  if (treatExisted) {
-    treatExisted.innerHTML = "";
-  }
-});
-</script>  
+<script src="./Treatment.js"></script>  
   </form>
 
 </body>
