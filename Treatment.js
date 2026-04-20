@@ -2,8 +2,9 @@
    let treatExisted = document.getElementById("treatExisted")
    let treat;
          
-   function Submit() {
- let date2 = document.getElementById("date2")
+   function Submit() 
+  {
+     let date2 = document.getElementById("date2")
  let dueDate = document.getElementById("dueDate")
  let dueDateInput = document.getElementById("dueDateInput")
      treat = document.getElementById("treat1").value 
@@ -55,37 +56,26 @@ if (dueDate.value) {
       
   let x =dueDate.value.split("-").reverse().join(" - ")
   let date = x.slice(0, 7)
-  let todayDate =x.slice(0, 2)
-  let currentMonth = x.slice(4, 7)
-  let due = x.slice(0,2)
-  let dueMonth = x.slice(5,7)
-  let dueYear =x.slice(10,14)
-  let currentYear =date2.value.slice(9)// Change to 9
 
- alert(typeof parts)
+
+//  alert("Due month "+parts[1]+" and current month "+mo)
 //  return false 
-  if (due<d && mo==dueMonth) {
-    alert("Sorry you entered wrong due date ")
+
+if (Number(parts[0])<y) {
+    alert("Sorry you entered wrong due year ")
     return false
     
-  } 
-    if (currentMonth>dueMonth && currentYear==dueYear) {
+  }
+   if (y==Number(parts[0]) && mo>Number(parts[1])) {
     alert("Sorry you entered wrong due month")
     return false
     
   }
-  if (currentYear>dueYear && x.length!=0) {
-    alert("Sorry you entered wrong due year ")
+  if (y== Number(parts[0]) && Number(parts[2])<d && mo==Number(parts[1])) {
+    alert("Sorry you entered wrong due date ")
     return false
-    }
-  else{
-    dueDateInput.value=x
-    // alert////("Due date is "+x)
-    // return false/////////
-  }
-
-}
-            // alert('hi'/)
+    
+  } 
 }
 } 
   
@@ -102,17 +92,12 @@ if (dueDate.value.length==0) {
   }
 if (advance.value=="") {
      advance.value=0;
-  //alert("no due date And advance is "+dueDate.value)///
-  //return false
   
-}
-else{
-}
-
- window.oninput = (() => {
+    }
+  }
+window.oninput = function() {
   msg.innerHTML = "";
-
   if (treatExisted) {
     treatExisted.innerHTML = "";
   }
-});
+};
