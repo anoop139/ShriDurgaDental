@@ -1,13 +1,13 @@
 <?php
 //92
 ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure', 0); // change to 1 when using HTTPS
+ini_set('session.cookie_secure', (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'));
 ini_set('session.use_strict_mode', 1);
 
 session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
-    'secure' => false, // true in HTTPS
+'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
     'httponly' => true,
     'samesite' => 'Strict'
 ]);
@@ -39,9 +39,7 @@ if (!isset($_GET['id'])) {
     die("Invalid request");
 }
 
-if (strlen($pr) > 50) {
-    die("Invalid input");
-}
+
 $fid = intval($_GET['id']);
 header("Content-Security-Policy:
 default-src 'self';
@@ -53,6 +51,7 @@ object-src 'none';
 frame-ancestors 'none';
 form-action 'self';
 ");
+$pr = '';
 ?>
 
 <!DOCTYPE html>
@@ -186,7 +185,7 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
    &nbsp; <input type="text" name="dueDate" id="dueDateInput" hidden>
     
     <br><br>
-    <input type="text" name="advanceAmount" id="Advance" class="treat" ><br><br><br>
+    <input type="text" name="advanceAmount" id="Advance" class="treat" required ><br><br><br>
     <input type="number" name="onlineAmount" id="onlinePayment" class="treat" ><br><br><br>
     <input type="number" name="amt" id="receivedAmount" class="treat" ><br><br>
   
@@ -212,7 +211,7 @@ if (
     die("CSRF attack detected");
 }
 $dueDate = $_POST['dueDate'] ?? '';
-echo"<h1>date</h1>";
+// echo"<h1>date</h1>";
 if (!empty($dueDate) && $dueDate !== "None") {
 
     // ✅ Strict format check: dd - mm - yyyy
@@ -262,18 +261,19 @@ if ($advance > 0 && $amt == 0) {
     $amt = $advance;
 }
 $pr =  $_POST['pr'] ?? '';
+$tp = $_POST['tp'] ?? '';
+$sbm = $_POST['sbm'] ?? '';
+
 if (strlen($pr) > 50) {
     die("Invalid input");
 }
-$tp = $_POST['tp'] ?? '';
-$sbm = $_POST['sbm'] ?? '';
 
 if (strlen($tp) > 50 || strlen($sbm) > 50) {
     die("Invalid input");
 }
-// if (!empty($dueDate) && $dueDate !== "None" && strtotime($dueDate) < strtotime($date)) {
-//     die("Invalid due date");
-// }
+if (!preg_match('/^[a-zA-Z0-9_\-]*$/', $tp) || !preg_match('/^[a-zA-Z0-9_\-]*$/', $sbm)) {
+    die("Invalid input");
+}
 if (empty($treat)) {
     die("Invalid treatment");
 }
@@ -302,7 +302,7 @@ $treatCont41 = mysqli_stmt_num_rows($query1);
 $treatQuery=0;
 // $rowCount = 0;
 	
- echo"<h1 style='background:white;'>test $treatCont41 </h1>";////
+//  echo"<h1 style='background:white;'>test $treatCont41 </h1>";////
 if (!empty($dueDate) && $dueDate !== "None"){
  ///echo"<h1 style='background:white;'> and  $fid1 </h1>";////
   if ($dueDate!=$date && $treatCont41===0) {
@@ -325,7 +325,8 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 );
       mysqli_stmt_execute($smt);
     $treatQuery = mysqli_stmt_affected_rows($smt);
-
+$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+$_SESSION['csrf_time'] = time();
  }
 if ($smt) {
     mysqli_stmt_close($smt);
@@ -408,7 +409,7 @@ else {
     
 
 ?>
-<script src="./Treatment.js"></script>  
+<script src="./Treatment.js?v=2"></script>  
   </form>
 
 </body>
