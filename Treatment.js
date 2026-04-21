@@ -14,14 +14,14 @@
   let advan =  Number(advance.value) 
   let tot =  Number(cashReceived.value)
   let v   ="0";  
-    if (!treat) {
+    if (treat.trim()==="") {
       
-      msg.innerHTML="Enter treatment"
+      msg.innerHTML="Enter treatment please"
       // alert("date is "+date)
           return false 
     }
 
-    if (advance.value<0 || online.value<0) {
+   if (Number(advance.value) < 0 || Number(online.value) < 0){
         
     alert("Enter positive number");
          return false;
@@ -30,12 +30,6 @@
         alert("Enter valid number");
          return false;
     }
- if (isNaN(advan) || advance.value.trim() === "") {
-    advance.value=0;
-  // alert("Enter advance number");
-    // return false;
-}
- else{
          let date = new Date();
          let d = date.getDate()
          let mo = date.getMonth()+1
@@ -76,7 +70,7 @@ if (Number(parts[0])<y) {
     return false
     
   } 
-}
+
 } 
   
 if (advan> 0 && tot==0) {
@@ -90,10 +84,18 @@ if (dueDate.value.length==0) {
   // alert("no due date And advance is "+dueDate.value)///
   dueDate.value="None"
   }
-if (advance.value=="") {
-     advance.value=0;
-  
+
+if (advance.value.trim()==="" || online.value.trim()==="" || cashReceived.value.trim()==="") {
+ let p = confirm("Are sure you want to leave with default values ")
+  if (p==true) {
+    return true
+  }
+  else{
+    return false 
+  }
     }
+
+    return true
   }
 window.oninput = function() {
   msg.innerHTML = "";
