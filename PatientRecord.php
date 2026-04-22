@@ -1,7 +1,7 @@
 <?php
 include("Connection/Connect.php");
 
-// Error & session security
+// Error & session security secure 8.5/10
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 ini_set('session.cookie_httponly', 1);
