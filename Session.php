@@ -25,11 +25,11 @@ mysqli_stmt_bind_param($prepare, 's', $username);
 mysqli_stmt_execute($prepare);
 
 $result = mysqli_stmt_get_result($prepare);
-$count  = mysqli_num_rows($result);
+$row = mysqli_fetch_assoc($result);
 
-if($count == 1){
+if ($row) {
 
-    $row = mysqli_fetch_assoc($result);
+    
     $dbPassword = $row['password'];
     if(password_verify($_POST['password'], $dbPassword)){
         
@@ -42,25 +42,6 @@ if($count == 1){
         exit();
 
     }
-    
-
-    else if($_POST['password'] === $dbPassword){
-        // ⚠️ Old plain password → upgrade to hash
-     session_regenerate_id(true);
-   $_SESSION['login_attempts'] = 0; // ✅ ADD THIS
-$_SESSION['user'] = $row['username'];
-$_SESSION['admin_id'] = $row['id'];
-        $newHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-        $update = "UPDATE admin SET password=? WHERE id=?";
-        $stmt = mysqli_prepare($conn, $update);
-        mysqli_stmt_bind_param($stmt, 'si', $newHash, $row['id']);
-        mysqli_stmt_execute($stmt);
-
-        header("Location: DentalHomePage.php");
-        exit();
-        // now password is hashed in DB
-    } 
     
   else {
     $_SESSION['login_attempts']++;
