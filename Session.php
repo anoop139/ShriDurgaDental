@@ -34,7 +34,7 @@ if($count == 1){
     if(password_verify($_POST['password'], $dbPassword)){
         
         session_regenerate_id(true);
-
+    $_SESSION['login_attempts'] = 0; // ✅ ADD THIS
         $_SESSION['user'] = $row['username'];
         $_SESSION['admin_id'] = $row['id'];
 
@@ -46,8 +46,8 @@ if($count == 1){
 
     else if($_POST['password'] === $dbPassword){
         // ⚠️ Old plain password → upgrade to hash
-session_regenerate_id(true);
-
+     session_regenerate_id(true);
+   $_SESSION['login_attempts'] = 0; // ✅ ADD THIS
 $_SESSION['user'] = $row['username'];
 $_SESSION['admin_id'] = $row['id'];
         $newHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
