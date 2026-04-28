@@ -39,8 +39,10 @@ if (!isset($_GET['id'])) {
     die("Invalid request");
 }
 
-
-$fid = intval($_GET['id']);
+$fid = (int) $_GET['id'];
+if ($fid <= 0) {
+    die("Invalid patient ID");
+}
 header("Content-Security-Policy:
 default-src 'self';
 script-src 'self';
@@ -51,6 +53,10 @@ object-src 'none';
 frame-ancestors 'none';
 form-action 'self';
 ");
+
+header("X-Content-Type-Options: nosniff");
+header("X-Frame-Options: DENY");
+header("Referrer-Policy: strict-origin-when-cross-origin");
 $pr = '';
 ?>
 
@@ -337,9 +343,11 @@ if ($smt) {
     $_SESSION['csrf_time'] = time();
        $id_safe = urlencode($fid1);
 $count_safe = urlencode($treatQuery);
-        echo"<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>Treatment inserted successfully<br>
- <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$count_safe'>Click here to view     </a>treatment  
-        </h3>";  
+   echo "<h3 style='position:absolute; top:0px; background:white; color:green;' id='treatExisted'>
+Treatment inserted successfully<br>
+<a href='TreatmentDetail.php?id=" . htmlspecialchars($id_safe, ENT_QUOTES, 'UTF-8') . "&treatInserted=" . htmlspecialchars($count_safe, ENT_QUOTES, 'UTF-8') . "'>
+Click here to view</a> treatment
+</h3>";
  }
     // ✅ Correct place to refresh token
 
@@ -351,10 +359,10 @@ $count_safe = urlencode($treatQuery);
       $id_safe = urlencode($fid1);
 $count_safe = urlencode($treatQuery);
         echo"<h3 style='position:absolute; top:0px; background:white; color:red;' id='treatExisted'>Treatment existed<br>
- <a href='TreatmentDetail.php?id=$id_safe&treatInserted=$count_safe'>Click here to view  </a>treatment 
+ <a href='TreatmentDetail.php?id=".htmlspecialchars($id_safe, ENT_QUOTES, 'UTF-8')."&treatInserted=".htmlspecialchars($count_safe,  ENT_QUOTES, 'UTF-8')."'>Click here to view  </a>treatment 
         </h3>";
  }
-      }
+      } 
     
    else{
  if ($treatCont41==0) {
