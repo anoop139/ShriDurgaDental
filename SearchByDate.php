@@ -1,18 +1,17 @@
 <?php
 include("Connection/Connect.php");
-error_reporting(0);
-session_start(); 
-header("X-Frame-Options: DENY");
-header("X-Content-Type-Options: nosniff");
-header("X-XSS-Protection: 1; mode=block");
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+session_start();
+
 if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
     header("Location: LogIn.php");
     exit();
 }
 $admin_id = $_SESSION['admin_id'];
-if (empty($_SESSION['token'])) {
-    # code...
-      $_SESSION['token'] = bin2hex(random_bytes(32));
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
 }
     
 ?>
@@ -22,60 +21,11 @@ if (empty($_SESSION['token'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-     	#ul{
-		padding-left: 1300px;
-	}
-    body{
-            background-image: url("Images/SearchByDate.jpeg");
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;  
-        }
-        ul{
-            padding-left:10px
-        }
-       ul ul li{
-        background:white;
-      }
-        #dateInput
-        {
-            margin-left:800px;
-            margin-top:0px ;
-        }
-        #inputAra{
-            margin-top:4px;
-            float: left;
-        }
-        #dateInput{
-         /* margin-top:70px; */
-        } 
-        .disp{
-            margin-left:400px;
-        }
-        .disp h1{
-            text-align:center;
-        }
-        #err{
-            color:red;
-            position: relative;
-            top:0px;
-            left:-100px;
-        }
-        .disp{
-            width: 800px;
-            height: auto;
-             background:white;
-        }
-        table{
-         margin-left:40px ;
-        }
-        ul{
     
-    padding-left: 0px;
-     }
     </style>
     <title>Seach By Date</title>
 <link rel="stylesheet" href="./Header2.css">
+<link rel="stylesheet" href="./Test.css">
 </head>
 <body>
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
@@ -199,11 +149,12 @@ mysqli_stmt_close($query);
         }
         else{ 
       
-       x = dateVal.split("-").reverse().join(" - ")
+      x = dateVal.split("-").reverse().join(" - ")
     // let date = x.slice(//0,7)   
+    // error.innerHTML=dateVal
       dateVal2.value=x;
    }
-   return true 
+   return true
  }
     window.oninput = ()=>{
         error.innerHTML="";
