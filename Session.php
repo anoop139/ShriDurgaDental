@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start();//Secure
 if (!isset($_SESSION['login_attempts'])) {
     $_SESSION['login_attempts'] = 0;
     $_SESSION['lock_time'] = 0;
