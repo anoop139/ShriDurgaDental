@@ -13,7 +13,16 @@ $admin_id = $_SESSION['admin_id'];
 if (!isset($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
-    
+$nonce = bin2hex(random_bytes(16));
+
+header("Content-Security-Policy: default-src 'self'; 
+script-src 'self' 'nonce-$nonce'; 
+style-src 'self'; 
+img-src 'self' data:; 
+object-src 'none'; 
+base-uri 'self';");
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
 ?>
 <!DOCTYPE html>
 <html lang="javascriptract">
@@ -56,24 +65,30 @@ if (!isset($_SESSION['token'])) {
 <div id="seeMsg" class="disp">
     <!-- <h1>hello</h1> -->
    		<?php
-	if(isset($_POST['Sub']))
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-{ 
-     if (!isset($_POST['token']) ||!hash_equals($_SESSION['token'], $_POST['token'])) {
-    die("CSRF attack detected");
- 
+ $date = $_POST['Date'] ?? '';
+
+        if (empty($date)) {
+            echo "<h3>Please choose a date</h3>";
+            exit();
+        }
+ if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
+    echo "<h3>Invalid request</h3>";
+    exit();
 }
    $_SESSION['token'] = bin2hex(random_bytes(32));
-$date = $_POST['Date'];
+
 $dateObj = DateTime::createFromFormat('d - m - Y', $date);
 if (!$dateObj || $dateObj->format('d - m - Y') !== $date) {
-    die("Invalid date");
+    echo "<h3>Invalid date</h3>";
+    exit();
 }
 if (!preg_match('/^\d{2} - \d{2} - \d{4}$/', $date)) {
     echo "Invalid date format";
     exit();
 }
-    echo"<h1>Patient record on ".$date."</h1><br>";
+echo "<h1>Patient record on " . htmlspecialchars($date, ENT_QUOTES, 'UTF-8') . "</h1><br>";
    
 
    $patientInfo = "SELECT * FROM patient WHERE patient.date =? AND patient.admin_id = ?";
@@ -132,8 +147,9 @@ $no = mysqli_num_rows($result);
 mysqli_stmt_close($query);
 }
 
+	
 ?>
-<script>
+<script nonce="<?php echo $nonce; ?>">
     let dateVal;
     let error = document.getElementById("err")
    
