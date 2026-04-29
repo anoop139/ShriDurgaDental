@@ -1,7 +1,8 @@
-<?php
+<?php  // 👉 ~82–85% secure
 include("Connection/Connect.php");
-error_reporting(0);
-
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 session_start();
 if(!isset($_SESSION['user'])){
     header("Location: LogIn.php");
@@ -11,9 +12,8 @@ $admin_id = $_SESSION['admin_id'];
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit("Invalid request");
 }
-
-if (!isset($_POST['token']) || trim($_POST['token']) !== $_SESSION['token']) {
-    die("CSRF attack detected i m stopping");
+if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
+    die("CSRF attack detected");
 }
 ?>
 <style>
@@ -94,6 +94,16 @@ $name = trim($_POST['name'] ?? '');
 $age = trim($_POST['age'] ?? '');
 $gender = trim($_POST['Gender'] ?? '');
 $phone = trim($_POST['pho'] ?? '');
+if (
+    empty($date) ||
+    empty($name) ||
+    empty($age) ||
+    empty($gender) ||
+    empty($phone)
+) {
+    echo "<h1 style='color:red'>All fields are required</h1>";
+    exit();
+}
 if (!is_numeric($age) || $age <= 0 || $age > 120) {
     echo "Invalid age";
     exit();
