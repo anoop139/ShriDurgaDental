@@ -38,7 +38,7 @@ $name = $_GET['n'];
       <ul style="background:lightblue; height: 40px; width:340px; padding-left:1000px">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
    <ul>
@@ -90,13 +90,13 @@ $show   = mysqli_fetch_assoc($query1);
 </tr>
 <tr>
 <td><?php echo$show['name'];?></td>
-<td><a href="Edit/Name.html?id=<?php echo $show['sno'];?>">Edit name</a></td>
+<td><a href="Edit/Name.php?id=<?php echo $show['sno'];?>">Edit name</a></td>
 <td style="text-align:center;"><?php echo$show['age'];?></td>
-<td style="text-align:center;"><a href="Edit/Age.html?id=<?php echo $show['sno'];?>">Edit age</a></td>
+<td style="text-align:center;"><a href="Edit/Age.php?id=<?php echo $show['sno'];?>">Edit age</a></td>
 <td style="text-align:center;"><?php echo$show['gen'];?></td>
-<td style="text-align:center;"><a href="Edit/Gender.html?id=<?php echo $show['sno'];?>">Edit gender</a></td>
+<td style="text-align:center;"><a href="Edit/Gender.php?id=<?php echo $show['sno'];?>">Edit gender</a></td>
 <td><?php echo$show['phoNo'];?></td>
-<td><a href="Edit/Phone.html?id=<?php echo $show['sno'];?>">Edit phone number</a></td>
+<td><a href="Edit/Phone.php?id=<?php echo $show['sno'];?>">Edit phone number</a></td>
 <td><a href="Edit/DeletePatientRecord.php?id=<?php echo $show['sno'];?>">Delete</a></td>
 </tr>
 </table>
