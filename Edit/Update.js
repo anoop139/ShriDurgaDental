@@ -53,7 +53,7 @@ function updateGen() {
    let female = document.getElementById("Female");
    let gender = document.getElementById("gen")
    if (male.checked==false && female.checked==false) {//
-      message.innerHTML="Select one option please hwkl "
+      message.innerHTML="Select one option please "
       // message.innerHTML="yes my baby"
       return false     
    }
