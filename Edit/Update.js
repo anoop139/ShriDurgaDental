@@ -53,18 +53,18 @@ function updateGen() {
    let female = document.getElementById("Female");
    let gender = document.getElementById("gen")
    if (male.checked==false && female.checked==false) {//
-      message.innerHTML="Select one option please  "
+      message.innerHTML="Select one option please hwkl "
       // message.innerHTML="yes my baby"
       return false     
    }
    if(male.checked==true){
-      gender.value = "M"
+      gender.value = "Male"
       holdId.value = id
       // message.innerHTML="The value of id is "+holdId.value
       // return false
    }
    else if(female.checked==true){
-      gender.value ="F"
+      gender.value ="Female"
         holdId.value = id
       // message.innerHTML="The value of id is "+holdId.value
       // return false
