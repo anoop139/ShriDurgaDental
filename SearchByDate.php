@@ -4,15 +4,15 @@ ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 session_start();
-
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
 if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
     header("Location: LogIn.php");
     exit();
 }
 $admin_id = $_SESSION['admin_id'];
-if (!isset($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-}
+
 $nonce = bin2hex(random_bytes(16));
 
 header("Content-Security-Policy: default-src 'self'; 
@@ -135,7 +135,7 @@ $no = mysqli_num_rows($result);
 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".urlencode($fetch['sno'])."'>$no2</a></td>
 <td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=".urlencode($fetch['sno'])."&tp=True'>Click here to add treatment</a></td>
 <td class='td' style='padding:7px'>".htmlspecialchars($fetch['phoNo'],ENT_QUOTES, 'UTF-8')."</td>
-<td class='td' style='padding:7px'><a href='Edit.php?id=".htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8')."'>Edit</a></td>
+<td class='td' style='padding:7px'><a href='Edit.php?id=".htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8')."&admin_id=$admin_id'>Edit</a></td>
 </tr>";
 	  }
        echo"</table><br>";

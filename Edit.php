@@ -1,10 +1,19 @@
 <?php
 include("Connection/Connect.php");
-error_reporting(0);
-$name = $_GET['n'];
+
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+session_start();
+
+if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
+    header("Location: LogIn.php");
+    exit();
+}
 ?>
 <html>
 <head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Edit Page</title>
@@ -33,7 +42,8 @@ $name = $_GET['n'];
     <link rel="stylesheet" href="Header2.css?v=1">
     <link rel="stylesheet" href="StlyEdit.css?v=11">
 	
-
+</head>
+<body id="editBody">
   <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
       <ul style="background:lightblue; height: 40px; width:340px; padding-left:1000px">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
@@ -50,26 +60,51 @@ $name = $_GET['n'];
         </li>
         </li>
 </ul>
-<body id="editBody">
+
 
 <div id="EidtSection">
 <?php
-if(isset($_GET['id'])){
-$id =$_GET['id'];
-$newName =$_GET['newName'];
+if (!isset($_GET['id']) || (int)$_GET['id'] <= 0) {
+    die("Invalid or missing patient ID");
+}
+$id = (int)$_GET['id'];
+$admin_id = $_SESSION['admin_id'];
 // echo"id id $id<br>";
-$query ="Select *from patient where sno=$id";
-$query1 = mysqli_query($conn, $query);
-$show   = mysqli_fetch_assoc($query1);
+$query = "SELECT * FROM patient WHERE sno=? AND admin_id=?";
+$prepare = mysqli_prepare($conn,$query);
+
+if ($prepare) {
+    
+mysqli_stmt_bind_param($prepare, 'ii', $id, $admin_id);
+mysqli_stmt_execute($prepare);
+$result = mysqli_stmt_get_result($prepare);   // ✅ correct
+$fetch = mysqli_fetch_assoc($result);  
+ if (!$fetch) {
+    die("No patient record found for this ID.");
 }
-else if(isset($_GET['newName'])){
-	echo"<h1 id='updateMessage'>updated successfully</h1>";
-	$newName =$_GET['newName'];
-	//Kecho"val in $newName after updation <br>";
-$query ="Select *from patient where sno=$newName";
-$query1 = mysqli_query($conn, $query);
-$show   = mysqli_fetch_assoc($query1);
+   
+ if(isset($_GET['ageUpdated']))    // ✅ correct
+ {
+    	echo"<h1 id='updateMessage'>Age updated successfully</h1>";
+ }
+ if(isset($_GET['nameUpdated']))    // ✅ correct
+ {
+    	echo"<h1 id='updateMessage'>Name updated successfully</h1>";
+ }
+  if(isset($_GET['phoneUpdated']))    // ✅ correct
+ {
+    	echo"<h1 id='updateMessage'>Phone Number updated successfully</h1>";
+ }
+   if(isset($_GET['genderUpdated']))    // ✅ correct
+ {
+    	echo"<h1 id='updateMessage'>Gender updated successfully</h1>";
+ }
+    mysqli_stmt_close($prepare);
 }
+// $query1 = mysqli_query($conn, $query);
+// $show   = mysqli_fetch_assoc($query1);
+
+
 ?>
 
 <script>
@@ -89,32 +124,33 @@ $show   = mysqli_fetch_assoc($query1);
 <th>Delete</th>
 </tr>
 <tr>
-<td><?php echo$show['name'];?></td>
-<td><a href="Edit/Name.php?id=<?php echo $show['sno'];?>">Edit name</a></td>
-<td style="text-align:center;"><?php echo$show['age'];?></td>
-<td style="text-align:center;"><a href="Edit/Age.php?id=<?php echo $show['sno'];?>">Edit age</a></td>
-<td style="text-align:center;"><?php echo$show['gen'];?></td>
-<td style="text-align:center;"><a href="Edit/Gender.php?id=<?php echo $show['sno'];?>">Edit gender</a></td>
-<td><?php echo$show['phoNo'];?></td>
-<td><a href="Edit/Phone.php?id=<?php echo $show['sno'];?>">Edit phone number</a></td>
-<td><a href="Edit/DeletePatientRecord.php?id=<?php echo $show['sno'];?>">Delete</a></td>
+<td><?php echo htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+<td><a href="Edit/Name.html?id=<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8'); ?>">Edit name</a></td>
+<td style="text-align:center;"><?php echo htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8'); ;?></td>
+<td style="text-align:center;"><a href="Edit/Age.html?id=<?php echo $fetch['sno'];?>">Edit age</a></td>
+<td style="text-align:center;"><?php echo htmlspecialchars($fetch['gen'], ENT_QUOTES, 'UTF-8');?></td>
+<td style="text-align:center;"><a href="Edit/Gender.html?id=<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8');?>">Edit gender</a></td>
+<td><?php echo htmlspecialchars($fetch['phoNo'], ENT_QUOTES, 'UTF-8');?></td>
+<td><a href="Edit/Phone.html?id=<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8');?>">Edit phone number</a></td>
+<td><a href="Edit/DeletePatientRecord.php?id=<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8');?>">Delete</a></td>
 </tr>
 </table>
 <script>
-  let mess = document.getElementById("updateMessage")
-window.onload=(()=>{
-    mess.style.transform="translateY(80px)";
-})
+window.onload = () => {
+    let mess = document.getElementById("updateMessage");
 
-  setTimeout(() => {
-      mess.style.transform="translateY(-80px)";
-  }, 5000);
+    if (!mess) return;
+
+    mess.style.transform = "translateY(80px)";
+
+    setTimeout(() => {
+        mess.style.transform = "translateY(-80px)";
+    }, 5000);
+};
+
 </script>
 </div>
-<body>
-<?php
-$id = $_GET['id'];
-$name2 = $_GET['name'];
-//echo"Devoloping editing anna's edit page om sai";
-?>
+
+    
+</body>
 </html>
