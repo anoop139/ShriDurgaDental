@@ -7,7 +7,9 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
 }
 $admin_id = $_SESSION['admin_id'];
 include("../Connection/Connect.php");
-error_reporting(0);
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -126,16 +128,15 @@ error_reporting(0);
                  mysqli_stmt_bind_param($tretPrepare, 'i',$id);
                   mysqli_stmt_execute($tretPrepare);
                   $treatQuery = mysqli_stmt_get_result($tretPrepare);
-                 $treatNo;
-                  if (mysqli_num_rows($treatQuery)>0) {
-                    $treatNo =  mysqli_num_rows($treatQuery);
-                  }
-                  else{
-                    $treatNo="";
-                  }
-                  
-
-               if (isset($_POST['deleteRecord'])) {    
+                $treatNo;
+             if (mysqli_num_rows($treatQuery)>0) {
+            $treatNo = mysqli_num_rows($treatQuery);
+           
+            }
+        else{
+    $treatNo="";
+    }
+        if (isset($_POST['deleteRecord'])) {    
             
                if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
     
