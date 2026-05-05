@@ -30,14 +30,12 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
 		padding: 5px;
 	}
     #updateMessage{
-        position: absolute;
-        top:-80px;
-        color:green;
-        transition: transform 3s 
-     }
-    #updateMessage{
-       background-color:white
-    }
+    position: absolute;
+    top: -80px;
+    color: green;
+    background-color: white;
+    transition: transform 3s;
+}
    
 	</style>
     <link rel="stylesheet" href="Header2.css?v=1">
@@ -68,7 +66,8 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
 if (!isset($_GET['id']) || (int)$_GET['id'] <= 0) {
     die("Invalid or missing patient ID");
 }
-$id = (int)$_GET['id'];
+
+$id = (int) $_GET['id'];
 $admin_id = $_SESSION['admin_id'];
 // echo"id id $id<br>";
 $query = "SELECT * FROM patient WHERE sno=? AND admin_id=?";
