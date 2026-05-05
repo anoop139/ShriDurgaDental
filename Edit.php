@@ -5,7 +5,9 @@ ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 session_start();
-
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
 if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     header("Location: LogIn.php");
     exit();
@@ -13,7 +15,6 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
 ?>
 <html>
 <head>
-    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Edit Page</title>
@@ -127,12 +128,18 @@ $fetch = mysqli_fetch_assoc($result);
 <td><?php echo htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8'); ?></td>
 <td><a href="Edit/Name.html?id=<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8'); ?>">Edit name</a></td>
 <td style="text-align:center;"><?php echo htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8'); ;?></td>
-<td style="text-align:center;"><a href="Edit/Age.html?id=<?php echo $fetch['sno'];?>">Edit age</a></td>
+<td style="text-align:center;"><a href="Edit/Age.html?id=<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8');?>">Edit age</a></td>
 <td style="text-align:center;"><?php echo htmlspecialchars($fetch['gen'], ENT_QUOTES, 'UTF-8');?></td>
 <td style="text-align:center;"><a href="Edit/Gender.html?id=<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8');?>">Edit gender</a></td>
 <td><?php echo htmlspecialchars($fetch['phoNo'], ENT_QUOTES, 'UTF-8');?></td>
 <td><a href="Edit/Phone.html?id=<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8');?>">Edit phone number</a></td>
-<td><a href="Edit/DeletePatientRecord.php?id=<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8');?>">Delete</a></td>
+<td>
+<form method="POST" action="Edit/DeletePatientRecord.php" style="display:inline;">
+    <input type="hidden" name="id" value="<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8'); ?>">
+    <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+    <button type="submit">Delete</button>
+</form>
+</td>
 </tr>
 </table>
 <script>
