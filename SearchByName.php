@@ -122,7 +122,7 @@ error_reporting(0);
        <ul style="background:black; height: 40px; width:340px; padding-left:1000px">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.html">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
    <ul>
