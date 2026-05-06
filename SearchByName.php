@@ -1,6 +1,18 @@
 <?php
 include("Connection/Connect.php");
-error_reporting(0);
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+session_start();
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
+if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
+    header("Location: LogIn.php");
+    exit();
+}
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,6 +149,7 @@ error_reporting(0);
 <div id="res1">
 <h1>Search by Name :</h1>
 <form id="input"onsubmit="return checkInput()" method="POST">
+<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
 <input type="text" id="input1" name="name" class="Col">&nbsp;
 <input type="submit" name="Sub" class="Col" value="Click here" ><br>
 </form><br><br>
@@ -144,13 +157,24 @@ error_reporting(0);
 		<?php
 	if(isset($_POST['Sub']))
 
-{    
-	$name =  $_POST['name'];
-
-// 
-   $patientInfo = "SELECT * FROM patient WHERE name LIKE'$name%'";
-
-	$query       = mysqli_query($conn, $patientInfo);
+{    if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+    die("Invalid CSRF token");
+}
+	$name = trim($_POST['name']);
+     if ($name === "" || strlen($name) > 50) {
+    echo "<h1>Invalid input</h1>";
+    exit();
+   }
+	$admin_id = $_SESSION['admin_id'];
+	$pateintName =  $name . "%";
+   $patientInfo = "SELECT * FROM patient WHERE name LIKE ? and admin_id =?";
+   $prepare     = mysqli_prepare($conn, $patientInfo);
+if (!$prepare) {
+    die("Query failed");
+}
+   mysqli_stmt_bind_param($prepare, 'si', $pateintName, $admin_id);
+    mysqli_stmt_execute($prepare);
+	$query       = mysqli_stmt_get_result($prepare);
 	$no           = mysqli_num_rows($query);
 	 
 	
@@ -171,19 +195,27 @@ error_reporting(0);
 	 </tr>";
       while($fetch =mysqli_fetch_assoc($query))
 	  { 
-        $id ="select * from treatment where sno=$fetch[sno]";
-		$query2       = mysqli_query($conn, $id);
-	    $no2           = mysqli_num_rows($query2);   
+        $id ="SELECT COUNT(*) as total FROM treatment WHERE sno=? AND admin_id=?";
+		$prepare2       = mysqli_prepare($conn, $id);
+		       if (!$prepare2) {
+           die("Query failed");
+          }
+		mysqli_stmt_bind_param($prepare2, 'ii',  $fetch['sno'], $admin_id);
+		mysqli_stmt_execute($prepare2);
+		$res  = mysqli_stmt_get_result($prepare2);
+		$count = mysqli_fetch_assoc($res);
+  $no2 = $count['total']; //mysqli_num_rows($res);
+
 		 ///  echo"hi $fetch[sno]";
            		echo"<tr>
-		  <td class='td'>$fetch[date]</td>
-		  <td class='td'>$fetch[name]</td>
-	 <td style='text-align:center;' class='td'>$fetch[age]</td>
-	 <td style='text-align:center' class='td'>$fetch[gen]</td>
-	 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=$fetch[sno]'>$no2</a></td>
-	 <td style='text-align:center' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&pr=true'>Click here to add treatment</a></td>
-	 <td class='td'>$fetch[phoNo]</td>
-	 <td class='td'><a href='Edit.php?id=$fetch[sno]'>Edit</a></td>
+		  <td class='td'>".htmlspecialchars($fetch['date'], ENT_QUOTES, 'UTF-8')."</td>
+		  <td class='td'>".htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8')."</td>
+	 <td style='text-align:center;' class='td'>".htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8')."</td>
+	 <td style='text-align:center' class='td'>".htmlspecialchars($fetch['gen'], ENT_QUOTES, 'UTF-8')."</td>
+	 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8')."'>$no2</a></td>
+	 <td style='text-align:center' class='td'><a id='Number' href='InsertTreatment.php?id=".htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8')."&pr=true'>Click here to add treatment</a></td>
+	 <td class='td'>".htmlspecialchars($fetch['phoNo'], ENT_QUOTES, 'UTF-8')."</td>
+	 <td class='td'><a href='Edit.php?id=".htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8')."'>Edit</a></td>
 	 </tr>";		  
 	  }
        echo"</table>";
@@ -194,57 +226,6 @@ error_reporting(0);
 	}
 
 }
-else if(isset($_GET["pid"]))
-{
-	$name1 =  $_GET['name4'];
-	$pid = $_GET["pid"];
-//    echo"<h1>$pid</h1>";
-// 
-   $patientInfo = "SELECT * FROM patient WHERE sno=$pid";
-
-	$query       = mysqli_query($conn, $patientInfo);
-	$no           = mysqli_num_rows($query);
-	 
-	
-	
-	if($no>0)
-	{
-		
-		echo" <table border='2'>
-	 <tr>
-	 <th style='padding:3px;'>Date</th>
-	 <th style='padding:3px;'>Name</th>
-	 <th style='padding:5px;'>Age</th>
-	 <th style='padding:5px;'>Gender</th>
-	 <th style='padding:5px;'>No. of treatment</th>
-	 <th style='padding:5px;'>Treatment details</th>
-	 <th style='padding:5px;'>Phone Number</th>
-	 <th style='padding:5px;'>Edit</th>
-	 </tr>";
-      while($fetch =mysqli_fetch_assoc($query))
-	  { 
-        $id ="select * from treatment where sno=$fetch[sno]";
-		$query2       = mysqli_query($conn, $id);
-	    $no2           = mysqli_num_rows($query2);   
-		 ///  echo"hi $fetch[sno]";
-           		echo"<tr>
-		  <td class='td'>$fetch[date]</td>
-		  <td class='td'>$fetch[name]</td>
-	 <td style='text-align:center;' class='td'>$fetch[age]</td>
-	 <td style='text-align:center' class='td'>$fetch[gen]</td>
-	 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=$fetch[sno]'>$no2</a></td>
-	 <td style='text-align:center' class='td'><a id='Number' href='InsertTreatment.php?id=$fetch[sno]&sbm=True'>Click here to add treatment</a></td>
-	 <td class='td'>$fetch[phoNo]</td>
-	 <td class='td'><a href='Edit.php?id=$fetch[sno]'>Edit</a></td>
-	 </tr>";		  
-	  }
-       echo"</table>";
-	}
-	else
-	{
-		echo"<h1 style='padding-left:350px;'>No recod found</h1>";
-	}
-	}
 
 
 ?>
