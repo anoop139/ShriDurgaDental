@@ -1,11 +1,16 @@
-<?php
+<?php  //88–92% secure
 include("Connection/Connect.php");
 header("X-Frame-Options: DENY");
-header("X-XSS-Protection: 1; mode=block");
 header("X-Content-Type-Options: nosniff");
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
+
+session_set_cookie_params([
+    'httponly' => true,
+    'secure' => true,
+    'samesite' => 'Strict'
+]);
 session_start();
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
@@ -107,7 +112,6 @@ if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
         $result = mysqli_stmt_get_result($stmt);
         $count    = mysqli_num_rows($result);
        $name;
-        mysqli_stmt_close($stmt);
         if ($count==0) {
               // echo"<h1>id "."$admin_id"."</h1>";
             # code...
@@ -139,7 +143,10 @@ if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
             "<td>".htmlspecialchars(safeExcel($fetch['age']), ENT_QUOTES, 'UTF-8')."</td>" .
             "<td>".htmlspecialchars(safeExcel($fetch['phoNo']), ENT_QUOTES, 'UTF-8')."</td>". 
                "</tr>";
-          }
+               
+            }
+           mysqli_stmt_close($stmt);
+       
           echo"</table> <td></td>";   // <-- add space here
           echo"</td><td valign='top'>";
 
@@ -185,7 +192,6 @@ if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
      
               }
                  mysqli_stmt_bind_param($stmt3, 'ii',  $id, $admin_id);
-              // mysqli_stmt_execute($/stmt3);
         if (!mysqli_stmt_execute($stmt3)) {
          die("Execution failed");
          }
@@ -234,13 +240,18 @@ if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
               <th colspan='5' style='text-align:left'>Total</th>".
               "<th id='dwTotalAmount'>".htmlspecialchars($total1)."</th>".
             "</tr>";
+                mysqli_stmt_close($stmt3);
+              mysqli_stmt_close($stmtSum);
+
+
               }
           
-               
+                 mysqli_stmt_close($stmt1);
          }
       echo "</table></td></tr></table>";
 
         }
+      
         $_SESSION['token'] = bin2hex(random_bytes(32));
       }
        ?>
