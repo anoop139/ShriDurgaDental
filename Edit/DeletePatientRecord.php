@@ -10,6 +10,12 @@ include("../Connection/Connect.php");
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
+
+if (empty($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,7 +99,7 @@ error_reporting(E_ALL);
 <div id="nameDiv">
         <?php
       if (isset($_POST['id'])) {
-              $record = $_POST['id'];
+            $record = (int)$_POST['id'];
             //   echo"<h1>Id is $record</h1>";
                $patName = "select name from patient where sno=? and admin_id=?";
                $prepare = mysqli_prepare($conn, $patName);
@@ -106,7 +112,7 @@ error_reporting(E_ALL);
               echo "Record not found";
                    exit();
                 }
-               echo"<h1>Are you sure you want to delete record of ".$getName["name"]." ? </h1>";
+               echo"<h1>Are you sure you want to delete record of ".htmlspecialchars($getName["name"], ENT_QUOTES, 'UTF-8')." ? </h1>";
     
            }
     
@@ -123,9 +129,9 @@ error_reporting(E_ALL);
                exit();
              }
         $id = (int)$_POST['id'];
-                 $treatment =" SELECT treatment FROM treatment where sno=?";
+                 $treatment =" SELECT treatment FROM treatment where sno=? AND admin_id=?";
                  $tretPrepare = mysqli_prepare($conn, $treatment);
-                 mysqli_stmt_bind_param($tretPrepare, 'i',$id);
+                 mysqli_stmt_bind_param($tretPrepare, 'ii',$id, $admin_id);
                   mysqli_stmt_execute($tretPrepare);
                   $treatQuery = mysqli_stmt_get_result($tretPrepare);
                 $treatNo;
@@ -138,13 +144,18 @@ error_reporting(E_ALL);
     }
         if (isset($_POST['deleteRecord'])) {    
             
-               if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+               if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
     
            die("Invalid CSRF token");
            
            
            }
-        
+               if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+               
+               exit("Invalid request");
+
+
+               }
                 $deleteRecord ="Delete from patient where sno=? and admin_id=?";
                 $prepareForDel = mysqli_prepare($conn, $deleteRecord);
                 mysqli_stmt_bind_param($prepareForDel, 'ii', $id, $admin_id);
@@ -153,6 +164,7 @@ error_reporting(E_ALL);
                 // $deleteQuery = mysqli_fetch_assoc///////////($result);
                 if (mysqli_stmt_affected_rows($prepareForDel)>0) {
                    echo"<h1>Deleted successfully</h1>";
+                   $_SESSION['token'] = bin2hex(random_bytes(32));
                 echo"<script>
                  window.location.href='../DentalHomePage.php?recordDeleted=true';
                 
