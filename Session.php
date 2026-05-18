@@ -38,6 +38,12 @@ if ($row) {
         $_SESSION['user'] = $row['username'];
         $_SESSION['admin_id'] = $row['id'];
 
+    // admin redirect
+   if ($row['role'] === "admin") {
+    header("Location: admin.php");
+    exit();
+}
+
         header("Location: DentalHomePage.php");
         exit();
 
