@@ -20,7 +20,7 @@ header("Referrer-Policy: no-referrer");
 <html>
 <head>
     <title>Login - Shri Durga Dental Clinic</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="login.css?v=1">
 </head>
 <body>
 
@@ -34,20 +34,13 @@ header("Referrer-Policy: no-referrer");
         <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
         <button type="submit">Login</button>
 
+
         <?php
         if(isset($_GET['error'])){
             echo "<p class='error'>Invalid Username or Password</p>";
         }
         ?>
     </form>
-    <h2>Welcome <span id="welcome"></span></h2>
 </div>
-<script>
-    fetch("GetUser.php")
-    .then(response => response.text())
-    .then((value) => {
-        document.getElementById("welcome").textContent=value;
-    })
-</script>
 </body>
 </html>
