@@ -34,7 +34,7 @@ header("X-Content-Type-Options: nosniff");
     </style>
     <title>Seach By Date</title>
 <link rel="stylesheet" href="./Header2.css">
-<link rel="stylesheet" href="./Test.css?v=1">
+<link rel="stylesheet" href="./SearchByDate.css?v=1">
 </head>
 <body>
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
