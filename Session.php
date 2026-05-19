@@ -37,6 +37,7 @@ if ($row) {
     $_SESSION['login_attempts'] = 0; // ✅ ADD THIS
         $_SESSION['user'] = $row['username'];
         $_SESSION['admin_id'] = $row['id'];
+        $_SESSION['role'] = $row['role'];
 
     // admin redirect
    if ($row['role'] === "admin") {
