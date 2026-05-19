@@ -1,0 +1,25 @@
+body{
+   background-image: url("Images/SearchByDate.jpeg");
+   background-repeat: no-repeat;
+   background-size: cover;
+}
+#inputAra{
+    margin-left: 10px;
+}
+#dateInput{
+    margin-left: 700px;
+    /* margin-bottom: 100p;/ */
+}
+#inputAra{
+    float: left;
+}
+#seeMsg{
+     width: auto;
+     height: auto;
+}
+#seeMsg{
+ background-color: white;
+}
+#seeMsg{
+ text-align: center;
+}
