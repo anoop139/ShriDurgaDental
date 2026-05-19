@@ -1,9 +1,11 @@
 <?php
 session_start();
-
 if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     header("Location: ../LogIn.php");
     exit();
+}
+if ($_SESSION['role'] !== "admin") {
+    die("Unauthorized");
 }
 $admin_id = $_SESSION['admin_id'];
 include("../Connection/Connect.php");
@@ -12,7 +14,7 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL);
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
-
+header("Content-Security-Policy: default-src 'self';");
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }

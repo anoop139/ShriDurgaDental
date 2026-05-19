@@ -34,7 +34,7 @@ header("X-Content-Type-Options: nosniff");
     </style>
     <title>Seach By Date</title>
 <link rel="stylesheet" href="./Header2.css">
-<link rel="stylesheet" href="./Test.css">
+<link rel="stylesheet" href="./Test.css?v=1">
 </head>
 <body>
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
@@ -106,7 +106,7 @@ $no = mysqli_num_rows($result);
 	
 	if($no>0)
 	{
-		
+		echo"<center>";
 		echo" <table border='2'>
 	 <tr cellpadding;4px>
 	 <th style='padding:3px;'>Name</th>
@@ -139,6 +139,7 @@ $no = mysqli_num_rows($result);
 </tr>";
 	  }
        echo"</table><br>";
+       echo"</center><br>";
 	}
 	else
 	{
@@ -149,6 +150,7 @@ mysqli_stmt_close($query);
 
 	
 ?>
+</div>
 <script nonce="<?php echo $nonce; ?>">
     let dateVal;
     let error = document.getElementById("err")
