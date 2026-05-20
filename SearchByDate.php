@@ -3,6 +3,9 @@ include("Connection/Connect.php");
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', 0);
+ini_set('session.cookie_samesite', 'Strict');
 session_start();
 if (!isset($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
@@ -14,18 +17,17 @@ if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
 $admin_id = $_SESSION['admin_id'];
 
 $nonce = bin2hex(random_bytes(16));
-
-header("Content-Security-Policy: default-src 'self'; 
-script-src 'self' 'nonce-$nonce'; 
-style-src 'self'; 
-img-src 'self' data:; 
-object-src 'none'; 
+header("Content-Security-Policy: default-src 'self';
+script-src 'self' 'nonce-$nonce';
+style-src 'self';
+img-src 'self' data:;
+object-src 'none';
 base-uri 'self';");
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
 ?>
 <!DOCTYPE html>
-<html lang="javascriptract">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,13 +42,13 @@ header("X-Content-Type-Options: nosniff");
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
    <ul style="background:white; height: 40px; padding-left:1010px; width:340px"  >
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient </a></li>&nbsp;
+        <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
+        <li><a href="PatientFom.php">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
    <ul>
-            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li><br>
+            <li><a href="SearchByName.php">Name</a></li><br>
+            <li><a href="SearchByNumber.php">Number</a></li><br>
     
         </ul>
         </li>
@@ -77,7 +79,7 @@ header("X-Content-Type-Options: nosniff");
     echo "<h3>Invalid request</h3>";
     exit();
 }
-   $_SESSION['token'] = bin2hex(random_bytes(32));
+   
 
 $dateObj = DateTime::createFromFormat('d - m - Y', $date);
 if (!$dateObj || $dateObj->format('d - m - Y') !== $date) {
@@ -90,10 +92,20 @@ if (!preg_match('/^\d{2} - \d{2} - \d{4}$/', $date)) {
 }
 echo "<h1>Patient record on " . htmlspecialchars($date, ENT_QUOTES, 'UTF-8') . "</h1><br>";
    
-
-   $patientInfo = "SELECT * FROM patient WHERE patient.date =? AND patient.admin_id = ?";
+$patientInfo = "SELECT patient.*,
+COUNT(treatment.tid) AS total_treatment
+FROM patient
+LEFT JOIN treatment
+ON patient.sno = treatment.sno
+AND patient.admin_id = treatment.admin_id
+WHERE patient.date = ?
+AND patient.admin_id = ?
+GROUP BY patient.sno";
 //    mysqli_prepare
 	$query       = mysqli_prepare($conn, $patientInfo);
+    if (!$query) {
+    exit("Database error");
+}
     mysqli_stmt_bind_param($query,  'si', $date, $admin_id);
 	
     mysqli_stmt_execute($query);
@@ -119,23 +131,15 @@ $no = mysqli_num_rows($result);
 	 </tr>";
       while($fetch =mysqli_fetch_assoc($result))
 	  { 
-        $id ="select * from treatment where sno=? and admin_id=?";
-        $query2 = mysqli_prepare($conn, $id);
-        $idContain = $fetch['sno'];
-        mysqli_stmt_bind_param($query2, 'ii', $idContain, $admin_id);
-		mysqli_stmt_execute($query2);///
-   $result2 = mysqli_stmt_get_result($query2);   // important
- $no2           = mysqli_num_rows($result2);   
-      mysqli_stmt_close($query2);///
 
            		echo "<tr>
 <td class='td' style='padding:7px'>".htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8')."</td>
 <td style='text-align:center;' class='td'>".htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8')."</td>
 <td style='text-align:center' class='td'>".htmlspecialchars($fetch['gen'],ENT_QUOTES, 'UTF-8' )."</td>
-<td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".urlencode($fetch['sno'])."'>$no2</a></td>
+<td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".urlencode($fetch['sno'])."'>".htmlspecialchars($fetch['total_treatment'], ENT_QUOTES, 'UTF-8')."</a></td>
 <td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=".urlencode($fetch['sno'])."&tp=True'>Click here to add treatment</a></td>
 <td class='td' style='padding:7px'>".htmlspecialchars($fetch['phoNo'],ENT_QUOTES, 'UTF-8')."</td>
-<td class='td' style='padding:7px'><a href='Edit.php?id=".htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8')."&admin_id=$admin_id'>Edit</a></td>
+<td class='td' style='padding:7px'><a href='Edit.php?id=".htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8')."'>Edit</a></td>
 </tr>";
 	  }
        echo"</table><br>";
@@ -143,7 +147,7 @@ $no = mysqli_num_rows($result);
 	}
 	else
 	{
-		echo"<h1 >No recod found</h1>";
+		echo"<h1 >No record found</h1>";
 	}
 mysqli_stmt_close($query);
 }
@@ -174,12 +178,10 @@ mysqli_stmt_close($query);
    }
    return true
  }
-    window.oninput = ()=>{
-        error.innerHTML="";
-    }
-    //  x = x.replace(v, "")
-      //  dateVal2.value=x
+document.getElementById("date0").oninput = () => {
+    error.innerHTML = "";
+}
 </script>
-</div>
+
 </body>
 </html> 
