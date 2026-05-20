@@ -1,6 +1,6 @@
 <?php
 ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure', isset($_SERVER['HTTPS']));
+ini_set('session.cookie_secure', 1);
 ini_set('session.cookie_samesite', 'Strict');
 session_start();
 
@@ -92,11 +92,9 @@ if (empty($_SESSION['token'])) {
            }
                if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                
-               exit("Invalid request");
-
-
+                 exit("Invalid request");
                }
-                $deleteRecord ="Delete from patient where sno=? and admin_id=?";
+                 $deleteRecord ="Delete from patient where sno=? and admin_id=?";
                 $prepareForDel = mysqli_prepare($conn, $deleteRecord);
                 mysqli_stmt_bind_param($prepareForDel, 'ii', $id, $admin_id);
                 mysqli_stmt_execute($prepareForDel);
@@ -114,6 +112,7 @@ if (empty($_SESSION['token'])) {
 
                 }
                }
+               
             ?>
         </div>
     </div>
