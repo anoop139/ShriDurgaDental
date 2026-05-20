@@ -1,12 +1,14 @@
 <?php
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', isset($_SERVER['HTTPS']));
+ini_set('session.cookie_samesite', 'Strict');
 session_start();
+
 if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     header("Location: ../LogIn.php");
     exit();
 }
-if ($_SESSION['role'] !== "admin") {
-    die("Unauthorized");
-}
+
 $admin_id = $_SESSION['admin_id'];
 include("../Connection/Connect.php");
 ini_set('log_errors', 1);
@@ -14,7 +16,9 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL);
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
-header("Content-Security-Policy: default-src 'self';");
+$nonce = bin2hex(random_bytes(16));
+
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce';");
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
@@ -27,75 +31,9 @@ if (empty($_SESSION['token'])) {
 
     <title>Delete Pateint Record</title>
     <style>
-        body{
-            
-            background-image:url("../Images/DentalPatient2.jpg");
-            background-repeat:no-repeat;
-            background-size:cover
-        }
-         #nameDiv{
-        position: absolute;
-        top: 40px;
-        left: 400px;
-    }
-    #main-div{
-        padding-top: 0px;
 
-    }
-    #main-div{
-             background-image:url("../Images/DentalPatient.jpg");
-            background-repeat:no-repeat;
-            background-size:cover
-    }
-
-    #main-div{
-        height: 200px;
-    }
-    #result-div{
-        padding-top:40px;
-    }
-    #result-div{
-     text-align:center
-    }
-    #delRequ{
-        text-align:right;
-    } 
-    
-     
-    #delRequ input{
-        position: relative;
-    //    left: 800px;
-        bottom:30px;
-    } 
-     #yesDiv{
-       
-        text-align:right;
-        /* margin-left:1000px ; */
-
-    }
-    #yesDiv input{
-        padding: 10px;
-        margin-top:0px;
-        /* margin-left:1000px ; */
-
-    }
-      /* #mainFom input{
-        padding: 10px;
-    }  */
-    .btns{
-        border: 2px solid black; 
-    }
-    .btns{
-  background-color: #ffffff;
-  color: #008B8B; /* DarkCyan - matches sea theme */
-  border: 2px solid #20B2AA; /* LightSeaGreen */
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: 0.3s;
-  cursor: pointer;
-}
     </style>
+    <link rel="stylesheet" href="DeletePatientRecord.css">
 </head>
 <body>
 <div id="nameDiv">
@@ -121,7 +59,7 @@ if (empty($_SESSION['token'])) {
     
     ?>
 </div>
-<form id="mainFom" action=""  method="POST" onsubmit="return checkTreat()">
+<form id="mainFom" action=""  method="POST">
     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
 <div id="main-div">
         <div id="result-div">
@@ -167,10 +105,9 @@ if (empty($_SESSION['token'])) {
                 if (mysqli_stmt_affected_rows($prepareForDel)>0) {
                    echo"<h1>Deleted successfully</h1>";
                    $_SESSION['token'] = bin2hex(random_bytes(32));
-                echo"<script>
-                 window.location.href='../DentalHomePage.php?recordDeleted=true';
-                
-                </script>";
+               echo "<script nonce='$nonce'>
+              window.location.href='../DentalHomePage.php?recordDeleted=true';
+               </script>";
                 }
                 else{
                    echo"<h1>Deletion failed</h1>";
@@ -184,14 +121,14 @@ if (empty($_SESSION['token'])) {
     <input type="hidden" name="tr" id="treatCount" value="<?php echo$treatNo;?>">
 <div id="yesDiv"><input type="submit" name="deleteRecord" class="btns" value="yes"></div>
 </form>
-<script>
-
-   function checkTreat() {
+<!-- <script > -->
+<script nonce="<?php echo $nonce; ?>">
+  document.getElementById("mainFom").onsubmit= ()=> {
    let treatCon = document.getElementById("treatCount").value
-     if (treatCon.length>0) {   
+    if (parseInt(treatCon) > 0){   
       let result = confirm("Treatment for the patient exist, are u sure you want to delete")
      if (result) {
-     return true 
+       return true; 
      }
      else{
         //  alert("You// chose no to delted")
@@ -199,14 +136,14 @@ if (empty($_SESSION['token'])) {
      }
     }
     return true
-
+//   alert("Safe to  delete")
+// return false;
    }
     // else{
-    // alert("Safe to  delete")
-    // //  return false;
+ 
     // }
     
 </script>
+
 </body>
-</html>
 </html>
