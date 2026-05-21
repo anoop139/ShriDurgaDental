@@ -1,18 +1,14 @@
 <?php
 include("Connection/Connect.php");
-ini_set('log_errors', 1);
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
-session_start();
-if (!isset($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-}
+include("Connection/Init.php");
 if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     header("Location: LogIn.php");
     exit();
 }
-header("X-Frame-Options: DENY");
-header("X-Content-Type-Options: nosniff");
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,13 +129,13 @@ header("X-Content-Type-Options: nosniff");
 <body>
        <ul style="background:black; height: 40px; width:340px; padding-left:1000px">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient </a></li>&nbsp;
+        <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
+        <li><a href="PatientFom.php">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
    <ul>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li>
+            <li><a href="SearchByDate.php">Date</a></li><br>
+            <li><a href="SearchByNumber.php">Number</a></li>
     
         </ul>
         </li>
@@ -157,10 +153,15 @@ header("X-Content-Type-Options: nosniff");
 		<?php
 	if(isset($_POST['Sub']))
 
-{    if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+{  
+	if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])){
     die("Invalid CSRF token");
 }
 	$name = trim($_POST['name']);
+	if (!preg_match("/^[a-zA-Z ]+$/", $name)) {
+    echo "<h1>Invalid name</h1>";
+    exit();
+}
      if ($name === "" || strlen($name) > 50) {
     echo "<h1>Invalid input</h1>";
     exit();
