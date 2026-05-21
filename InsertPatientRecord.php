@@ -1,9 +1,6 @@
 <?php  // 👉 ~82–85% secure
 include("Connection/Connect.php");
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
-session_start();
+include("Connection/Init.php");
 if(!isset($_SESSION['user'])){
     header("Location: LogIn.php");
     exit();
@@ -13,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit("Invalid request");
 }
 if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
-    die("CSRF attack detected");
+    exit("Invalid request");
 }
 ?>
 <style>
