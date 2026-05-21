@@ -155,7 +155,8 @@ error_reporting(E_ALL);
 
 {  
 	if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])){
-    die("Invalid CSRF token");
+    echo "<h1>Invalid request</h1>";
+        exit();
 }
 	$name = trim($_POST['name']);
 	if (!preg_match("/^[a-zA-Z ]+$/", $name)) {
@@ -166,6 +167,7 @@ error_reporting(E_ALL);
     echo "<h1>Invalid input</h1>";
     exit();
    }
+   $_SESSION['token'] = bin2hex(random_bytes(32));
 	$admin_id = $_SESSION['admin_id'];
 	$pateintName =  $name . "%";
    $patientInfo = "SELECT * FROM patient WHERE name LIKE ? and admin_id =?";
@@ -177,10 +179,8 @@ if (!$prepare) {
     mysqli_stmt_execute($prepare);
 	$query       = mysqli_stmt_get_result($prepare);
 	$no           = mysqli_num_rows($query);
-	 
-	
-	
-	if($no>0)
+	 mysqli_stmt_close($prepare);
+	 	if($no>0)
 	{
 		
 		echo" <table border='2'>
@@ -206,7 +206,7 @@ if (!$prepare) {
 		$res  = mysqli_stmt_get_result($prepare2);
 		$count = mysqli_fetch_assoc($res);
   $no2 = $count['total']; //mysqli_num_rows($res);
-
+mysqli_stmt_close($prepare2);
 		 ///  echo"hi $fetch[sno]";
            		echo"<tr>
 		  <td class='td'>".htmlspecialchars($fetch['date'], ENT_QUOTES, 'UTF-8')."</td>
