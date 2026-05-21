@@ -12,7 +12,7 @@ $admin_id = $_SESSION['admin_id'];
 
 ?>
 <!DOCTYPE html>
-<html lang="javascriptract">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,20 +27,20 @@ $admin_id = $_SESSION['admin_id'];
      <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
    <ul style="background:white; height: 40px; padding-left:1010px; width:340px"  >
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient </a></li>&nbsp;
+        <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
+        <li><a href="PatientFom.php">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
    <ul>
-            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li><br>
+            <li><a href="SearchByName.php">Name</a></li><br>
+            <li><a href="SearchByNumber.php">Number</a></li><br>
     
         </ul>
         </li>
         </li>
 </ul>
       <br><br>
-<h1 id="inputAra">Seach by Date</h1>
+<h1 id="inputAra">Search by Date</h1>
 <form id="dateInput" method="POST" onsubmit="return changeFomat()">
     <input type="date" name="Date0" id="date0">   
     <input type="hidden" name="Date" id="date">   
