@@ -1,27 +1,13 @@
 <?php
-ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure', 1);
-ini_set('session.cookie_samesite', 'Strict');
-session_start();
-
+include("../Connection/Connect.php");
+include("Connection/Init.php");
 if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     header("Location: ../LogIn.php");
     exit();
 }
 
 $admin_id = $_SESSION['admin_id'];
-include("../Connection/Connect.php");
-ini_set('log_errors', 1);
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
-header("X-Frame-Options: DENY");
-header("X-Content-Type-Options: nosniff");
-$nonce = bin2hex(random_bytes(16));
 
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce';");
-if (empty($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
