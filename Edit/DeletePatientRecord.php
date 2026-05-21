@@ -1,6 +1,6 @@
 <?php
 include("../Connection/Connect.php");
-include("Connection/Init.php");
+include("../Connection/Init.php");
 if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     header("Location: ../LogIn.php");
     exit();
