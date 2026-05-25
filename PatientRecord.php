@@ -1,4 +1,4 @@
-<?php
+<?php//8/10
 include("Connection/Connect.php");
 
 // Error & session security secure 8.5/10
@@ -19,7 +19,7 @@ session_set_cookie_params([
     'samesite' => 'Strict'
 ]);
 session_start();
-// header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
 // CSRF token
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
