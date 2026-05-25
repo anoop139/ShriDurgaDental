@@ -128,21 +128,20 @@ if($no > 0 && !isset($_GET['name'])) {
 
     while($show = mysqli_fetch_assoc($result)) {
         $id = (int)$show['sno'];
-
-        $display3 = "SELECT * FROM treatment WHERE sno=?";
+$display3 = "SELECT COUNT(*) as total FROM treatment WHERE sno=? AND admin_id=?";
         $query5 = mysqli_prepare($conn, $display3);
-        mysqli_stmt_bind_param($query5, 'i', $show['sno']);
+        mysqli_stmt_bind_param($query5, 'ii', $show['sno'], $admin_id);
         mysqli_stmt_execute($query5);
         $result5 = mysqli_stmt_get_result($query5);
-        $Con = mysqli_num_rows($result5);
-
-        echo "<tr>
+        $con = mysqli_fetch_assoc($result5);
+    //    echo//"</h1>The count is ".$con['total']."</>";
+    echo "<tr>
             <td>".htmlspecialchars($show['name'])."</td>
             <td>".htmlspecialchars($show['age'])."</td>
             <td>".htmlspecialchars($show['gen'])."</td>
             <td>".htmlspecialchars($show['phoNo'])."</td>
-            <td style='text-align:center;'>
-                <a href='TreatmentDetail.php?id=".urlencode($id)."' class='ank' title='View treatment details'>$Con</a>
+            <td align='center'>
+                <a href='TreatmentDetail.php?id=".urlencode($id)."' class='ank' title='View treatment details'>".$con['total']."</a>
             </td>
             <td style='text-align:center;'>
                 <a href='InsertTreatment.php?id=".urlencode($id)."&patientRecord=true' class='ank' title='Add treatment details'>Add treatment details</a>
