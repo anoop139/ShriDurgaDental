@@ -1,11 +1,14 @@
-<?php///df
+<?php
 include("Connection/Connect.php");
 
 // Error & session security secure 8.5/10
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure', 0); // only if HTTPS
+ini_set(
+    'session.cookie_secure',
+    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+);/// only if HTTPS
 ini_set('session.use_strict_mode', 1);
 
 session_set_cookie_params([
@@ -46,7 +49,7 @@ if (!isset($_SESSION['user'])) {
 
 // CSRF check for POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+   if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])){
         die("CSRF validation failed");
     }
 }
@@ -128,19 +131,20 @@ if($no > 0 && !isset($_GET['name'])) {
 
     while($show = mysqli_fetch_assoc($result)) {
         $id = (int)$show['sno'];
-$display3 = "SELECT COUNT(*) as total FROM treatment WHERE sno=? AND admin_id=?";
+
+     $display3 = "SELECT COUNT(*) as total FROM treatment WHERE sno=? AND admin_id=?";
         $query5 = mysqli_prepare($conn, $display3);
         mysqli_stmt_bind_param($query5, 'ii', $show['sno'], $admin_id);
         mysqli_stmt_execute($query5);
         $result5 = mysqli_stmt_get_result($query5);
         $con = mysqli_fetch_assoc($result5);
-    //    echo//"</h1>The count is ".$con['total']."</>";
-    echo "<tr>
+
+        echo "<tr>
             <td>".htmlspecialchars($show['name'])."</td>
             <td>".htmlspecialchars($show['age'])."</td>
             <td>".htmlspecialchars($show['gen'])."</td>
             <td>".htmlspecialchars($show['phoNo'])."</td>
-            <td align='center'>
+            <td align='center';'>
                 <a href='TreatmentDetail.php?id=".urlencode($id)."' class='ank' title='View treatment details'>".$con['total']."</a>
             </td>
             <td style='text-align:center;'>
