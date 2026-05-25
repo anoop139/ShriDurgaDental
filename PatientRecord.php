@@ -1,4 +1,4 @@
-<?php
+<?php///
 include("Connection/Connect.php");
 
 // Error & session security secure 8.5/10
