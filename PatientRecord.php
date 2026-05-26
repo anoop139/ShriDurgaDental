@@ -5,7 +5,7 @@ include("Connection/Connect.php");
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure', 0); // only if HTTPS
+//ini_set('session.cookie_secure', 0); // only if HTTPS
 ini_set('session.use_strict_mode', 1);
 
 session_set_cookie_params([
@@ -28,7 +28,9 @@ $nonce = bin2hex(random_bytes(16));
 // Security headers
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self'; img-src 'self' data: https://encrypted-tbn0.gstatic.com;");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self';");
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
+
 // Session timeout (15 minutes)
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
     session_unset();
@@ -50,11 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("CSRF validation failed");
     }
 }
-// if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
-//     $redirect = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-//     header("Location: $redirect");
-//     exit();
-// }
+
 // Get today’s date
 $todayDate = date("d - m - Y");
 
@@ -83,8 +81,16 @@ $no = mysqli_num_rows($result);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Patient Information Page</title>
-<link rel="stylesheet" href="Header2.css?v=17">
-    
+<link rel="stylesheet" href="Header2.css?v=20">
+    <style>  
+     #body{
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV5tegbIR32oDRVB_qdMazaa-KJwDX04xfiA&s");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;  
+			
+        }
+    </style>
 </head>
 <body id="body">
 

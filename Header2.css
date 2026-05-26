@@ -45,8 +45,8 @@ ul li a:hover{
     ul ul li{
         background-color:lightblue;
     }
-    #body{
-            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV5tegbIR32oDRVB_qdMazaa-KJwDX04xfiA&s");
+   #body{
+            background-image: url("Images/PatientRecorsd.jpg");
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: 100% 100%;  
