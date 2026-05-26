@@ -13,7 +13,7 @@ if ($_SESSION['login_attempts'] >= 5) {
     }
 }
 include("Connection/Connect.php");
-if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
     die("CSRF attack detected");
 }
 $username = $_POST['username'];
@@ -38,7 +38,7 @@ if ($row) {
         $_SESSION['user'] = $row['username'];
         $_SESSION['admin_id'] = $row['id'];
         $_SESSION['role'] = $row['role'];
-
+unset($_SESSION['token']);
     // admin redirect
    if ($row['role'] === "admin") {
     header("Location: admin.php");
