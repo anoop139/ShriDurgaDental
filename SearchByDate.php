@@ -1,15 +1,32 @@
 <?php
 include("Connection/Connect.php");
-include("Connection/Init.php");
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure',
+    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 1 : 0
+);
+ini_set('session.cookie_samesite', 'Strict');
+session_start();
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
 if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
     header("Location: LogIn.php");
     exit();
 }
 $admin_id = $_SESSION['admin_id'];
 
+$nonce = bin2hex(random_bytes(16));
+header("Content-Security-Policy: default-src 'self';
+script-src 'self' 'nonce-$nonce';
+style-src 'self';
+img-src 'self' data:;
+object-src 'none';
+base-uri 'self';");
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +57,7 @@ $admin_id = $_SESSION['admin_id'];
         </li>
 </ul>
       <br><br>
-<h1 id="inputAra">Search by Date</h1>
+<h1 id="inputAra">Seach by Date</h1>
 <form id="dateInput" method="POST" onsubmit="return changeFomat()">
     <input type="date" name="Date0" id="date0">   
     <input type="hidden" name="Date" id="date">   
@@ -64,7 +81,7 @@ $admin_id = $_SESSION['admin_id'];
     echo "<h3>Invalid request</h3>";
     exit();
 }
-   $_SESSION['token'] = bin2hex(random_bytes(32));
+   
 
 $dateObj = DateTime::createFromFormat('d - m - Y', $date);
 if (!$dateObj || $dateObj->format('d - m - Y') !== $date) {
@@ -77,17 +94,27 @@ if (!preg_match('/^\d{2} - \d{2} - \d{4}$/', $date)) {
 }
 echo "<h1>Patient record on " . htmlspecialchars($date, ENT_QUOTES, 'UTF-8') . "</h1><br>";
    
-
-   
-   $patientInfo = "SELECT * FROM patient WHERE patient.date =? AND patient.admin_id = ?";
+$patientInfo = "SELECT patient.*,
+COUNT(treatment.tid) AS total_treatment
+FROM patient
+LEFT JOIN treatment
+ON patient.sno = treatment.sno
+AND patient.admin_id = treatment.admin_id
+WHERE patient.date = ?
+AND patient.admin_id = ?
+GROUP BY patient.sno";
 //    mysqli_prepare
 	$query       = mysqli_prepare($conn, $patientInfo);
+    if (!$query) {
+    exit("Database error");
+}
     mysqli_stmt_bind_param($query,  'si', $date, $admin_id);
 	
     mysqli_stmt_execute($query);
    $result = mysqli_stmt_get_result($query);   // important
 
 $no = mysqli_num_rows($result);
+   
 	//    echo"<h1>Affected ".$no."</h1><br>";
 	
 	
@@ -106,21 +133,12 @@ $no = mysqli_num_rows($result);
 	 </tr>";
       while($fetch =mysqli_fetch_assoc($result))
 	  { 
-       $id ="SELECT COUNT(*) as total FROM treatment WHERE sno=? AND admin_id=?";
-        $query2 = mysqli_prepare($conn, $id);
-        $idContain = $fetch['sno'];
-        mysqli_stmt_bind_param($query2, 'ii', $idContain, $admin_id);
-		mysqli_stmt_execute($query2);///
-   $result2 = mysqli_stmt_get_result($query2);   // important
-$count = mysqli_fetch_assoc($result2);
-$no2 = $count['total'];
-mysqli_stmt_close($query2);
 
            		echo "<tr>
 <td class='td' style='padding:7px'>".htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8')."</td>
 <td style='text-align:center;' class='td'>".htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8')."</td>
 <td style='text-align:center' class='td'>".htmlspecialchars($fetch['gen'],ENT_QUOTES, 'UTF-8' )."</td>
-<td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".urlencode($fetch['sno'])."'>$no2</a></td>
+<td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".urlencode($fetch['sno'])."'>".htmlspecialchars($fetch['total_treatment'], ENT_QUOTES, 'UTF-8')."</a></td>
 <td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=".urlencode($fetch['sno'])."&tp=True'>Click here to add treatment</a></td>
 <td class='td' style='padding:7px'>".htmlspecialchars($fetch['phoNo'],ENT_QUOTES, 'UTF-8')."</td>
 <td class='td' style='padding:7px'><a href='Edit.php?id=".htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8')."'>Edit</a></td>
@@ -131,7 +149,7 @@ mysqli_stmt_close($query2);
 	}
 	else
 	{
-		echo"<h1 >No recod found</h1>";
+		echo"<h1 >No record found</h1>";
 	}
 mysqli_stmt_close($query);
 }
@@ -162,12 +180,10 @@ mysqli_stmt_close($query);
    }
    return true
  }
-    window.oninput = ()=>{
-        error.innerHTML="";
-    }
-    //  x = x.replace(v, "")
-      //  dateVal2.value=x
+document.getElementById("date0").oninput = () => {
+    error.innerHTML = "";
+}
 </script>
-</div>
+
 </body>
 </html> 
