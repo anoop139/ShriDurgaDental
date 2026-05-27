@@ -1,16 +1,22 @@
-<?php  // 👉 ~82–85% secure
+<?php  // 👉 8/10 secure
 include("Connection/Connect.php");
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
-ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure',
-    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 1 : 0
-);
-ini_set('session.cookie_samesite', 'Strict');
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
 session_start();
+if (empty($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
 if(!isset($_SESSION['user'])){
     header("Location: LogIn.php");
     exit();
@@ -22,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
     exit("Invalid request");
 }
-
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;");
 ?>
 <style>
  
