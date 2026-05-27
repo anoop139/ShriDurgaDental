@@ -23,3 +23,13 @@ body{
 #seeMsg{
  text-align: center;
 }
+#deleted{
+    background-color: white;
+     margin-top: 10px;
+}
+#ul{
+    background:white; 
+    height: 40px;
+     padding-left:1010px; 
+     width:340px;
+}
