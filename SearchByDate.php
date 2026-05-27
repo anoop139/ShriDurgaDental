@@ -1,5 +1,18 @@
 <?php
 include("Connection/Connect.php");
+
+$isLocalhost = in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1', '::1'], true);
+
+if (!$isLocalhost && (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')) {
+    $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    header('Location: ' . $redirect);
+    exit();
+}
+
+if (!$isLocalhost) {
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+}
+
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
@@ -8,22 +21,30 @@ ini_set('session.use_strict_mode', 1);
 session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
-    'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+    'secure' => !$isLocalhost,
     'httponly' => true,
     'samesite' => 'Strict'
 ]);
 session_start();
-if (!isset($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-}
-if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
+
+if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
     header("Location: LogIn.php");
     exit();
+}
+
+if (!isset($_SESSION['token_time'])) {
+    session_regenerate_id(true);
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+    $_SESSION['token_time'] = time();
+} elseif (time() - $_SESSION['token_time'] > 1800) {
+    session_regenerate_id(true);
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+    $_SESSION['token_time'] = time();
 }
 $admin_id = $_SESSION['admin_id'];
 
 $nonce = bin2hex(random_bytes(16));
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self';");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self';");
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
 ?>
@@ -54,69 +75,61 @@ header("X-Content-Type-Options: nosniff");
 </ul>
       <br><br>
 <h1 id="inputAra">Seach by Date</h1>
-<form id="dateInput" method="POST" onsubmit="return changeFomat()">
-    <input type="date" name="Date0" id="date0">   
-    <input type="hidden" name="Date" id="date">   
+<form id="dateInput" method="POST">
+    <input type="date" name="date" id="date0" required>   
     <input type="hidden" name="token" value="<?php echo $_SESSION['token']?>">
-     <input type="submit" name="Sub"value="Click here"><br><br><br><br>
+    <input type="submit" value="Click here"><br><br><br><br>
     <h1 id="err"></h1>
-
 </form>
 <div id="seeMsg" class="disp">
     <!-- <h1>hello</h1> -->
    		<?php
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
- $date = $_POST['Date'] ?? '';
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $date = trim($_POST['date'] ?? '');
 
         if (empty($date)) {
             echo "<h3>Please choose a date</h3>";
             exit();
         }
- if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
-    echo "<h3>Invalid request</h3>";
-    exit();
-}
-   
+        if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
+            echo "<h3>Invalid request</h3>";
+            exit();
+        }
 
-$dateObj = DateTime::createFromFormat('d - m - Y', $date);
-if (!$dateObj || $dateObj->format('d - m - Y') !== $date) {
-    echo "<h3>Invalid date</h3>";
-    exit();
-}
-if (!preg_match('/^\d{2} - \d{2} - \d{4}$/', $date)) {
-    echo "Invalid date format";
-    exit();
-}
-echo "<h1>Patient record on " . htmlspecialchars($date, ENT_QUOTES, 'UTF-8') . "</h1><br>";
-   
-$patientInfo = "SELECT patient.sno, patient.name, patient.age, patient.gen, patient.phoNo,
+        $dateObj = DateTime::createFromFormat('Y-m-d', $date);
+        if (!$dateObj || $dateObj->format('Y-m-d') !== $date) {
+            echo "<h3>Invalid date</h3>";
+            exit();
+        }
+
+        $formattedDate = $dateObj->format('d - m - Y');
+        echo "<h1>Patient record on " . htmlspecialchars($formattedDate, ENT_QUOTES, 'UTF-8') . "</h1><br>";
+           
+        $patientInfo = "SELECT patient.sno, patient.name, patient.age, patient.gen, patient.phoNo,
 COUNT(treatment.tid) AS total_treatment
 FROM patient
 LEFT JOIN treatment
 ON patient.sno = treatment.sno
 AND patient.admin_id = treatment.admin_id
-WHERE patient.date = ?
+WHERE DATE(patient.date) = ?
 AND patient.admin_id = ?
 GROUP BY patient.sno, patient.name, patient.age, patient.gen, patient.phoNo";
-//    mysqli_prepare
-	$query       = mysqli_prepare($conn, $patientInfo);
-if (!$query) {
-    error_log(mysqli_error($conn));
-    exit("Something went wrong");
-}
 
-mysqli_stmt_bind_param($query, 'si', $date, $admin_id);
+        $query = mysqli_prepare($conn, $patientInfo);
+        if (!$query) {
+            error_log(mysqli_error($conn));
+            exit("Something went wrong");
+        }
 
-if (!mysqli_stmt_execute($query)) {
-    error_log(mysqli_stmt_error($query));
-    exit("Something went wrong");
-}
+        mysqli_stmt_bind_param($query, 'si', $date, $admin_id);
 
-   $result = mysqli_stmt_get_result($query);   // important
+        if (!mysqli_stmt_execute($query)) {
+            error_log(mysqli_stmt_error($query));
+            exit("Something went wrong");
+        }
 
-$no = mysqli_num_rows($result);
-   
+        $result = mysqli_stmt_get_result($query);
+        $no = mysqli_num_rows($result);
 	//    echo"<h1>Affected ".$total."</h1><br>";
 	
 	
@@ -160,31 +173,6 @@ mysqli_stmt_close($query);
 ?>
 </div>
 <script nonce="<?php echo $nonce; ?>">
-    let dateVal;
-    let error = document.getElementById("err")
-   
-    function changeFomat() {
-        dateVal = document.getElementById("date0").value
-        dateVal2 = document.getElementById("date")
-       let x;
-       let v = "0"
-        if (!dateVal) {
-           error.innerHTML="Please choose a date";
-            return false
-            
-        }
-        else{ 
-      
-      x = dateVal.split("-").reverse().join(" - ")
-    // let date = x.slice(//0,7)   
-    // error.innerHTML=dateVal
-      dateVal2.value=x;
-   }
-   return true
- }
-document.getElementById("date0").oninput = () => {
-    error.innerHTML = "";
-}
 </script>
 
 </body>

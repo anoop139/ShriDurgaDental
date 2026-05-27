@@ -1,14 +1,52 @@
 <?php
 include("Connection/Connect.php");
-include("Connection/Init.php");
-if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
-    header("Location: LogIn.php");
-    exit();
+
+$isLocalhost = in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1', '::1'], true);
+
+if (!$isLocalhost && (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')) {
+	$redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	header('Location: ' . $redirect);
+	exit();
 }
+
+if (!$isLocalhost) {
+	header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+}
+
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_strict_mode', 1);
+session_set_cookie_params([
+	'lifetime' => 0,
+	'path' => '/',
+	'secure' => !$isLocalhost,
+	'httponly' => true,
+	'samesite' => 'Strict'
+]);
+session_start();
 
+if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
+	header("Location: LogIn.php");
+	exit();
+}
+
+if (!isset($_SESSION['token_time'])) {
+	session_regenerate_id(true);
+	$_SESSION['token'] = bin2hex(random_bytes(32));
+	$_SESSION['token_time'] = time();
+} elseif (time() - $_SESSION['token_time'] > 1800) {
+	session_regenerate_id(true);
+	$_SESSION['token'] = bin2hex(random_bytes(32));
+	$_SESSION['token_time'] = time();
+}
+$admin_id = $_SESSION['admin_id'];
+
+$nonce = bin2hex(random_bytes(16));
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self';");
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,31 +152,34 @@ error_reporting(E_ALL);
 	} */
 	  #resultDiv
 	 {
+		{
+		    if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
+		        echo "<h3>Invalid request</h3>";
+		        exit();
+		    }
 		padding-left:330px ;
 	} 
-	 #errInfo
-	 {
-		text-align:center;
-	} 
+		    if ($name === "" || strlen($name) > 50 || !preg_match('/^[a-zA-Z\s\'\-]+$/', $name)) {
+		        echo "<h1>Invalid input</h1>";
+		        exit();
+		    }
 	.td{
 		padding: 5px;
 	}
 	</style>
     <link rel="stylesheet" href="Header2.css">
-</head>
 <body>
        <ul style="background:black; height: 40px; width:340px; padding-left:1000px">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
-        <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
-        <li><a href="PatientFom.php">Add Patient </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
+        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
    <ul>
-            <li><a href="SearchByDate.php">Date</a></li><br>
-            <li><a href="SearchByNumber.php">Number</a></li>
+            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
+            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li>
     
         </ul>
-        </li>
         </li>
 </ul>
    <!-- </di> -->
@@ -146,6 +187,7 @@ error_reporting(E_ALL);
 <h1>Search by Name :</h1>
 <form id="input"onsubmit="return checkInput()" method="POST">
 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+		</form>
 <input type="text" id="input1" name="name" class="Col">&nbsp;
 <input type="submit" name="Sub" class="Col" value="Click here" ><br>
 </form><br><br>
@@ -153,21 +195,14 @@ error_reporting(E_ALL);
 		<?php
 	if(isset($_POST['Sub']))
 
-{  
-	if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])){
-    echo "<h1>Invalid request</h1>";
-        exit();
+{    if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+    die("Invalid CSRF token");
 }
 	$name = trim($_POST['name']);
-	if (!preg_match("/^[a-zA-Z ]+$/", $name)) {
-    echo "<h1>Invalid name</h1>";
-    exit();
-}
      if ($name === "" || strlen($name) > 50) {
     echo "<h1>Invalid input</h1>";
     exit();
    }
-   $_SESSION['token'] = bin2hex(random_bytes(32));
 	$admin_id = $_SESSION['admin_id'];
 	$pateintName =  $name . "%";
    $patientInfo = "SELECT * FROM patient WHERE name LIKE ? and admin_id =?";
@@ -179,8 +214,10 @@ if (!$prepare) {
     mysqli_stmt_execute($prepare);
 	$query       = mysqli_stmt_get_result($prepare);
 	$no           = mysqli_num_rows($query);
-	 mysqli_stmt_close($prepare);
-	 	if($no>0)
+	 
+	
+	
+	if($no>0)
 	{
 		
 		echo" <table border='2'>
@@ -206,7 +243,7 @@ if (!$prepare) {
 		$res  = mysqli_stmt_get_result($prepare2);
 		$count = mysqli_fetch_assoc($res);
   $no2 = $count['total']; //mysqli_num_rows($res);
-mysqli_stmt_close($prepare2);
+
 		 ///  echo"hi $fetch[sno]";
            		echo"<tr>
 		  <td class='td'>".htmlspecialchars($fetch['date'], ENT_QUOTES, 'UTF-8')."</td>
