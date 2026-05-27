@@ -4,10 +4,14 @@ ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_secure',
-    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 1 : 0
-);
-ini_set('session.cookie_samesite', 'Strict');
+ini_set('session.use_strict_mode', 1);
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
 session_start();
 if (!isset($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
@@ -19,12 +23,7 @@ if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
 $admin_id = $_SESSION['admin_id'];
 
 $nonce = bin2hex(random_bytes(16));
-header("Content-Security-Policy: default-src 'self';
-script-src 'self' 'nonce-$nonce';
-style-src 'self';
-img-src 'self' data:;
-object-src 'none';
-base-uri 'self';");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self';");
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
 ?>
@@ -33,16 +32,13 @@ header("X-Content-Type-Options: nosniff");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-    
-    </style>
     <title>Seach By Date</title>
 <link rel="stylesheet" href="./Header2.css">
-<link rel="stylesheet" href="./SearchByDate.css?v=1">
+<link rel="stylesheet" href="./SearchByDate.css?v=2">
 </head>
 <body>
-     <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
-   <ul style="background:white; height: 40px; padding-left:1010px; width:340px"  >
+     <h1  id="deleted"></h1>
+   <ul id="ul">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
         <li><a href="PatientFom.php">Add Patient </a></li>&nbsp;
@@ -94,7 +90,7 @@ if (!preg_match('/^\d{2} - \d{2} - \d{4}$/', $date)) {
 }
 echo "<h1>Patient record on " . htmlspecialchars($date, ENT_QUOTES, 'UTF-8') . "</h1><br>";
    
-$patientInfo = "SELECT patient.*,
+$patientInfo = "SELECT patient.sno, patient.name, patient.age, patient.gen, patient.phoNo,
 COUNT(treatment.tid) AS total_treatment
 FROM patient
 LEFT JOIN treatment
@@ -102,20 +98,26 @@ ON patient.sno = treatment.sno
 AND patient.admin_id = treatment.admin_id
 WHERE patient.date = ?
 AND patient.admin_id = ?
-GROUP BY patient.sno";
+GROUP BY patient.sno, patient.name, patient.age, patient.gen, patient.phoNo";
 //    mysqli_prepare
 	$query       = mysqli_prepare($conn, $patientInfo);
-    if (!$query) {
-    exit("Database error");
+if (!$query) {
+    error_log(mysqli_error($conn));
+    exit("Something went wrong");
 }
-    mysqli_stmt_bind_param($query,  'si', $date, $admin_id);
-	
-    mysqli_stmt_execute($query);
+
+mysqli_stmt_bind_param($query, 'si', $date, $admin_id);
+
+if (!mysqli_stmt_execute($query)) {
+    error_log(mysqli_stmt_error($query));
+    exit("Something went wrong");
+}
+
    $result = mysqli_stmt_get_result($query);   // important
 
 $no = mysqli_num_rows($result);
    
-	//    echo"<h1>Affected ".$no."</h1><br>";
+	//    echo"<h1>Affected ".$total."</h1><br>";
 	
 	
 	if($no>0)
@@ -141,7 +143,7 @@ $no = mysqli_num_rows($result);
 <td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".urlencode($fetch['sno'])."'>".htmlspecialchars($fetch['total_treatment'], ENT_QUOTES, 'UTF-8')."</a></td>
 <td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=".urlencode($fetch['sno'])."&tp=True'>Click here to add treatment</a></td>
 <td class='td' style='padding:7px'>".htmlspecialchars($fetch['phoNo'],ENT_QUOTES, 'UTF-8')."</td>
-<td class='td' style='padding:7px'><a href='Edit.php?id=".htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8')."'>Edit</a></td>
+<td class='td' style='padding:7px'><a href='Edit.php?id=".urlencode($fetch['sno'])."'>Edit</a></td>
 </tr>";
 	  }
        echo"</table><br>";
