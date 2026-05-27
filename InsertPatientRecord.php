@@ -1,6 +1,16 @@
 <?php  // 👉 ~82–85% secure
 include("Connection/Connect.php");
-include("Connection/Init.php");
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure',
+    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 1 : 0
+);
+ini_set('session.cookie_samesite', 'Strict');
+session_start();
 if(!isset($_SESSION['user'])){
     header("Location: LogIn.php");
     exit();
@@ -12,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
     exit("Invalid request");
 }
+
 ?>
 <style>
  
@@ -142,8 +153,6 @@ if ($num>0)
     exit();
 }
 
-//}
-else{
  
 $insert ="insert into patient(date, name, age, gen, phoNo, admin_id) values(?, ?, ?, ?, ?, ?)";
 $insertPrepare =mysqli_prepare($conn, $insert);
@@ -165,7 +174,6 @@ if ($rows>0) {
 }
 }
 
-}
    
 ?>
 
