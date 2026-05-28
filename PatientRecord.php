@@ -48,13 +48,13 @@ if (!isset($_SESSION['user'])) {
 
 // CSRF check for POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+    if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
         die("CSRF validation failed");
     }
 }
 
 // Get today’s date
-$todayDate = date("d - m - Y");
+$todayDate = date("Y-m-d");
 
 // Admin authentication
 if (!isset($_SESSION['admin_id'])) {
@@ -135,18 +135,22 @@ if($no > 0 && !isset($_GET['name'])) {
     while($show = mysqli_fetch_assoc($result)) {
         $id = (int)$show['sno'];
 
-        $display3 = "SELECT * FROM treatment WHERE sno=?";
+        $display3 = "SELECT COUNT(*) AS total FROM treatment WHERE sno=? AND admin_id=?";
         $query5 = mysqli_prepare($conn, $display3);
-        mysqli_stmt_bind_param($query5, 'i', $show['sno']);
+        if (!$query5) {
+            die("Query failed");
+        }
+        mysqli_stmt_bind_param($query5, 'ii', $show['sno'], $admin_id);
         mysqli_stmt_execute($query5);
-        $result5 = mysqli_stmt_get_result($query5);
-        $Con = mysqli_num_rows($result5);
+        mysqli_stmt_bind_result($query5, $Con);
+        mysqli_stmt_fetch($query5);
+        mysqli_stmt_close($query5);
 
         echo "<tr>
-            <td>".htmlspecialchars($show['name'])."</td>
-            <td>".htmlspecialchars($show['age'])."</td>
-            <td>".htmlspecialchars($show['gen'])."</td>
-            <td>".htmlspecialchars($show['phoNo'])."</td>
+            <td>".htmlspecialchars($show['name'], ENT_QUOTES, 'UTF-8')."</td>
+            <td>".htmlspecialchars($show['age'], ENT_QUOTES, 'UTF-8')."</td>
+            <td>".htmlspecialchars($show['gen'], ENT_QUOTES, 'UTF-8')."</td>
+            <td>".htmlspecialchars($show['phoNo'], ENT_QUOTES, 'UTF-8')."</td>
             <td align='center'>
                 <a href='TreatmentDetail.php?id=".urlencode($id)."' class='ank' title='View treatment details'>$Con</a>
             </td>
