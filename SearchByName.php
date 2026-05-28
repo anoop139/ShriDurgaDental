@@ -1,52 +1,29 @@
 <?php
 include("Connection/Connect.php");
-
-$isLocalhost = in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1', '::1'], true);
-
-if (!$isLocalhost && (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')) {
-	$redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	header('Location: ' . $redirect);
-	exit();
-}
-
-if (!$isLocalhost) {
-	header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
-}
-
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 ini_set('session.cookie_httponly', 1);
-ini_set('session.use_strict_mode', 1);
-session_set_cookie_params([
-	'lifetime' => 0,
-	'path' => '/',
-	'secure' => !$isLocalhost,
-	'httponly' => true,
-	'samesite' => 'Strict'
-]);
-session_start();
-
-if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
-	header("Location: LogIn.php");
-	exit();
-}
-
-if (!isset($_SESSION['token_time'])) {
-	session_regenerate_id(true);
-	$_SESSION['token'] = bin2hex(random_bytes(32));
-	$_SESSION['token_time'] = time();
-} elseif (time() - $_SESSION['token_time'] > 1800) {
-	session_regenerate_id(true);
-	$_SESSION['token'] = bin2hex(random_bytes(32));
-	$_SESSION['token_time'] = time();
-}
-$admin_id = $_SESSION['admin_id'];
-
-$nonce = bin2hex(random_bytes(16));
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self';");
+ini_set('session.cookie_secure',
+    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 1 : 0
+);
+ini_set('session.cookie_samesite', 'Strict');
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
+header("X-XSS-Protection: 1; mode=block");
+header("Referrer-Policy: no-referrer");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;");
+session_start();
+
+if (empty($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
+
+if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
+    header("Location: LogIn.php");
+    exit();
+}
+ 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -152,22 +129,18 @@ header("X-Content-Type-Options: nosniff");
 	} */
 	  #resultDiv
 	 {
-		{
-		    if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
-		        echo "<h3>Invalid request</h3>";
-		        exit();
-		    }
 		padding-left:330px ;
 	} 
-		    if ($name === "" || strlen($name) > 50 || !preg_match('/^[a-zA-Z\s\'\-]+$/', $name)) {
-		        echo "<h1>Invalid input</h1>";
-		        exit();
-		    }
+	 #errInfo
+	 {
+		text-align:center;
+	} 
 	.td{
 		padding: 5px;
 	}
 	</style>
     <link rel="stylesheet" href="Header2.css">
+</head>
 <body>
        <ul style="background:black; height: 40px; width:340px; padding-left:1000px">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
@@ -181,13 +154,13 @@ header("X-Content-Type-Options: nosniff");
     
         </ul>
         </li>
+        </li>
 </ul>
    <!-- </di> -->
 <div id="res1">
 <h1>Search by Name :</h1>
-<form id="input"onsubmit="return checkInput()" method="POST">
+<form id="input" onsubmit="return checkInput()" method="POST">
 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-		</form>
 <input type="text" id="input1" name="name" class="Col">&nbsp;
 <input type="submit" name="Sub" class="Col" value="Click here" ><br>
 </form><br><br>
@@ -199,10 +172,10 @@ header("X-Content-Type-Options: nosniff");
     die("Invalid CSRF token");
 }
 	$name = trim($_POST['name']);
-     if ($name === "" || strlen($name) > 50) {
-    echo "<h1>Invalid input</h1>";
-    exit();
-   }
+//      if ($name === "" || strlen($name) > 50) {
+//     echo "<h1>Invalid input</h1>";
+//     exit();
+//    }
 	$admin_id = $_SESSION['admin_id'];
 	$pateintName =  $name . "%";
    $patientInfo = "SELECT * FROM patient WHERE name LIKE ? and admin_id =?";
@@ -220,7 +193,7 @@ if (!$prepare) {
 	if($no>0)
 	{
 		
-		echo" <table border='2'>
+		echo" <table border='2' id='table'>
 	 <tr>
 	 <th style='padding:3px;'>Date</th>
 	 <th style='padding:3px;'>Name</th>
@@ -231,6 +204,8 @@ if (!$prepare) {
 	 <th style='padding:5px;'>Phone Number</th>
 	 <th style='padding:5px;'>Edit</th>
 	 </tr>";
+	 ?>
+	 <?php
       while($fetch =mysqli_fetch_assoc($query))
 	  { 
         $id ="SELECT COUNT(*) as total FROM treatment WHERE sno=? AND admin_id=?";
@@ -246,7 +221,7 @@ if (!$prepare) {
 
 		 ///  echo"hi $fetch[sno]";
            		echo"<tr>
-		  <td class='td'>".htmlspecialchars($fetch['date'], ENT_QUOTES, 'UTF-8')."</td>
+		  <td id='date' class='td'>".htmlspecialchars($fetch['date'], ENT_QUOTES, 'UTF-8')."</td>
 		  <td class='td'>".htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8')."</td>
 	 <td style='text-align:center;' class='td'>".htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8')."</td>
 	 <td style='text-align:center' class='td'>".htmlspecialchars($fetch['gen'], ENT_QUOTES, 'UTF-8')."</td>
@@ -268,6 +243,12 @@ if (!$prepare) {
 
 ?>
 </div>
+<script>
+	window.onload = () => {
+    const date = document.getElementById("table")//.rows[1].cells[0].innerText;
+    alert(date);
+};
+</script>
 <!-- <input type="submit" name="Sub" class="Col" value="Click here" ><br> -->
 <h1 id="errInfo"></h1><br><br>
 <!-- </form> -->
@@ -295,23 +276,12 @@ if (isset($_GET['inserted'])) {
 
 ?>
 <script>
-    let name = document.getElementById("TreatInserted")   
-    window.onload=()=>{
-      name.style.transform="translateY(100px)"
-	// alert(1)
-   
-       setTimeout(() => {
-      name.style.transform="translateY(-85px)"
-     }, 5000);  
-	
-};   
-
 </script>
 </form>
 </div>
 </div>
 </div>
-<script src="./FomValidation.js?v=9"></script>
+<script src="./FomValidation.js?v=10"></script>
 
 </body>
 </html>
