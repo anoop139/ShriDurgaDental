@@ -3,7 +3,7 @@
   let input;
   let input2
   window.onload = function () {
-    // alert('UPDATED nee');
+    // alert('hey ');
 
     errInfo = document.getElementById("errInfo");
     errInfo1 = document.getElementById("errInfo1");
@@ -113,10 +113,7 @@ let date2 = document.getElementById("date2")
 
 }
 	
-function checkInput() {
-	// let input = document.getElementById("input1").value//;
-    // let input2 = document.getElementById("input2").value;
-
+document.getElementById("input").onsubmit= function () {
 	if (!input.value) {
       errInfo.innerHTML="Enter name please"; 
 	// alert("Enter your name "+errInfo.innerHTML)

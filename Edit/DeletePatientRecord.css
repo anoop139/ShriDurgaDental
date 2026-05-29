@@ -1,0 +1,68 @@
+        body{
+            
+            background-image:url("../Images/DentalPatient2.jpg");
+            background-repeat:no-repeat;
+            background-size:cover
+        }
+         #nameDiv{
+        position: absolute;
+        top: 40px;
+        left: 400px;
+    }
+    #main-div{
+        padding-top: 0px;
+
+    }
+    #main-div{
+             background-image:url("../Images/DentalPatient.jpg");
+            background-repeat:no-repeat;
+            background-size:cover
+    }
+
+    #main-div{
+        height: 200px;
+    }
+    #result-div{
+        padding-top:40px;
+    }
+    #result-div{
+     text-align:center
+    }
+    #delRequ{
+        text-align:right;
+    } 
+    
+     
+    #delRequ input{
+        position: relative;
+    /* //    left: 800px;
+        bottom:30px; */
+    } 
+     #yesDiv{
+       
+        text-align:right;
+        /* margin-left:1000px ; */
+
+    }
+    #yesDiv input{
+        padding: 10px;
+        margin-top:0px;
+        /* margin-left:1000px ; */
+
+    }
+      /* #mainFom input{
+        padding: 10px;
+    }  */
+    .btns{
+        border: 2px solid black; 
+    }
+    .btns{
+  background-color: #ffffff;
+  color: #008B8B; /* DarkCyan - matches sea theme */
+  border: 2px solid #20B2AA; /* LightSeaGreen */
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+}

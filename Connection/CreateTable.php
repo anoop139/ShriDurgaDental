@@ -24,14 +24,15 @@ include("Connect.php")
        <?php
         if (isset($_GET['p'])) {
           $pt =" create table patient(
-           date VARCHAR(20),
+           date DATE,
                sno INT PRIMARY KEY AUTO_INCREMENT,
               name VARCHAR(20),
               age INT,
              gen VARCHAR(10),
-            phoNo VARCHAR(10) UNIQUE
+            phoNo VARCHAR(10) UNIQUE,
+			admin_id int 
 
-            )";
+            ) ENGINE=InnoDB;";
 			$query = mysqli_query($conn, $pt);
 			if($query)
 			{
@@ -43,16 +44,21 @@ include("Connect.php")
         }
        
        else if (isset($_GET['c'])) {
-         $ct =" create table treatment(
-           date varchar(20),                  
-           dueDate varchar(20),                  
-                tid int primary key auto_increment,  
-                treatment varchar(255),               
-               advance int,               
-                 amount int,                          
-                  sno int,                           
-               foreign key(sno) references patient(sno) on delete cascade
-           );";
+       $ct =" CREATE TABLE treatment(
+    date DATE,
+    dueDate DATE,
+    tid INT PRIMARY KEY AUTO_INCREMENT,
+    treatment VARCHAR(255),
+    advance INT,
+	online  Int,
+    amount INT,
+    sno INT NOT NULL,
+    admin_id INT NOT NULL,
+    
+    FOREIGN KEY (sno)
+    REFERENCES patient(sno)
+    ON DELETE CASCADE
+) ENGINE=InnoDB;";
 		   $query1 = mysqli_query($conn, $ct);
 			if($query1)
 			{

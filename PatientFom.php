@@ -76,7 +76,7 @@ if (empty($_SESSION['token'])) {
     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
     <input type="submit" value="Submit" id="Submit">
  </div>
- <script src="./FomValidation.js"></script>
+ <script src="./FomValidation.js?v=1"></script>
  </form>
 </div>
 </div>
