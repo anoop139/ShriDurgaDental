@@ -31,7 +31,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search by name</title>
     <link rel="stylesheet" href="Header2.css">
-	<link rel="stylesheet" href="SearchByName.css?v=2">
+	<link rel="stylesheet" href="SearchByName.css?v=3">
 </head>
 <body id="body">
        <ul id="ul1">
@@ -57,6 +57,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
 <input type="submit" name="Sub" class="Col" value="Click here" ><br>
 </form><br><br>
 <div id="resultDiv">
+	
 		<?php
 	if(isset($_POST['Sub']))
 
@@ -140,7 +141,7 @@ if (!mysqli_stmt_execute($prepare)) {
 	}
 	else
 	{
-		echo"<h1 style='padding-left:200px'>No recod found</h1>";
+		echo"<h1 style='margin-left:0px'>No recod found</h1>";
 	}
 
 }
