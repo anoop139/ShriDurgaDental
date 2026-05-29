@@ -175,7 +175,7 @@ mysqli_stmt_close($insertPrepare);
 
 if ($rows>0) {
 //     # code...
-    echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully and date is: $date</h1>";
+    echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully </h1>";
      
     // ✅ ADD THIS (VERY IMPORTANT)
     $_SESSION['token'] = bin2hex(random_bytes(32));
