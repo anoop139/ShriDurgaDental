@@ -103,13 +103,13 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
  <?php
 
  
- $date =trim($_POST['date'] ?? '');
+ $date =date('Y-m-d');
 $name = trim($_POST['name'] ?? '');
 $age = trim($_POST['age'] ?? '');
 $gender = trim($_POST['Gender'] ?? '');
 $phone = trim($_POST['pho'] ?? '');
 
-echo"<h1 style='color:green'>date is: $date</h1>";
+//echo"<h1 style='color:green'>date is: $date</h1>";
 if (
     empty($date) ||
     empty($name) ||
@@ -175,7 +175,7 @@ mysqli_stmt_close($insertPrepare);
 
 if ($rows>0) {
 //     # code...
-    echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully</h1>";
+    echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully and date is: $date</h1>";
      
     // ✅ ADD THIS (VERY IMPORTANT)
     $_SESSION['token'] = bin2hex(random_bytes(32));
