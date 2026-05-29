@@ -18,7 +18,7 @@
 	ul li a{
 		color:white;
 	}
-	
+	::-webkit-search-results-buttonS
 	ul li a{
 		padding: 0px;
 	}
@@ -97,7 +97,11 @@
 
 	  #resultDiv
 	 {
-		padding-left:330px ;
+		text-align: center;
+	} 
+	table
+	 {
+		margin-left: 300px;
 	} 
 	 #errInfo
 	 {
