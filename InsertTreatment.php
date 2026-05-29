@@ -216,17 +216,17 @@ if (
 ) {
     die("CSRF attack detected");
 }
-$dueDate = $_POST['dueDate'] ?? '';
-// echo"<h1>date</h1>";
+$dueDate = $_POST['dueDate1'] ?? '';
+echo"<h1>date $dueDate</h1>";//
 if (!empty($dueDate) && $dueDate !== "None") {
 
     // ✅ Strict format check: dd - mm - yyyy
-    if (!preg_match('/^\d{1,2} - \d{1,2} - \d{4}$/', $dueDate)) {
-        die("Invalid date format");
-    }
+    // if (!preg_match('/^\d{1,2} - \d{1,2} - \d{4}$/', $dueDate)) {
+    //     die("Invalid date format");
+    // }
 
     // ✅ Convert safely
-    $due = DateTime::createFromFormat('d - m - Y', $dueDate);
+    $due = DateTime::createFromFormat('Y-m-d', $dueDate);
 
      $today = new DateTime('today');
     if (!$due) {
@@ -238,7 +238,7 @@ if (!empty($dueDate) && $dueDate !== "None") {
     }
 }
 
-$date = date('d-m-Y');
+$date = date('Y-m-d');
 
 $treat = strtolower(trim($_POST['treat']));
 if (!preg_match('/^[a-zA-Z0-9\s.,\-()\/#&]+$/', $treat)) {
