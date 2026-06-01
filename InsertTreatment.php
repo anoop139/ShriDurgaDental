@@ -167,13 +167,13 @@ echo "<h1 id='del'>Treatment for ".htmlspecialchars($patientName)."</h1>";
    <ul style="padding-left:955px; height: 40px;" id="ul">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="PatientRecord.php">Patient List</a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient</a></li>&nbsp;
+        <li><a href="Shri/PatientFom.php">Add Patient</a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul>
-            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li><br>
+            <li><a href="SearchByName.php">Name</a></li><br>
+            <li><a href="SearchByDate.php">Date</a></li><br>
+            <li><a href="SearchByNumber.php">Number</a></li><br>
         </ul>
         </li>
 </ul>
@@ -217,16 +217,14 @@ if (
     die("CSRF attack detected");
 }
 $dueDate = $_POST['dueDate1'] ?? '';
-echo"<h1>date $dueDate</h1>";//
+// echo"<h1>date $dueDate</h1>";//
 if (!empty($dueDate) && $dueDate !== "None") {
 
-    // ✅ Strict format check: dd - mm - yyyy
-    // if (!preg_match('/^\d{1,2} - \d{1,2} - \d{4}$/', $dueDate)) {
-    //     die("Invalid date format");
-    // }
-
-    // ✅ Convert safely
     $due = DateTime::createFromFormat('Y-m-d', $dueDate);
+if (!$due || $due->format('Y-m-d') !== $dueDate) {
+    die("Invalid date");
+}
+
 
      $today = new DateTime('today');
     if (!$due) {
