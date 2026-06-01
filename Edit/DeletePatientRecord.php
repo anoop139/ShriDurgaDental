@@ -7,7 +7,12 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
 }
 
 $admin_id = $_SESSION['admin_id'];
+ $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+      if ($id <= 0) {
+    
+      exit("Invalid ID");
 
+      }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,8 +29,9 @@ $admin_id = $_SESSION['admin_id'];
 <body>
 <div id="nameDiv">
         <?php
-      if (isset($_POST['id'])) {
-            $record = (int)$_POST['id'];
+        
+      if($id > 0)  {
+            $record = $id;
             //   echo"<h1>Id is $record</h1>";
                $patName = "select name from patient where sno=? and admin_id=?";
                $prepare = mysqli_prepare($conn, $patName);
@@ -50,26 +56,30 @@ $admin_id = $_SESSION['admin_id'];
 <div id="main-div">
         <div id="result-div">
             <?php
-            if (!isset($_POST['id']) || (int)$_POST['id'] <= 0) {
-             echo "Invalid ID";
-               exit();
-             }
-        $id = (int)$_POST['id'];
-                 $treatment =" SELECT treatment FROM treatment where sno=? AND admin_id=?";
+             $treatment =" SELECT treatment FROM treatment where sno=? AND admin_id=?";
                  $tretPrepare = mysqli_prepare($conn, $treatment);
                  mysqli_stmt_bind_param($tretPrepare, 'ii',$id, $admin_id);
                   mysqli_stmt_execute($tretPrepare);
                   $treatQuery = mysqli_stmt_get_result($tretPrepare);
-                $treatNo;
+                $treatNo=0;
+                
              if (mysqli_num_rows($treatQuery)>0) {
             $treatNo = mysqli_num_rows($treatQuery);
            
             }
         else{
-    $treatNo="";
-    }
+        
+        $treatNo="";
+   
+    } 
+ 
+        
         if (isset($_POST['deleteRecord'])) {    
-            
+    
+        if ($treatNo> 0 && !isset($_POST['force_delete'])) {
+   
+        die("Cannot delete patient with existing treatments.");
+   }
                if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
     
            die("Invalid CSRF token");
@@ -106,8 +116,7 @@ $admin_id = $_SESSION['admin_id'];
     <input type="hidden" name="tr" id="treatCount" value="<?php echo$treatNo;?>">
 <div id="yesDiv"><input type="submit" name="deleteRecord" class="btns" value="yes"></div>
 </form>
-<!-- <script > -->
-<script nonce="<?php echo $nonce; ?>">
+<script nonce="<?php echo htmlspecialchars($nonce, ENT_QUOTES, 'UTF-8'); ?>">
   document.getElementById("mainFom").onsubmit= ()=> {
    let treatCon = document.getElementById("treatCount").value
     if (parseInt(treatCon) > 0){   
