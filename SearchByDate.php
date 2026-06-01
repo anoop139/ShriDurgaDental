@@ -150,13 +150,13 @@ GROUP BY patient.sno, patient.name, patient.age, patient.gen, patient.phoNo";
 	  { 
 
            		echo "<tr>
-<td class='td' style='padding:7px'>".htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8')."</td>
-<td style='text-align:center;' class='td'>".htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8')."</td>
-<td style='text-align:center' class='td'>".htmlspecialchars($fetch['gen'],ENT_QUOTES, 'UTF-8' )."</td>
-<td style='text-align:center' class='td'><a id='Number' href='TreatmentDetail.php?id=".urlencode($fetch['sno'])."'>".htmlspecialchars($fetch['total_treatment'], ENT_QUOTES, 'UTF-8')."</a></td>
-<td style='text-align:center; padding:7px' class='td'><a id='Number' href='InsertTreatment.php?id=".urlencode($fetch['sno'])."&tp=True'>Click here to add treatment</a></td>
-<td class='td' style='padding:7px'>".htmlspecialchars($fetch['phoNo'],ENT_QUOTES, 'UTF-8')."</td>
-<td class='td' style='padding:7px'><a href='Edit.php?id=".urlencode($fetch['sno'])."'>Edit</a></td>
+<td class='td' >".htmlspecialchars($fetch['name'], ENT_QUOTES, 'UTF-8')."</td>
+<td class='td'>".htmlspecialchars($fetch['age'], ENT_QUOTES, 'UTF-8')."</td>
+<td class='td'>".htmlspecialchars($fetch['gen'],ENT_QUOTES, 'UTF-8' )."</td>
+<td class='td' align='center'><a id='Number' href='TreatmentDetail.php?id=".urlencode($fetch['sno'])."'>".htmlspecialchars($fetch['total_treatment'], ENT_QUOTES, 'UTF-8')."</a></td>
+<td align='center'><a id='Number' href='InsertTreatment.php?id=".urlencode($fetch['sno'])."&tp=True'>Click here to add treatment</a></td>
+<td class='td'>".htmlspecialchars($fetch['phoNo'],ENT_QUOTES, 'UTF-8')."</td>
+<td class='td''><a href='Edit.php?id=".urlencode($fetch['sno'])."'>Edit</a></td>
 </tr>";
 	  }
        echo"</table><br>";
