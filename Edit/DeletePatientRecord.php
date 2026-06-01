@@ -62,7 +62,7 @@ $admin_id = $_SESSION['admin_id'];
                   mysqli_stmt_execute($tretPrepare);
                   $treatQuery = mysqli_stmt_get_result($tretPrepare);
                 $treatNo=0;
-                
+
              if (mysqli_num_rows($treatQuery)>0) {
             $treatNo = mysqli_num_rows($treatQuery);
            
@@ -76,10 +76,6 @@ $admin_id = $_SESSION['admin_id'];
         
         if (isset($_POST['deleteRecord'])) {    
     
-        if ($treatNo> 0 && !isset($_POST['force_delete'])) {
-   
-        die("Cannot delete patient with existing treatments.");
-   }
                if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
     
            die("Invalid CSRF token");
