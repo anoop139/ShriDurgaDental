@@ -124,10 +124,10 @@ if (!is_numeric($age) || $age <= 0 || $age > 120) {
     echo "Invalid age";
     exit();
 }
-//  if (!preg_match('/^[0-9]{10}$/', $phone)) {
-//     echo "Invalid phone number";
-//     exit();
-// }
+ if (!preg_match('/^[0-9]{10}$/', $phone)) {
+    echo "Invalid phone number";
+    exit();
+}
 $fetch = "SELECT sno, name, phoNo 
 FROM patient 
 WHERE phoNo=? AND admin_id=?";
