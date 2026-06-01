@@ -23,9 +23,6 @@ if (!isset($_SESSION['token'])) {
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
 
-if (!isset($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-}
-
+$nonce = bin2hex(random_bytes(16));
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self';");
 ?>
