@@ -1,10 +1,25 @@
-
 <?php
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
 session_start();
+
+if (!isset($_SESSION['user'])) {
+    header("Location: LogIn.php");
+    exit();
+}
 
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
+
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,41 +27,22 @@ if (empty($_SESSION['token'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The form</title>
-
-    <style>
-	    
-        body{
-            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ZPZEsAvUt48PqhFubhzvfcaxOPzVzKPcEg&s");
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;  
-        }
-  	 ul ul li{
-      background-color: black;
-     }
-		 ul li a{
-		  color:white;
-		}
-    .mobErr{
-      color: red;
-    }
-    </style>
-	<link rel="stylesheet" href="./Header.css?v=5">
-  <link rel="stylesheet" href="./FormStyle.css?v=1">
+	<link rel="stylesheet" href="./Header.css?v=6">
+  <link rel="stylesheet" href="./FormStyle.css?v=5">
    
 </head>
 <body id="body1">
            <!-- <di> -->
     <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
-       <ul style="padding-left: 1050px; background-color:black; height: 40px; width: 280px;">
+       <ul id="ul">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
+        <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul>
-            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">number</a></li><br>
+            <li><a href="SearchByName.php">Name</a></li><br>
+            <li><a href="SearchByDate.php">Date</a></li><br>
+            <li><a href="SearchByNumber.php">number</a></li><br>
         </ul>
         </li>
       </ul>
@@ -76,7 +72,7 @@ if (empty($_SESSION['token'])) {
     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
     <input type="submit" value="Submit" id="Submit">
  </div>
- <script src="./FomValidation.js?v=1"></script>
+ <script src="./FomValidation.js?v=2"></script>
  </form>
 </div>
 </div>
