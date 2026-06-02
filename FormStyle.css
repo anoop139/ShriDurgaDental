@@ -1,3 +1,38 @@
-#formEle{
-    float: left;
+*{
+    margin: 0;
+    padding: 0;
 }
+
+#formEle{
+ float: left;
+ line-height: 50px;
+
+}       
+#ul{
+    padding-left: 1050px;
+     background-color:black; 
+     height: 40px; 
+     width: 280px;
+}
+ body{
+            background-image: url("./images/BackgroundForm.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;  
+        }
+  	 ul ul li{
+      background-color: black;
+     }
+		 ul li a{
+		  color:white;
+		}
+    .mobErr{
+      color: red;
+      margin-left: 300px;
+    }
+    #errInfo1{
+      margin-left: 0px;
+    } 
+    #nameErr{
+      margin-left: 0px;
+    }
