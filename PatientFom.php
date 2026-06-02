@@ -67,8 +67,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
     <input type="radio" name="Gender" id="Female" value="Female" required><span class="span">Female</span><br><br><br>
     <input type="text" name="pho" id="pho" required><br>
     <span class="mobErr" id="errInfo"></span><br><br>
-    <input type="hidden" name="gen" id="value" value="no" ><br><br><br>
-    <input type="hidden" name="date" id="date2" value="today" ><br><br><br> 
     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
     <input type="submit" value="Submit" id="Submit">
  </div>
