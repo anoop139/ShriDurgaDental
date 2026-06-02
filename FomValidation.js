@@ -9,7 +9,9 @@
     errInfo1 = document.getElementById("errInfo1");
 		input = document.getElementById("input1");
 		input2 = document.getElementById("input2");
-	
+	document.getElementById("name0").oninput = function () {
+    document.getElementById("nameErr").innerHTML = "";
+    };
     document.getElementById("pho").oninput = function () {
         errInfo.innerHTML = "";
     };
@@ -51,7 +53,7 @@ let date2 = document.getElementById("date2")
 	   if (!pname) return false;
    let cap = pname[0].toUpperCase();
    if (pname[0]!=cap) {
-	nameErr.innerHTML="The first letter should be in capital letter "
+	nameErr.innerHTML="The first letter should be in capital letter  "
 	nameErr.style.background="white";
 	return false
 
@@ -85,9 +87,9 @@ let date2 = document.getElementById("date2")
 		  errInfo.style.backgroundColor="white"
 		  return false;
 	  }
-  else if(phoNo.charAt(0)!=9 && phoNo.charAt(0)!=8 && phoNo.charAt(0)!=7)
+  else if(phoNo.charAt(0)!=6 && phoNo.charAt(0)!=9 && phoNo.charAt(0)!=8 && phoNo.charAt(0)!=7)
 	   {
-		 errInfo.innerHTML="Number should start from 9 or 8 7";
+		 errInfo.innerHTML="Number should start from 6 or 9 or 8 or 7";
 		 errInfo.style.backgroundColor="white"
 		 return false
 	   }
