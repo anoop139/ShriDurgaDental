@@ -46,14 +46,14 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
   <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
       <ul style="background:lightblue; height: 40px; width:340px; padding-left:1000px">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientRecord.php">Patient List </a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient </a></li>&nbsp;
+        <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
+        <li><a href="PatientForm.php">Add Patient </a></li>&nbsp;
         
         <li><a href="">Search by</a>
    <ul>
-            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li>
+            <li><a href="SearchByName.php">Name</a></li><br>
+            <li><a href="SearchByDate.php">Date</a></li><br>
+            <li><a href="SearchByNumber.php">Number</a></li>
     
         </ul>
         </li>
@@ -83,19 +83,19 @@ $fetch = mysqli_fetch_assoc($result);
     die("No patient record found for this ID.");
 }
    
- if(isset($_GET['ageUpdated']))    // ✅ correct
+ if(isset($_GET['id']))    // ✅ correct
  {
     	echo"<h1 id='updateMessage'>Age updated successfully</h1>";
  }
- if(isset($_GET['nameUpdated']))    // ✅ correct
+ if(isset($_GET['id']))    // ✅ correct
  {
     	echo"<h1 id='updateMessage'>Name updated successfully</h1>";
  }
-  if(isset($_GET['phoneUpdated']))    // ✅ correct
+  if(isset($_GET['id']))    // ✅ correct
  {
     	echo"<h1 id='updateMessage'>Phone Number updated successfully</h1>";
  }
-   if(isset($_GET['genderUpdated']))    // ✅ correct
+   if(isset($_GET['id']))    // ✅ correct
  {
     	echo"<h1 id='updateMessage'>Gender updated successfully</h1>";
  }
