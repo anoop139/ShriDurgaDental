@@ -10,13 +10,14 @@
     <h1 >Enter new age</h1>
     <div id="main-div1">
         <form action="./UpdateAge.php" id="form" method="POST" onsubmit="return updateAge()">
-         <input type="hidden" name="id" id="Id">
+         <input type="hidden" name="csrf_token" id="token" value="">
+            <input type="hidden" name="id" id="Id">
             <input type="number"  name="newAge" id="newAge"/><br>
          <span style="color: red; margin-left: 800px;" id="messageArea" class="h"></span><br><br>
            <div id="Agebtn"><input type="submit" value="Update" /></div>
         </form>
 
     </div>
-    <script src="./Update.js?v=3"></script>
+    <script src="./Update.js?v=5"></script>
 </body>
 </html>
