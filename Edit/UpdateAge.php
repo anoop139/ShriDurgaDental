@@ -73,7 +73,7 @@ if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['token'], $_POST['csr
 
         <script>
       var up = setTimeout(() => {
-   window.location.href=`../Edit.php?id=<?php echo$id;?>`
+   window.location.href=`../Edit.php?id=<?php echo$id;?>&newAge=true`;
         }, 5000);
 
         </script>
