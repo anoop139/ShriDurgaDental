@@ -15,7 +15,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
 if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['token'], $_POST['csrf_token'])) {
     die("Invalid CSRF token");
 }
-
+$admin_id = $_SESSION['admin_id'];
 ?>
 <!DOCTYPE html>
 <html lang="javascriptract">
@@ -54,9 +54,9 @@ if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['token'], $_POST['csr
             die("Change the age to a valid one");
         }
 
-        $update ="update patient set age=? where sno=?";
+        $update ="update patient set age=? where sno=? and admin_id=?";
             $stmt = mysqli_prepare($conn, $update);
-            mysqli_stmt_bind_param($stmt, "ii", $newAge, $id);
+            mysqli_stmt_bind_param($stmt, "iii", $newAge, $id, $admin_id);
             $query = mysqli_stmt_execute($stmt);
         // $query = mysqli_query($conn, $update);
         if ($query) {
