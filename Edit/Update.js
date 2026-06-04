@@ -116,7 +116,7 @@ function updatePhone() {
          message.innerHTML="Number should have 10 digits "
          return false
       }  
-      else if(phone.charAt(0)!=9 && phone.charAt(0)!=8 && phone.charAt(0)!=7)
+      else if(phone.charAt(0)!='9' && phone.charAt(0)!='8' && phone.charAt(0)!='7')
          {
           message.innerHTML="Number should start from 9 or 8 7";
           return false
