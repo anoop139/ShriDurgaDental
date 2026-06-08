@@ -3,7 +3,7 @@
   let input;
   let input2
   window.onload = function () {
-    // alert('hey ');
+    // alert('Swami Ajja ');
 
     errInfo = document.getElementById("errInfo");
     errInfo1 = document.getElementById("errInfo1");
@@ -21,27 +21,30 @@
 }
 
 
-function insert() {
-	let pname = document.getElementById("name0").value;
-	let m = document.getElementById("Male");
-let f = document.getElementById("Female");
-let value1 = document.getElementById("value")
-let date = new Date();
-let d = date.getDate()
-let mo = date.getMonth()+1
-let y = date.getFullYear()
-let toDate = ""
-if (mo<10) {
-	mo = 0+mo.toString() 
-	// alert("hello "+d)
-}
-if (d<10) {
-	d = 0+d.toString() 
+document.getElementById("inputPatient").onsubmit = function () {
 
-}
-toDate=d.toString()+" - "+mo.toString()+" - "+y
-let date2 = document.getElementById("date2")
-	// alert("hello "+toDate)
+	// alert("hello")
+//	return false
+	let pname = document.getElementById("name0").value;
+// 	let m = document.getElementById("Male");
+// let f = document.getElementById("Female");
+// let value1 = document.getElementById("value")
+// let date = new Date();
+// let d = date.getDate()
+// let mo = date.getMonth()+1
+// let y = date.getFullYear()
+// let toDate = ""
+// if (mo<10) {
+// 	mo = 0+mo.toString() 
+// 	// alert("hello "+d)
+// }
+// if (d<10) {
+// 	d = 0+d.toString() 
+
+// }
+// toDate=d.toString()+" - "+mo.toString()+" - "+y
+// let date2 = document.getElementById("date2")
+// 	// alert("hello "+toDate)
      
 	let nameErr = document.getElementById("nameErr");
       let phoNo = document.getElementById("pho").value
@@ -53,20 +56,24 @@ let date2 = document.getElementById("date2")
 	   if (!pname) return false;
    let cap = pname[0].toUpperCase();
    if (pname[0]!=cap) {
-	nameErr.innerHTML="The first letter should be in capital letter  "
+	nameErr.innerHTML="The first letter should be in capital letter"
 	nameErr.style.background="white";
 	return false
-
-	
-   }
+}
    else{
 	nameErr.innerHTML="";
 	nameErr.style.background="";
    }
+    if(age<0)
+  {
+	  errInfo1.innerHTML="Enter positive number please ";
+	  errInfo1.style.backgroundColor="white"
+	  return false
+  }
    if (m.checked==true) {
     value1.value="M"
 	
-    // alert( toDate)        
+    // alert( "hello ")        
    }
 
    else if (f.checked==true) {
@@ -75,12 +82,7 @@ let date2 = document.getElementById("date2")
    }
    date2.value=toDate
 
-  if(age<0)
-  {
-	  errInfo1.innerHTML="Enter positive number please ";
-	  errInfo1.style.backgroundColor="white"
-	  return false
-  }
+ 
 	  if(phoNo.length<10)
 	  {	  
 		errInfo.innerHTML="Number should have 10 digits ";
@@ -106,11 +108,11 @@ let date2 = document.getElementById("date2")
 	  return false;
 }
 	else{
-/////
-		date2.value=toDate;
-	    // errInfo.innerHTML=datne2
-		//  alert("You are solving "+date2.value)//
-		//  return false/////
+// /////
+// 		date2.value=toDate;
+// 	    // errInfo.innerHTML=datne2
+		 alert("testing")///
+		 return false/////
 	}
 
 }
