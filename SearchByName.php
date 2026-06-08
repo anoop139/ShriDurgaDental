@@ -168,10 +168,10 @@ if (!mysqli_stmt_execute($prepare)) {
 // 	# code...
 // 	$sno =$_GET['id'];
 // }
-if (isset($_GET['inserted'])) {
-    $x = $_GET['inserted'];
-	echo"<h1 id='TreatInserted'>Treatment inserted successfully</h1>";
-}
+//if (isset($_GET['inserted'])) {
+//    $x = $_GET['inserted'];
+//	echo"<h1 id='TreatInserted'>Treatment inserted successfully</h1>";
+//}
 // echo"<h1>name is  ".$nisset($_GET["id"])ame1."</h1>";
 
 ?>
@@ -180,7 +180,7 @@ if (isset($_GET['inserted'])) {
 </div>
 </div>
 
-<script src="./FomValidation.js?v=11"></script>
+<script src="./FomValidation.js?v=12"></script>
 
 </body>
 </html>
