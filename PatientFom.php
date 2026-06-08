@@ -58,7 +58,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
  </div>
  
  <div id="formInput">
-    <form action="InsertPatientRecord.php" method="POST" onsubmit="return insert()">    
+    <form action="InsertPatientRecord.php" method="POST" id="inputPatient">    
     <input type="text" name="name" id="name0" class="error" required><br> 
     <span class="mobErr" id="nameErr"></span><br><br>
     <input type="number" name="age" id="age" required><br>
@@ -70,7 +70,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
     <input type="submit" value="Submit" id="Submit">
  </div>
- <script src="./FomValidation.js?v=2"></script>
+ <script src="./FomValidation.js"></script>
  </form>
 </div>
 </div>
