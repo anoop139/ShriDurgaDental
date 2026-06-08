@@ -66,24 +66,22 @@ document.getElementById("inputPatient").onsubmit = function () {
    }
     if(age<0)
   {
-	  errInfo1.innerHTML="Enter positive number please ";
+	  errInfo1.innerHTML="Enter positive number please";
 	  errInfo1.style.backgroundColor="white"
 	  return false
   }
-   if (m.checked==true) {
-    value1.value="M"
+//    if (m.checked==true) {
+//     value1.value="M"
 	
-    // alert( "hello ")        
-   }
+//     // alert( "hello ")        
+//    }
 
-   else if (f.checked==true) {
-    value1.value="F"
-   // 
-   }
-   date2.value=toDate
-
- 
-	  if(phoNo.length<10)
+//    else if (f.checked==true) {
+//     value1.value="F"
+//    // 
+//    }
+//    date2.value=toDate
+  if(phoNo.length<10)
 	  {	  
 		errInfo.innerHTML="Number should have 10 digits ";
 		  errInfo.style.backgroundColor="white"
@@ -112,7 +110,7 @@ document.getElementById("inputPatient").onsubmit = function () {
 // 		date2.value=toDate;
 // 	    // errInfo.innerHTML=datne2
 		 alert("testing")///
-		 return false/////
+		//  return false/////
 	}
 
 }
