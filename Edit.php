@@ -83,19 +83,19 @@ $fetch = mysqli_fetch_assoc($result);
     die("No patient record found for this ID.");
 }
    
- if(isset($_GET['id']))    // ✅ correct
+if(isset($_GET['updated']) && $_GET['updated'] == 'age')
  {
     	echo"<h1 id='updateMessage'>Age updated successfully</h1>";
  }
- if(isset($_GET['id']))    // ✅ correct
+if(isset($_GET['updated']) && $_GET['updated'] == 'name') // ✅ correct
  {
     	echo"<h1 id='updateMessage'>Name updated successfully</h1>";
  }
-  if(isset($_GET['id']))    // ✅ correct
+  if(isset($_GET['updated']) && $_GET['updated'] == 'phone')    // ✅ correct
  {
     	echo"<h1 id='updateMessage'>Phone Number updated successfully</h1>";
  }
-   if(isset($_GET['id']))    // ✅ correct
+   if(isset($_GET['updated']) && $_GET['updated'] == 'gender')    // ✅ correct
  {
     	echo"<h1 id='updateMessage'>Gender updated successfully</h1>";
  }
