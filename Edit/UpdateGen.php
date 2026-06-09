@@ -1,6 +1,20 @@
 <?php
 include("../Connection/Connect.php");
-error_reporting(0);
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+session_start();
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
+if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
+    header("Location: LogIn.php");
+    exit();
+}
+if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['token'], $_POST['csrf_token'])) {
+    die("Invalid CSRF token");
+}
+$admin_id = $_SESSION['admin_id'];
 ?>
 
 <!DOCTYPE html>
@@ -26,26 +40,45 @@ error_reporting(0);
     <div id="Main-div">
      <div style="text-align:center" id="sub-div">
         <?php
-        $sno = $_POST['id'];// THIS IS IS SNO
-        $gender = $_POST['gender'];
-        // echo"<h1> id is $sno</h1>";
-        $updateGen ="update patient set gen='$gender' where sno=$sno";
-        $query1 = mysqli_query($conn, $updateGen);
-        if ($query1) {
-            # code...
-            echo"<h1>Gender updated successfully wait for few seconds </h1>";
+        if (!isset($_POST['id']) || !isset($_POST['gender'])) {
+            die("Invalid request");
+        }   
+        $sno = (int)$_POST['id'];// THIS IS THE SNO
+        if ($sno <= 0) {
+        die("Invalid ID");
         }
-        else{
-            echo"<h1>Updation failed  </h1>";
-        }
+     
+   $gender = $_POST['gender'];
+    $allowed = ["Male", "Female"];
+if (!in_array($gender, $allowed, true)) {
+    die("Invalid gender");
+}
 
+        // echo"<h1> id is $sno</h1>";
+        $updateGen ="update patient set gen=? where sno=? and admin_id=?";
+        $stmt = mysqli_prepare($conn, $updateGen);
+        if (!$stmt) {
+         die("Database error");
+        }
+        mysqli_stmt_bind_param($stmt, "sii", $gender, $sno, $admin_id);
+        $query1 = mysqli_stmt_execute($stmt);
+       
+     if ($query1 && mysqli_stmt_affected_rows($stmt) > 0) {
+    
+         echo "Gender updated successfully";
+    } 
+    else {
+    
+    echo "No changes made or update failed";
+}
+ mysqli_stmt_close($stmt);
         // echo"The id is ".$oldAge."<br>";
         // echo"And the new gender is ".$newAge;
         ?>
 
       <script>
       var up = setTimeout(() => {
-       window.location.href=`../Edit.php?id=<?php echo$sno;?>`
+       window.location.href=`../Edit.php?id=<?php echo$sno;?>&updated=gender`;
         }, 5000);
 
         </script>
