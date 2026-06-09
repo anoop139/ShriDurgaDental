@@ -31,7 +31,7 @@ if (isset($_POST['p'])) {
 // }
     // your main logic here
 }
-
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none';");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,50 +39,13 @@ if (isset($_POST['p'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Export to excel</title>
+    <link rel="stylesheet" href="Export.css">
 </head>
-<style>
-  #contain{
-     border: 2px solid black;
-     height: auto;
-     width: 100%;
-  }
-   #contain{
-    padding-left: 40px;
-  }
-  #buttons{
-    position  : absolute;
-    top       : auto; 
-    left:       105px;
-  }
-  #table1{
-    margin-bottom: 97px;
-  }
- 
- #TotalAmount{
-  float: left;
- }
-</style>
-<body>
-    <script>
-      let today
-   window.onload = ()=>{
 
-  let date = new Date()
-  let date1 =date.getDate()
-  let month =date.getMonth()+1
-  if (date1<10) {
-    date1 = 0+date1.toString()
-  }
-  if (month<10) {
-    month = 0+month.toString()
-  }
-      today = date1+" - "+month+" - "+date.getFullYear()
-  let dateId  = document.getElementById("dateId").value=today
-    // alert('date '+date1)///
-   }
-    </script>
+<body>
+    
     <div id="contain">
-      <h1  style="text-align:center">Click download button and export</h1>
+      <h1  class="exportMsg">Click download button and export</h1>
        <?php
       if (isset($_POST['p'])) {
          function safeExcel($value) {
@@ -91,11 +54,11 @@ if (isset($_POST['p'])) {
     }
     return $value;
 }
-            $getDate = $_POST["date"];    
+            $getDate = date("Y-m-d");    
             // $getDate2 =$getDate;
-if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
-    die("Invalid date format");
-}
+// if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
+//     die("Invalid date format");
+// }
         $todayRecord ="SELECT * FROM patient  where patient.date =? AND patient.admin_id = ?";
         $stmt        = mysqli_prepare($conn,$todayRecord);
         if (!$stmt) {
@@ -115,10 +78,10 @@ if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
         if ($count==0) {
               // echo"<h1>id "."$admin_id"."</h1>";
             # code...
-            echo"<h1 style='text-align:center'>No record for the day</h1>";
+            echo"<h1 style='text-align:center'>No record for the day $getDate</h1>";
         }
         else{
-         echo"<table border='0'  id='allTable'>
+         echo"<table border='0' class='exportMsg' id='allTable'>
          <tr>
          <td>
          <table border='2' id='table1' cellpadding='10'>
@@ -256,29 +219,22 @@ if (!preg_match("/^\d{2} - \d{2} - \d{4}$/", $getDate)) {
       }
        ?>
        <form action="#" id="fom"  method="POST">
-    <div id="buttons" style="margin-top: 10px; margin-left:980px;">
+    <div id="buttons" style="">
       <input type="hidden" name="date" id="dateId">
-      <button type="submit" name="p" >Download Today's Record</button>
-      <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-    <button type="button" onclick="exportToExcel()">Export</button>
+         <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+         <div id="buttonContainer">
+                <button type="submit" name="p" class="exportButtons">Download Today's Record</button>
+     <button type="button" class="exportButtons" id="exportBtn">Export</button>
+         </div>
 
 
        </form>
     </div>
 	<div id="result"></div>
 <!-- download.js CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+<script src="./download.min.js"></script>
 
-   <script>
-  function exportToExcel() {
-  let table = document.getElementById("allTable");
-  // let treatment = document.getElementById("treatment");
-   let a =table.outerHTML
-   alert("All set to download")//
-download(a, `${today}.xls`,'application/vnd.ms-excel')
-}
-
-   </script>
+   <script src="Export.js?<?php echo time(); ?>"></script>
    
 </body>
 </html>
