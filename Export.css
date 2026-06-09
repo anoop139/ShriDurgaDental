@@ -1,0 +1,51 @@
+
+  #contain{
+     border: 2px solid black;
+     height: auto;
+     width: 100%;
+  }
+  
+  
+  #allTable {
+    margin: auto;
+}
+  .exportMsg{
+    text-align: center;     
+    margin-top: 20px;
+  }
+   #contain{
+    padding-left: 40px;
+  }
+  #buttons{
+    position  : absolute;
+    top       : auto; 
+    left:       105px;
+  }
+  #table1{
+    margin-bottom: 97px;
+  }
+ 
+ #TotalAmount{
+  float: left;
+ }
+.exportButtons{
+    margin-top:20px;
+    padding:10px 20px;
+    background:#1976d2;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+#exportBtn{
+    position: absolute;
+    left: 200px;
+}   
+
+.exportButtons:hover{
+    background:#1565c0;
+}
+ .exportButtons{        
+ margin-top: 10px;
+ margin-left:965px;
+}
