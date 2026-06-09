@@ -70,7 +70,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
     <input type="submit" value="Submit" id="Submit">
  </div>
- <script src="./FomValidation.js"></script>
+ <script src="./FomValidation.js?v=<?php echo time(); ?>"></script>
  </form>
 </div>
 </div>
