@@ -64,7 +64,7 @@ document.getElementById("inputPatient").onsubmit = function () {
 	nameErr.innerHTML="";
 	nameErr.style.background="";
    }
-    if(age<0)
+    if(age<=0)
   {
 	  errInfo1.innerHTML="Enter positive number please";
 	  errInfo1.style.backgroundColor="white"
@@ -81,7 +81,7 @@ document.getElementById("inputPatient").onsubmit = function () {
 //    // 
 //    }
 //    date2.value=toDate
-  if(phoNo.length<10)
+  if(phoNo.length<10 || phoNo.length>10)
 	  {	  
 		errInfo.innerHTML="Number should have 10 digits ";
 		  errInfo.style.backgroundColor="white"
@@ -109,7 +109,7 @@ document.getElementById("inputPatient").onsubmit = function () {
 // /////
 // 		date2.value=toDate;
 // 	    // errInfo.innerHTML=datne2
-		 alert("testing")///
+		//  alert("testing")///
 		//  return false/////
 	}
 
