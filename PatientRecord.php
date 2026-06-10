@@ -82,6 +82,7 @@ $no = mysqli_num_rows($result);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Patient Information Page</title>
 <link rel="stylesheet" href="Header2.css?v=20">
+<link rel="stylesheet" href="Export.css?v=2">
     <style>  
      #body{
             background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV5tegbIR32oDRVB_qdMazaa-KJwDX04xfiA&s");
@@ -123,7 +124,7 @@ $no = mysqli_num_rows($result);
 
 <?php
 if($no > 0 && !isset($_GET['name'])) {
-    echo "<table border='2'>
+    echo "<table border='2' class='contain1'>
         <th>Name</th>
         <th>Age</th>
         <th>Gender</th>
