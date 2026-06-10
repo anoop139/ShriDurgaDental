@@ -32,6 +32,12 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     <title>Search by name</title>
     <link rel="stylesheet" href="Header2.css">
 	<link rel="stylesheet" href="SearchByName.css?v=3">
+	<link rel="stylesheet" href="Export.css?v=<?php echo time(); ?>">
+	<style>
+		.contain1 {
+			border: 1px solid black;
+		}
+	</style>
 </head>
 <body id="body">
        <ul id="ul1">
@@ -67,7 +73,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
 }
 	$name = trim($_POST['name']);
      if ($name === "" || strlen($name) > 50) {
-    echo "<h1>Invalid input</h1>";
+    echo "<h1>Invalid input from php</h1>";/////
     exit();
    }
 	$admin_id = $_SESSION['admin_id'];
@@ -94,16 +100,16 @@ if (!mysqli_stmt_execute($prepare)) {
 	if($no>0)
 	{
 		
-		echo" <table border='2' id='table'>
+		    echo "<table border='2' class='contain1'>
 	 <tr>
 	 <th style='padding:3px;'>Date</th>
-	 <th style='padding:3px;'>Name</th>
-	 <th style='padding:5px;'>Age</th>
+	 <th style='padding:3px;' >Name</th>
+	 <th style='padding:5px;' >Age</th>
 	 <th style='padding:5px;'>Gender</th>
-	 <th style='padding:5px;'>No. of treatment</th>
-	 <th style='padding:5px;'>Treatment details</th>
-	 <th style='padding:5px;'>Phone Number</th>
-	 <th style='padding:5px;'>Edit</th>
+	 <th style='padding:5px;' >No. of treatment</th>
+	 <th style='padding:5px;' >Treatment details</th>
+	 <th style='padding:5px;' >Phone Number</th>
+	 <th style='padding:5px;' class='contain1'>Edit</th>
 	 </tr>";
 	 ?>
 	 <?php
@@ -180,7 +186,7 @@ if (!mysqli_stmt_execute($prepare)) {
 </div>
 </div>
 
-<script src="./FomValidation.js?v=12"></script>
+<script src="./SearchByName.js"></script>
 
 </body>
 </html>
