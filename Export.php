@@ -8,7 +8,7 @@ ini_set('log_errors', 1);
 
 session_set_cookie_params([
     'httponly' => true,
-    'secure' => true,
+    'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
     'samesite' => 'Strict'
 ]);
 session_start();
@@ -39,12 +39,12 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Export to excel</title>
-    <link rel="stylesheet" href="Export.css">
+    <link rel="stylesheet" href="Export.css?v=<?php echo time(); ?>">
 </head>
 
 <body>
     
-    <div id="contain">
+    <div class="contain">
       <h1  class="exportMsg">Click download button and export</h1>
        <?php
       if (isset($_POST['p'])) {
@@ -78,13 +78,13 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
         if ($count==0) {
               // echo"<h1>id "."$admin_id"."</h1>";
             # code...
-            echo"<h1 style='text-align:center'>No record for the day $getDate</h1>";
+            echo"<h1 id='noMsg'>No record for the day</h1>";
         }
         else{
          echo"<table border='0' class='exportMsg' id='allTable'>
          <tr>
          <td>
-         <table border='2' id='table1' cellpadding='10'>
+         <table border='2' id='table1' class='contain' cellpadding='10'>
          <tr>
          </tr>
             <tr>
@@ -136,7 +136,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
                 if ($tcount>0)
                  {
                 echo" 
-               <table border='2' id='treatment' cellpadding='6'>  
+               <table border='2' id='treatment' class='contain' cellpadding='6'>  
                 <tr>
                </tr>
                 <tr>
@@ -219,7 +219,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
       }
        ?>
        <form action="#" id="fom"  method="POST">
-    <div id="buttons" style="">
+    <div id="buttons">
       <input type="hidden" name="date" id="dateId">
          <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
          <div id="buttonContainer">
