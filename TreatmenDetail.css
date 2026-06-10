@@ -1,0 +1,98 @@
+#ul{
+padding-left:955px;
+ height: 40px;    
+}
+body{
+  background-image:url("https://media.istockphoto.com/id/1349328691/photo/young-happy-woman-during-dental-procedure-at-dentists-office.jpg?s=612x612&w=0&k=20&c=H0WBvMhyspSX10Xq65AFhF4DoMLzg8wOpqjjupwTWDE=");
+  background-repeat:no-repeat;
+  background-size:cover;
+
+		 
+	 }
+	ul li ul li{
+		background:lightblue;
+	}
+	#res1{
+		background-color:white;
+		padding: 40px;
+	}
+	#res1{
+		border:2px solid black;
+	    
+	}
+	#res1{
+		height: auto;
+	}
+	#res1{
+		
+		margin-top:50px;
+		text-align:center;
+	}
+	#res1{
+		
+		padding-top:0px;
+		/* //text-align:center;/ */
+	}
+	#Next button{
+		position:relative;
+		top:-20px;
+		
+	}
+	#Next Button{
+		float:right;
+		color:green;
+	}
+	#Back{
+		padding-top:10px;
+		
+	}	
+	#Back button{
+/* 		
+		padding-left:30px;
+		padding-right:30px; */
+		
+	}
+	
+	#Next button{
+		padding-left:30px;
+		padding-right:30px;
+		
+	}
+
+    #deleteInfo{
+		position:absolute;
+		top:10px;
+		left: 500px;
+	}
+	#del{
+		position: absolute;
+		top:-150px;
+		left: 700px;
+		transition: transform 3s;
+	}
+	table th, td{
+		padding: 5px;
+	}
+  .treatTable{
+    border: 2px solid black;
+  }
+	#del{
+		background-color:white;
+		font-size:2em;
+		font-weight:bold
+	}
+	#deleteInfo{
+		transition: transform 3s
+	}
+	#delF {
+      position: relative;
+	  top: 40px;
+	  left: 35px;
+    }
+	#delF input {
+      padding: 20px;
+	  /* text-align:right; */
+    }
+     #submitBtn {
+    text-align: right;
+    }
