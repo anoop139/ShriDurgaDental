@@ -1,17 +1,22 @@
 
-  #contain{
+  .contain{
      border: 2px solid black;
      height: auto;
      width: 100%;
   }
   
-  
+  .contain1{
+    border: 2px solid black;
+  }
   #allTable {
     margin: auto;
 }
   .exportMsg{
     text-align: center;     
     margin-top: 20px;
+  }
+  #noMsg{
+    text-align: center;     
   }
    #contain{
     padding-left: 40px;
