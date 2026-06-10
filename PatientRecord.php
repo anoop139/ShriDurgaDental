@@ -149,16 +149,16 @@ if($no > 0 && !isset($_GET['name'])) {
 
         echo "<tr>
             <td>".htmlspecialchars($show['name'], ENT_QUOTES, 'UTF-8')."</td>
-            <td>".htmlspecialchars($show['age'], ENT_QUOTES, 'UTF-8')."</td>
+            <td align='center'>".htmlspecialchars($show['age'], ENT_QUOTES, 'UTF-8')."</td>
             <td>".htmlspecialchars($show['gen'], ENT_QUOTES, 'UTF-8')."</td>
             <td>".htmlspecialchars($show['phoNo'], ENT_QUOTES, 'UTF-8')."</td>
             <td align='center'>
                 <a href='TreatmentDetail.php?id=".urlencode($id)."' class='ank' title='View treatment details'>$Con</a>
             </td>
-            <td style='text-align:center;'>
+            <td >
                 <a href='InsertTreatment.php?id=".urlencode($id)."&patientRecord=true' class='ank' title='Add treatment details'>Add treatment details</a>
             </td>
-            <td style='text-align:center;'>
+            <td>
                 <a href='Edit.php?id=".urlencode($id)."' class='ank'>Edit</a>
             </td>
         </tr>";
