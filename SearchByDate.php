@@ -56,6 +56,7 @@ header("X-Content-Type-Options: nosniff");
     <title>Seach By Date</title>
 <link rel="stylesheet" href="./Header2.css">
 <link rel="stylesheet" href="./SearchByDate.css?v=2">
+<link rel="stylesheet" href="./Export.css?v=2">
 </head>
 <body>
      <h1  id="deleted"></h1>
@@ -136,7 +137,7 @@ GROUP BY patient.sno, patient.name, patient.age, patient.gen, patient.phoNo";
 	if($no>0)
 	{
 		echo"<center>";
-		echo" <table border='2'>
+	   echo "<table border='2' class='contain1'>
 	 <tr cellpadding;4px>
 	 <th style='padding:3px;'>Name</th>
 	 <th style='padding:5px;'>Age</th>
