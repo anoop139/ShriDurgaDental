@@ -1,6 +1,37 @@
-<?php
+<?php  //88–92% secure
 include("Connection/Connect.php");
-error_reporting(0);
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
+session_set_cookie_params([
+    'httponly' => true,
+    'secure' => true,
+    'samesite' => 'Strict'
+]);
+session_start();
+if (empty($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
+if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
+    header("Location: LogIn.php");
+    exit();
+}
+$admin_id = $_SESSION['admin_id'];
+
+if (isset($_POST['p'])) {
+
+    if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
+        die("CSRF attack detected");
+    }
+// /if (empty($_SESSION['token'])) {
+    // $_SESSION['token'] = bin2hex(random_bytes(32));
+// }
+    // your main logic here
+}
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none';");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,111 +40,24 @@ error_reporting(0);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Treatment record</title>
 	<style>
-     body{
-  background-image:url("https://media.istockphoto.com/id/1349328691/photo/young-happy-woman-during-dental-procedure-at-dentists-office.jpg?s=612x612&w=0&k=20&c=H0WBvMhyspSX10Xq65AFhF4DoMLzg8wOpqjjupwTWDE=");
-  background-repeat:no-repeat;
-  background-size:cover;
-
-		 
-	 }
-	ul li ul li{
-		background:lightblue;
-	}
-	#res1{
-		background-color:white;
-		padding: 40px;
-	}
-	#res1{
-		border:2px solid black;
-	    
-	}
-	#res1{
-		height: auto;
-	}
-	#res1{
-		
-		margin-top:50px;
-		text-align:center;
-	}
-	#res1{
-		
-		padding-top:0px;
-		//text-align:center;
-	}
-	#Next button{
-		position:relative;
-		top:-20px;
-		
-	}
-	#Next Button{
-		float:right;
-		color:green;
-	}
-	#Back{
-		padding-top:10px;
-		
-	}	
-	#Back button{
-/* 		
-		padding-left:30px;
-		padding-right:30px; */
-		
-	}
-	
-	#Next button{
-		padding-left:30px;
-		padding-right:30px;
-		
-	}
-
-    #deleteInfo{
-		position:absolute;
-		top:10px;
-		left: 500px;
-	}
-	#del{
-		position: absolute;
-		top:-150px;
-		left: 700px;
-		transition: transform 3s;
-	}
-	table th, td{
-		padding: 5px;
-	}
-
-	#del{
-		background-color:white;
-		font-size:2em;
-		font-weight:bold
-	}
-	#deleteInfo{
-		transition: transform 3s
-	}
-	#delF {
-      position: relative;
-	  top: 40px;
-	  left: 35px;
-    }
-	#delF input {
-      padding: 20px;
-	  /* text-align:right; */
-    }
-
+   
 	</style>
     <!-- <link rel="stylesheet" href="Header.css">/ -->
 	    <link rel="stylesheet" href="Header2.css">
+		<link rel="stylesheet" href="TreatmenDetail.css?v=1">
+		<link rel="stylesheet" href="Export.css?v=1">
 </head>
 <body>
-         <ul style="padding-left:955px; height: 40px;" id="ul">
+         <ul  id="ul">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="PatientRecord.php">Patient List</a></li>&nbsp;
-        <li><a href="http://localhost:8081/Shri/PatientFom.php">Add Patient</a></li>&nbsp;
+        <li><a href="PatientFom.php">Add Patient</a></li>&nbsp;
         
         <li><a href="">Search by</a>
         <ul>
-            <li><a href="http://localhost:8081/Shri/SearchByName.php">Name</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByDate.php">Date</a></li><br>
-            <li><a href="http://localhost:8081/Shri/SearchByNumber.php">Number</a></li><br>
+            <li><a href="SearchByName.php">Name</a></li><br>
+            <li><a href="SearchByDate.php">Date</a></li><br>
+            <li><a href="SearchByNumber.php">Number</a></li><br>
         </ul>
         </li>
 </ul><br>
@@ -125,7 +69,7 @@ error_reporting(0);
  ?>
  
  <?php 
- $fid= $_GET['id'];
+$fid = (int)$_GET['id'];
  $tid= $_GET['tid'];
  if (isset($_GET['treatInserted'])) {
 	// $deleted =$_GET['delete'];
@@ -142,19 +86,42 @@ if (isset($_GET['DeleteAll'])) {
 ?>
 <?php
 if (isset($fid)) {
- $showName ="select *from patient where sno=$fid";
- $NameQuery   =  mysqli_query($conn, $showName);
- $PatienName  =  mysqli_fetch_assoc($NameQuery);
- $display ="select *from treatment where sno=$fid"; 
- $query   =  mysqli_query($conn, $display);
- $no   =  mysqli_num_rows($query);
- $display2 ="select SUM(amount) as amt from treatment where sno=$fid";
- $query1   =  mysqli_query($conn, $display2);
+ $showName ="select *from patient where sno=? and admin_id=?";
+ $NameQuery   =  mysqli_prepare($conn, $showName);
+  if (!$NameQuery) {
+    
+        die("Query failed");
+     
+    }
+mysqli_stmt_bind_param($NameQuery, 'ii',$fid, $admin_id);
+
+if (!mysqli_stmt_execute($NameQuery)) {
+         die("Execution failed");
+         }
+  $result = mysqli_stmt_get_result($NameQuery);
+ $PatienName  =  mysqli_fetch_assoc($result);
+ $treatment ="select *from treatment where sno=?";
+   $treatQuery   =  mysqli_prepare($conn, $treatment);
+  if (!$treatQuery) {
+    
+        die("Query failed");
+     
+    }
+mysqli_stmt_bind_param($treatQuery, 'i',$fid);
+if (!mysqli_stmt_execute($treatQuery)) {
+         die("Execution failed");
+         }
+  $treatmentRes = mysqli_stmt_get_result($treatQuery);
+//  $PatienName  =  mysqli_fetch_assoc($result);
+//  $query   =  mysqli_query($conn, $display);
+ $noOfTreat   =  mysqli_num_rows($treatmentRes);
+//  $display2 ="select SUM(amount) as amt from treatment where sno=$fid";
+//  $query1   =  mysqli_query($conn, $display2);
   
- $fect0    = mysqli_fetch_assoc($query1);
- if($no>0) 
+//  $fect0    = mysqli_fetch_assoc($query1);
+ if($noOfTreat>0) 
  {
-echo"<h1>Treatment for "."$PatienName[name]"."</h1>";
+echo"<h1>Treatment for "."$PatienName[name] </h1>";
 echo"<br>";
  }
 }
@@ -162,13 +129,13 @@ echo"<br>";
  </script>
  <?php
  $pending = 0;
- if($no>0) 
+ if($noOfTreat>0) 
  {
 // echo"<h1>Treatment for ".$no."  </h1>";
 // echo"<h1>You are here</h1>";
 
 echo"<center>
-<table border='1' id='myTable' cellpadding='10px' style='text-align:center;'>
+<table border='2' id='myTable' cellpadding='10px' class='treatTable'>
    <tr>
    <th>Date</th>
    <th>Due Date</th>
@@ -180,7 +147,7 @@ echo"<center>
    <th>Edit</th>
    <th>Delete</th>
    </tr>";
-while( $fect= mysqli_fetch_assoc($query))
+while( $fect= mysqli_fetch_assoc($treatmentRes))
 {
 	if ($fect['amount']>$fect['advance'] && $fect['advance']!=0) {
 	  $pending = $fect['amount']-($fect['advance'] + $fect['online']);
@@ -201,11 +168,11 @@ while( $fect= mysqli_fetch_assoc($query))
 	echo"<tr>
    <td>$fect[date]</td>
    <td>$fect[dueDate]</td>
-   <td style='padding-right: 50px;'>$fect[treatment]</td>
-   <td style='padding: 10px;'>$fect[advance]</td>
-   <td style='padding: 10px;'>$fect[online]</td>
-   <td>$pending</td>  
-    <td >$fect[amount]</td>
+   <td >$fect[treatment]</td>
+   <td align='center'>$fect[advance]</td>
+   <td align='center'>$fect[online]</td>
+   <td align='center'>$pending</td>  
+    <td align='center' >$fect[amount]</td>
 
   <td><a href='EditTreatment\EditTreatment.php?tid=$fect[tid]'>Edit</a></td>
   <td><a href='Edit\TreatmentDelete.php?id=$PatienName[sno]&treatId=$fect[tid]'>Delete</a></td>
@@ -248,7 +215,7 @@ else if($no==0){
  <form action="Edit\TreatmentDelete.php?"  method="GET" id="delF">
 	<input type="hidden" name="fid" value=<?php echo"$PatienName[sno]"?> />
 
-<div style="text-align:right;"> <input type="Submit" name="DeleteAll" value="Delete All" id="deleteAll"> </div>
+<div id="submitBtn"> <input type="Submit" name="DeleteAll" value="Delete All" id="deleteAll"> </div>
 </form>
 </div>
 <!-- <div id="Back"><button class="Col">Back</button></div>
