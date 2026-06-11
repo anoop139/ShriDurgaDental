@@ -4,6 +4,11 @@ include("Connection/Connect.php");
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
+session_set_cookie_params([
+    'httponly' => true,
+     'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),   // only if using HTTPS
+    'samesite' => 'Strict'
+]);
 session_start();
 if (!isset($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
@@ -12,6 +17,10 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     header("Location: LogIn.php");
     exit();
 }
+header("Referrer-Policy: strict-origin-when-cross-origin");
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none';");
 ?>
 <html>
 <head>
@@ -19,27 +28,10 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Edit Page</title>
 	<style>
-        ul ul li a{
-            background-color: lightblue;
-        }
-	#header0{
-		background-color:black
-
-	}
-    	table th, td{
-		padding: 5px;
-	}
-    #updateMessage{
-    position: absolute;
-    top: -80px;
-    color: green;
-    background-color: white;
-    transition: transform 3s;
-}
-   
+    
 	</style>
     <link rel="stylesheet" href="Header2.css?v=1">
-    <link rel="stylesheet" href="StlyEdit.css?v=11">
+    <link rel="stylesheet" href="StlyEdit.css?v=12">
 	
 </head>
 <body id="editBody">
@@ -72,7 +64,9 @@ $admin_id = $_SESSION['admin_id'];
 // echo"id id $id<br>";
 $query = "SELECT * FROM patient WHERE sno=? AND admin_id=?";
 $prepare = mysqli_prepare($conn,$query);
-
+if (!$prepare) {
+    die("Database error");
+}
 if ($prepare) {
     
 mysqli_stmt_bind_param($prepare, 'ii', $id, $admin_id);
@@ -91,13 +85,14 @@ if(isset($_GET['updated']) && $_GET['updated'] == 'name') // ✅ correct
  {
     	echo"<h1 id='updateMessage'>Name updated successfully</h1>";
  }
-  if(isset($_GET['updated']) && $_GET['updated'] == 'phone')    // ✅ correct
- {
-    	echo"<h1 id='updateMessage'>Phone Number updated successfully</h1>";
- }
+
    if(isset($_GET['updated']) && $_GET['updated'] == 'gender')    // ✅ correct
  {
     	echo"<h1 id='updateMessage'>Gender updated successfully</h1>";
+ }
+  if(isset($_GET['updated']) && $_GET['updated'] == 'number')    // ✅ correct
+ {
+    	echo"<h1 id='updateMessage'>Phone Number updated successfully</h1>";
  }
     mysqli_stmt_close($prepare);
 }
@@ -135,7 +130,7 @@ if(isset($_GET['updated']) && $_GET['updated'] == 'name') // ✅ correct
 <td>
 <form method="POST" action="Edit/DeletePatientRecord.php" style="display:inline;">
     <input type="hidden" name="id" value="<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8'); ?>">
-    <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+    <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
     <button type="submit">Delete</button>
 </form>
 </td>
