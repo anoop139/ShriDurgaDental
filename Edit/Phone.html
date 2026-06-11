@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="javascriptract">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +39,8 @@
       <div id="subPhone">
         <h1>Enter new Nunber :</h1>
         <form action="./UpdatePhone.php" id="phoneFom" method="POST" onsubmit="return updatePhone()">
-            <input type="hidden" id="Id"  name="id"><br>
+            <input type="hidden" id="Id"  name="id"><br>       
+                 <input type="hidden" name="csrf_token" id="token" value="">
             <input type="text" id="phoneNumber" name="newNumber"><br>
             <span style="color: red;" id="messageArea" class="h"></span><br>
             <input type="text" id="phone" hidden>
@@ -47,6 +48,6 @@
         </form>
       </div>
     </div>
-    <script src="./Update.js?v=3"></script>
+    <script src="./Update.js"></script>
 </body>
 </html>
