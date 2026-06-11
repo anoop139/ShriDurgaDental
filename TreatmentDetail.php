@@ -39,9 +39,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Treatment record</title>
-	<style>
-   
-	</style>
     <!-- <link rel="stylesheet" href="Header.css">/ -->
 	    <link rel="stylesheet" href="Header2.css">
 		<link rel="stylesheet" href="TreatmenDetail.css?v=1">
@@ -62,30 +59,14 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
         </li>
 </ul><br>
 </div>
-<div id="res1" style="padding-top:0px;">
- <?php
- 
-
- ?>
- 
+<div id="res1">
  <?php 
-$fid = (int)$_GET['id'];
- $tid= $_GET['tid'];
- if (isset($_GET['treatInserted'])) {
-	// $deleted =$_GET['delete'];
-	echo"<h1 id='del'> Treament  inserted successfully </h1>";///
-}
-if (isset($_GET['Delete'])) {
-	// $deleted =$_GET['delete'];
-	echo"<h1 id='del'> Treament  deleted successfully </h1>";///
-}
-if (isset($_GET['DeleteAll'])) {
-	
-	echo"<h1 id='del'> All treaments  deleted successfully </h1>";///
-}
+ $fid = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+ $tid = isset($_GET['tid']) ? (int)$_GET['tid'] : 0;
+
 ?>
 <?php
-if (isset($fid)) {
+if ($fid > 0){
  $showName ="select *from patient where sno=? and admin_id=?";
  $NameQuery   =  mysqli_prepare($conn, $showName);
   if (!$NameQuery) {
@@ -100,14 +81,14 @@ if (!mysqli_stmt_execute($NameQuery)) {
          }
   $result = mysqli_stmt_get_result($NameQuery);
  $PatienName  =  mysqli_fetch_assoc($result);
- $treatment ="select *from treatment where sno=?";
+ $treatment ="select *from treatment where sno=? and admin_id=?";
    $treatQuery   =  mysqli_prepare($conn, $treatment);
   if (!$treatQuery) {
     
         die("Query failed");
      
     }
-mysqli_stmt_bind_param($treatQuery, 'i',$fid);
+mysqli_stmt_bind_param($treatQuery, 'ii',$fid, $admin_id);
 if (!mysqli_stmt_execute($treatQuery)) {
          die("Execution failed");
          }
@@ -115,25 +96,25 @@ if (!mysqli_stmt_execute($treatQuery)) {
 //  $PatienName  =  mysqli_fetch_assoc($result);
 //  $query   =  mysqli_query($conn, $display);
  $noOfTreat   =  mysqli_num_rows($treatmentRes);
-//  $display2 ="select SUM(amount) as amt from treatment where sno=$fid";
-//  $query1   =  mysqli_query($conn, $display2);
-  
-//  $fect0    = mysqli_fetch_assoc($query1);
+if (!$PatienName) {
+    die("Patient not found");
+}
  if($noOfTreat>0) 
  {
-echo"<h1>Treatment for "."$PatienName[name] </h1>";
+echo"<h1>Treatment for ". htmlspecialchars($PatienName['name'], ENT_QUOTES, 'UTF-8')."</h1>";
 echo"<br>";
  }
 }
 ?>
- </script>
  <?php
  $pending = 0;
+
+
  if($noOfTreat>0) 
  {
 // echo"<h1>Treatment for ".$no."  </h1>";
 // echo"<h1>You are here</h1>";
-
+   $fect0['amt'] = 0;
 echo"<center>
 <table border='2' id='myTable' cellpadding='10px' class='treatTable'>
    <tr>
@@ -148,7 +129,9 @@ echo"<center>
    <th>Delete</th>
    </tr>";
 while( $fect= mysqli_fetch_assoc($treatmentRes))
-{
+{ $tid = (int)$fect['tid'];
+$sno = (int)$PatienName['sno'];
+
 	if ($fect['amount']>$fect['advance'] && $fect['advance']!=0) {
 	  $pending = $fect['amount']-($fect['advance'] + $fect['online']);
 	//   echo"<></>";pending = amount - (advance + online)
@@ -163,19 +146,19 @@ while( $fect= mysqli_fetch_assoc($treatmentRes))
 	}///
 	// $pending =$fect['amount']-$fect['advance'];
 	if ($fect['online']!=0) {
+     
 	   $fect0['amt']+=$fect['online'];
 	}
 	echo"<tr>
-   <td>$fect[date]</td>
-   <td>$fect[dueDate]</td>
-   <td >$fect[treatment]</td>
-   <td align='center'>$fect[advance]</td>
-   <td align='center'>$fect[online]</td>
-   <td align='center'>$pending</td>  
-    <td align='center' >$fect[amount]</td>
-
-  <td><a href='EditTreatment\EditTreatment.php?tid=$fect[tid]'>Edit</a></td>
-  <td><a href='Edit\TreatmentDelete.php?id=$PatienName[sno]&treatId=$fect[tid]'>Delete</a></td>
+   <td>".htmlspecialchars($fect['date'])."</td>
+   <td>".htmlspecialchars($fect['dueDate'])."</td>
+   <td >".htmlspecialchars($fect['treatment'])."</td>
+   <td align='center'>".htmlspecialchars($fect['advance'])."</td>
+   <td align='center'>".htmlspecialchars($fect['online'])."</td>
+   <td align='center'>".htmlspecialchars($pending)."</td>
+   <td align='center'>".htmlspecialchars($fect['amount'])."</td>
+  <td><a href='EditTreatment\EditTreatment.php?tid=$tid'>Edit</a></td>
+  <td><a href='EditTreatment\TreatmentDelete.php?id=$sno&treatId=$tid'>Delete</a></td>
     </tr>";
 
 }
@@ -184,35 +167,25 @@ echo"<th></th>
    <th></th><br>
    <th></th>
    <th>Total</th>
-   <th style='margin-left:450px'></th>
-   <th style='margin-left:450px'> $fect0[amt]</th>
+   <th></th>
+   <th> $fect0[amt]</th>
          </table>
       </center>";
 }
 
-else if($no==0){
+else if($noOfTreat==0){
 
-	echo"<h1 id='no'> No treatment for "."$PatienName[name]"." recoded</h1>";
+	echo"<h1 id='no'> No treatment for ".htmlspecialchars($PatienName['name'], ENT_QUOTES, 'UTF-8')." recoded</h1>";
 }  
 
 ?>
-<script>
-		let x = document.getElementById("del")
-	onload=()=>{
-		x.style.transform="translateY(200px)"
-
-	}
-	setTimeout(() => {
-		x.style.transform="translateY(-50px)"
-	}, 5000);
-</script>
- 
  <form action="./InsertTreatment.php" id="addTreatment">
-	<input type="hidden" name="id" value=<?php echo"$fid"?> />
+	<input type="hidden" name="id" value=<?php echo"$fid"?> /> 
+    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
 	<input type="hidden" name="tp" value=<?php echo"True"?> />
 	<input type="submit" value="Click here to add more treatment"><br>
  </form>
- <form action="Edit\TreatmentDelete.php?"  method="GET" id="delF">
+ <form action="EditTreatment\TreatmentDelete.php?"  method="POST" id="delF">
 	<input type="hidden" name="fid" value=<?php echo"$PatienName[sno]"?> />
 
 <div id="submitBtn"> <input type="Submit" name="DeleteAll" value="Delete All" id="deleteAll"> </div>
@@ -225,18 +198,5 @@ else if($no==0){
 	<input type="submit" value="Click here to add more treatment"> -->
  </form>
 </div>
-<script>
-
-//	alert("row counts  "+con)
-	let deleted =  document.getElementById("del")
-	let deleted4 =  document.getElementById("tratmetInfo").value 
-     setTimeout(() => {
-		deleted.style.transform="translateY(-80px)";
-	 }, 5000);
-
-window.onload=pop;
- </script>
-
-<!-- <a id="Back"><button class="Col">Back</button></a>/ -->
-<!-- <div id="Next"><button class="Col">Next</button></div>h -->
-</body> 
+</body>
+</html> 
