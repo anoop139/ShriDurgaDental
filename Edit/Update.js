@@ -1,5 +1,5 @@
 window.onload =()=>{
-   // alert ("test")
+//   alert ("test")
 }
 
 const parameters = window.location.search;
