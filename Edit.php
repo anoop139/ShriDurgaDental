@@ -17,26 +17,23 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     header("Location: LogIn.php");
     exit();
 }
-header("Referrer-Policy: strict-origin-when-cross-origin");
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none';");
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none';");
 ?>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Edit Page</title>
-	<style>
-    
-	</style>
     <link rel="stylesheet" href="Header2.css?v=1">
     <link rel="stylesheet" href="StlyEdit.css?v=12">
 	
 </head>
 <body id="editBody">
-  <h1 style="background-color: white; margin-top: 10px;" id="deleted"></h1>
-      <ul style="background:lightblue; height: 40px; width:340px; padding-left:1000px">
+  <h1  id="deleted"></h1>
+      <ul id="EditUl">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
         <li><a href="PatientForm.php">Add Patient </a></li>&nbsp;
@@ -48,7 +45,6 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
             <li><a href="SearchByNumber.php">Number</a></li>
     
         </ul>
-        </li>
         </li>
 </ul>
 
@@ -67,7 +63,7 @@ $prepare = mysqli_prepare($conn,$query);
 if (!$prepare) {
     die("Database error");
 }
-if ($prepare) {
+
     
 mysqli_stmt_bind_param($prepare, 'ii', $id, $admin_id);
 mysqli_stmt_execute($prepare);
@@ -95,17 +91,13 @@ if(isset($_GET['updated']) && $_GET['updated'] == 'name') // ✅ correct
     	echo"<h1 id='updateMessage'>Phone Number updated successfully</h1>";
  }
     mysqli_stmt_close($prepare);
-}
+
 // $query1 = mysqli_query($conn, $query);
 // $show   = mysqli_fetch_assoc($query1);
 
 
 ?>
 
-<script>
-   
-
-</script>
 <table border='2' cellpadding="4">
 <tr style='padding:2px'>
 <th>Name</th>
@@ -128,7 +120,7 @@ if(isset($_GET['updated']) && $_GET['updated'] == 'name') // ✅ correct
 <td><?php echo htmlspecialchars($fetch['phoNo'], ENT_QUOTES, 'UTF-8');?></td>
 <td><a href="Edit/Phone.html?id=<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8');?>">Edit phone number</a></td>
 <td>
-<form method="POST" action="Edit/DeletePatientRecord.php" style="display:inline;">
+<form method="POST" action="Edit/DeletePatientRecord.php" >
     <input type="hidden" name="id" value="<?php echo htmlspecialchars($fetch['sno'], ENT_QUOTES, 'UTF-8'); ?>">
     <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
     <button type="submit">Delete</button>
@@ -136,19 +128,7 @@ if(isset($_GET['updated']) && $_GET['updated'] == 'name') // ✅ correct
 </td>
 </tr>
 </table>
-<script>
-window.onload = () => {
-    let mess = document.getElementById("updateMessage");
-
-    if (!mess) return;
-
-    mess.style.transform = "translateY(80px)";
-
-    setTimeout(() => {
-        mess.style.transform = "translateY(-80px)";
-    }, 5000);
-};
-
+<script src="Edit.js">
 </script>
 </div>
 
