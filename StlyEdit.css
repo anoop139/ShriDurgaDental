@@ -17,3 +17,31 @@
      padding-top:40px;
 	 padding-left:350px;
 }
+    ul ul li a{
+            background-color: lightblue;
+        }
+	#header0{
+		background-color:black
+
+	}
+    	table th, td{
+		padding: 5px;
+	}
+    #updateMessage{
+    position: absolute;
+    top: -80px;
+    color: green;
+    background-color: white;
+    transition: transform 3s;
+}
+#deleted{
+background-color: white;
+ margin-top: 10px;
+
+}
+#EditUl{
+	background:lightblue;
+	 height: 40px;
+	 width:340px;
+	padding-left:1000px
+}
