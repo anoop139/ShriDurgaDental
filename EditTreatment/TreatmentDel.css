@@ -1,0 +1,55 @@
+        body{
+            background-image:url("../Images/DentalTreratment2.jpg");
+            background-repeat:no-repeat;
+            background-size:cover
+        }
+        #main-div{
+            background-image:url("../Images/DelTreat.jpg");
+            background-repeat:no-repeat;
+            background-size:cover
+        }
+    #main-div{
+        padding: 0px;
+        margin: 0px;
+    }
+    #main-div{
+        border: 2px solid black;
+        height:200px;
+    }     
+    #result-div{
+        padding-left:40px
+    } 
+     .output{
+      padding: 20px;
+     }
+    .output{
+    text-align:center;
+     }
+  #Yes{
+     text-align:right;
+   } 
+ #Yes{
+   position: relative;
+   top: -40px;    
+   }
+   .submit{
+    padding: 10px;
+   }
+.submit{
+    border:2px solid black
+   }
+#deleteAll{
+  text-align:center
+}
+#deleteAll{
+  position: absolute;
+  top:0px;
+  left:25px;
+}
+#deleteAll{
+  padding: 50px;
+}
+#delAll{
+  padding-left:1280px;
+  margin-top: -105px;
+}
