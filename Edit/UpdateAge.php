@@ -23,21 +23,7 @@ $admin_id = $_SESSION['admin_id'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Age</title>
-    <style>
-        #Main-div{
-            /* border:2px solid black; */
-            height: 100px;
-        }
-		#sub-div{
-            position: relative;
-            top: 0px;
-        }
-      body {
-    background-color: #f0f4f8; /* soft light blue/grey */
-}
-
-
-    </style>
+      <link rel="stylesheet" href="UpdateAge.css">
 </head>
 <body>
 
@@ -49,32 +35,44 @@ $admin_id = $_SESSION['admin_id'];
             die("Invalid request");
         }
         $id = (int)$_POST['id'];// THIS IS IS SNO
-       $newAge = (int)$_POST['newAge'];
+       $newAge = (int)$_POST['newAge'];       
+        if ($id <= 0) {
+    die("Invalid ID");
+    }
         if ($newAge<=0 || $newAge>=120) {
             die("Change the age to a valid one");
         }
 
         $update ="update patient set age=? where sno=? and admin_id=?";
             $stmt = mysqli_prepare($conn, $update);
+            if (!$stmt) {
+  
+            die("Database error");
+        }
             mysqli_stmt_bind_param($stmt, "iii", $newAge, $id, $admin_id);
             $query = mysqli_stmt_execute($stmt);
-        // $query = mysqli_query($conn, $update);
-        if ($query) {
-            # code...
-            echo"<h1>Age updated successfully wait for few seconds </h1>";
-        }
-        else{
-            echo"<h1>Updation failed as id is $id</h1>";
-        }
+ 
+       $result =0;
+   if (!$query) {
 
-        // echo"id is ".$oldAge."<br>";
+    echo "<h1 class='msg'>Database update failed.</h1>";
+} elseif (mysqli_stmt_affected_rows($stmt) > 0) {
+    $result =1;
+    echo "<h1 class='msg'>Age updated successfully. Wait for a few seconds...</h1>";
+} else {
+    echo "<h1 class='msg'>No changes were made. Please add new age</h1>";
+}
+         mysqli_stmt_close($stmt); // echo"id is ".$oldAge."<br>";
         // echo"And the new age is ".$newAge;
         ?>
 
         <script>
-      var up = setTimeout(() => {
+            const value = <?php echo $result; ?>;
+     if (value===1) {
+        setTimeout(() => {
    window.location.href=`../Edit.php?id=<?php echo$id;?>&updated=age`;
         }, 5000);
+     }
 
         </script>
      </div>
