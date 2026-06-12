@@ -1,0 +1,12 @@
+ #Main-div{
+            /* border:2px solid black; */
+            height: 100px;
+        }
+		#sub-div{
+            position: relative;
+            top: 0px;
+        }
+      body {
+    background-color: #f0f4f8; /* soft light blue/grey */
+}
+
