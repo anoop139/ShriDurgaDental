@@ -18,7 +18,7 @@ if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['token'], $_POST['csr
 $admin_id = $_SESSION['admin_id'];
 ?>
 <!DOCTYPE html>
-<html lang="javascriptract">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,10 +60,10 @@ $admin_id = $_SESSION['admin_id'];
     $result =1;
     echo "<h1 class='msg'>Age updated successfully. Wait for a few seconds...</h1>";
 } else {
-    echo "<h1 class='msg'>No changes were made. Please add new age</h1>";
+    echo "<h1 class='msg'>No changes were made. Please enter new age</h1>";
 }
-         mysqli_stmt_close($stmt); // echo"id is ".$oldAge."<br>";
-        // echo"And the new age is ".$newAge;
+         mysqli_stmt_close($stmt);   
+    $_SESSION['token'] = bin2hex(random_bytes(32));
         ?>
 
         <script>
