@@ -74,7 +74,7 @@ $_SESSION['token'] = bin2hex(random_bytes(32));
 const value = <?php echo $result; ?>;
           //alert(typeof value)
         if (value===1) {
-             var up = setTimeout(() => {
+       setTimeout(() => {
     window.location.href=`../Edit.php?id=<?php echo$id;?>&updated=number`;
             }, 5000);
         }
