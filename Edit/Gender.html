@@ -1,64 +1,24 @@
 <!DOCTYPE html>
-<html lang="javascriptract">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Gender</title>
-<style>
-    *{
-        padding: 0px;
-        margin: 0px;
-
-    }
-    body
-    {
-        background-image: url("../Images/Gender.jpg");
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-    #genDiv{
-        margin-top: 25px;
-        margin-left: 25px;
-    }
-    #genDiv{
-        background-color: white;
-    }
-    #genDiv{
-        margin-left: 100px;
-    }
-    
-    #genform{
-        margin-top: -30px;
-        margin-left: 700px;
-    }
-    #genDiv{
-        border: 2px solid black;
-        height: 50px;
-        width: 1000px;
-    }
-    #genDiv{
-        padding: 20px;
-    }
-    #genform span{
-      font-weight: bold;
-    }   
-     #genbtn{
-       padding-left: 40px 
-    }
-</style>
+<link rel="stylesheet" href="Gender.css">
 </head>
 <body>
     <div id="genDiv">
         <h1>Select new Gender</h1>
         <form action="./UpdateGen.php" id="genform" method="POST" onsubmit="return updateGen()">
+         <input type="hidden" name="csrf_token" id="token" value="">
             <input type="hidden" name="id" id="Id">
-          <span><input type="radio" name="Gender" id="Male" value="Male">Male</span> &nbsp; 
-         <span><input type="radio" name="Gender" id="Female" value="Female">Female</span> &nbsp;<br>
+          <span><input type="radio" name="Gender" id="Male" value="Male" required>Male</span> &nbsp; 
+         <span><input type="radio" name="Gender" id="Female" value="Female" required>Female</span> &nbsp;<br>
           <span style="color: red; padding-left:0px;" id="messageArea" class="h"></span><br>
           <input type="text" id="gen" name="gender" hidden>
           <div id="genbtn"><input type="submit" value="Update"/></div>
         </form>
     </div>
-    <script src="./Update.js?v=2"></script>
+    <script src="./Update.js?v=4"></script>
 </body>
 </html>
