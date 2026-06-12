@@ -5,9 +5,7 @@ ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 session_start();
-if (!isset($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-}
+$_SESSION['token'] = bin2hex(random_bytes(32));
 if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     header("Location: LogIn.php");
     exit();
