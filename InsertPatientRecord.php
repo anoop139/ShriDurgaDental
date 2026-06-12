@@ -17,7 +17,7 @@ session_start();
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
-if(!isset($_SESSION['user'])){
+if (!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])) {
     header("Location: LogIn.php");
     exit();
 }
@@ -28,27 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
     exit("Invalid request");
 }
-header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;");
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;");
 ?>
-<style>
- 
-    #output{
-       
-        border: 2px solid black;
-      /* // height: 200px; 
-      // width: 400px;
-      //padding-top:40px;*/   
-    } 
-    #output{
-     background-color:white;
-    }
-	#output button{
-    margin-left:350px
-    }
-    #output{
-       padding-top:0px
-    }
-</style>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,47 +37,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insert Page</title>
-    <style>
-        body{
-            background-image:url("Images/professional-dentist-tools-dental-office_1204-235.jpg");
-            background-repeat: no-repeat;
-            background-size:cover
-        }
-        #output{
-        background:white;
-        padding-left: 5px;
-        text-align:center;
-     }
-     #output{
-       width: auto;
-       height: 40px;
-       margin-left: 100px;
-
-     }
-     #blank{
-        border: 2px solid black; 
-        padding: 200px;
-     }
-     
-    #back{
-        float: left;
-     }
-  #next{
-        
-    text-align:right
-     }
-
-    
-     .btn {
-        padding-right: 30px;
-        background-color:black;
-        color:white;
-        font-size: 20px;
-        /* padding-right:30px ; */
-     }
-
-
-    </style>
+   <link rel="stylesheet" href="InsertPatient.css">
 </head>
 <body>
     <div id="output">
@@ -120,9 +61,15 @@ if (
     echo "<h1 style='color:red'>All fields are required</h1>";
     exit();
 }
+if (!in_array($gender, ['Male', 'Female', 'Other'], true)) {
+    exit("Invalid gender");
+}
 if (!is_numeric($age) || $age <= 0 || $age > 120) {
     echo "Invalid age";
     exit();
+}
+if (!preg_match("/^[A-Za-z .'-]{1,100}$/", $name)) {
+    exit("Invalid name");
 }
  if (!preg_match('/^[0-9]{10}$/', $phone)) {
     echo "Invalid phone number";
@@ -132,7 +79,11 @@ $fetch = "SELECT sno, name, phoNo
 FROM patient 
 WHERE phoNo=? AND admin_id=?";
 $prepared = mysqli_prepare($conn, $fetch);
-if ($prepared) {
+if (!$prepared) {
+    error_log(mysqli_error($conn));
+    exit("Something went wrong");
+}
+
     # code...
     mysqli_stmt_bind_param($prepared, "si",$phone, $admin_id);
     mysqli_stmt_execute($prepared);
@@ -147,14 +98,15 @@ mysqli_stmt_close($prepared);
 if ($num>0)
  {
     $sno = urlencode($sno);
-   echo"<h1 style='color:red; margin-top:100px'>".htmlspecialchars($patientName)."'s record exists, to add treatment
+    echo"<h1 class='errMsg'>".htmlspecialchars($patientName, ENT_QUOTES, 'UTF-8')."'s record exists, to add treatment
     <a href='./InsertTreatment.php?id=$sno'>Click here </a> 
     </h1>";    // ✅ ADD THIS
     $_SESSION['token'] = bin2hex(random_bytes(32));
     echo"<h1>OR</h1>";
-       echo"<h1 style='color:red; margin-top:100px'>to view treatment details
+       echo"<h1  class='errMsg'>to view treatment details
     <a href='./TreatmentDetail.php?id=$sno&tp=True' >Click here  </a> 
     </h1>";  // ✅ regenerate token BEFORE exit
+
 
 
 
@@ -164,6 +116,10 @@ if ($num>0)
  
 $insert ="insert into patient(date, name, age, gen, phoNo, admin_id) values(?, ?, ?, ?, ?, ?)";
 $insertPrepare =mysqli_prepare($conn, $insert);
+if (!$insertPrepare) {
+    error_log(mysqli_error($conn));
+    exit("Something went wrong");
+}
 mysqli_stmt_bind_param($insertPrepare, "ssissi", $date,
 $name, $age, $gender, $phone, $admin_id);
 mysqli_stmt_execute($insertPrepare);
@@ -175,12 +131,12 @@ mysqli_stmt_close($insertPrepare);
 
 if ($rows>0) {
 //     # code...
-    echo"<h1 style='margin-top:0px; margin-left:50px; color:green'>Record inserted successfully </h1>";
+    echo"<h1 id='success'>Record inserted successfully </h1>";
      
     // ✅ ADD THIS (VERY IMPORTANT)
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
-}
+
 
    
 ?>
