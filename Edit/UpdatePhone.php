@@ -69,9 +69,9 @@ $admin_id = $_SESSION['admin_id'];
     mysqli_stmt_close($stmt);
 $_SESSION['token'] = bin2hex(random_bytes(32));
         ?>
-<input type="hidden" name="" id="Val" value="<?php echo$result;?>">
+
         <script>
-              let value = parseInt(document.getElementById("Val").value, 10);
+const value = <?php echo $result; ?>;
           //alert(typeof value)
         if (value===1) {
              var up = setTimeout(() => {
