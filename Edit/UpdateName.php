@@ -18,33 +18,19 @@ if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['token'], $_POST['csr
 $admin_id = $_SESSION['admin_id'];
 ?>
 <!DOCTYPE html>
-<html lang="javascriptract">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Age</title>
-    <style>
-        #Main-div{
-            /* border:2px solid black; */
-            height: 100px;
-        }
-		#sub-div{
-            position: relative;
-            top: 0px;
-        }
-      body {
-    background-color: #f0f4f8; /* soft light blue/grey */
-}
-
-
-    </style>
+    <title>Update Name</title>
+    <link rel="stylesheet" href="UpdateName.css">
 </head>
 <body>
 
     <div id="Main-div">
-     <div style="text-align:center" id="sub-div">
+     <div id="sub-div">
         <?php
-
+ 
         if (!isset($_POST['id']) || !isset($_POST['newName'])) {
             die("Invalid request");
         }
@@ -53,10 +39,13 @@ $admin_id = $_SESSION['admin_id'];
     die("Invalid ID");
     }
  $newName = trim($_POST['newName']);
-     
- if ($newName === '') {
+  if ($newName === '') {
     die("Name cannot be empty");
     }
+     if (!preg_match("/^[A-Za-z .'-]+$/", $newName)) {
+    die("Invalid name");
+}
+
 
      if (strlen($newName) > 100) {
         die("Name too long");
@@ -69,21 +58,28 @@ $admin_id = $_SESSION['admin_id'];
 }
             mysqli_stmt_bind_param($stmt, "sii", $newName, $id, $admin_id);
             $query = mysqli_stmt_execute($stmt);
-    
-     if ($query && mysqli_stmt_affected_rows($stmt) > 0) {
-      echo "<h1>Name updated successfully wait for few seconds...</h1>";
-   }
-        else{
-            echo"<h1>Updation failed as id is $id</h1>";
-        }
+     $result =0;
+   if (!$query) {
+
+    echo "<h1 class='msg'>Database update failed.</h1>";
+} elseif (mysqli_stmt_affected_rows($stmt) > 0) {
+    $result =1;
+    echo "<h1 class='msg'>Name updated successfully. Wait for a few seconds...</h1>";
+} else {
+    echo "<h1 class='msg'>No changes were made.</h1>";
+}
     mysqli_stmt_close($stmt);
 $_SESSION['token'] = bin2hex(random_bytes(32));
         ?>
 
         <script>
-        var up = setTimeout(() => {
+const value = <?php echo $result; ?>;
+          //alert(typeof value)
+        if (value===1) {
+             var up = setTimeout(() => {
     window.location.href=`../Edit.php?id=<?php echo$id;?>&updated=name`;
             }, 5000);
+        }
 
         </script>
      </div>
