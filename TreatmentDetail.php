@@ -8,7 +8,7 @@ ini_set('log_errors', 1);
 
 session_set_cookie_params([
     'httponly' => true,
-    'secure' => true,
+     'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
     'samesite' => 'Strict'
 ]);
 session_start();
@@ -21,15 +21,11 @@ if(!isset($_SESSION['user']) || !isset($_SESSION['admin_id'])){
 }
 $admin_id = $_SESSION['admin_id'];
 
-if (isset($_POST['p'])) {
-
-    if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['token']) ||
+        !hash_equals($_SESSION['token'], $_POST['token'])) {
         die("CSRF attack detected");
     }
-// /if (empty($_SESSION['token'])) {
-    // $_SESSION['token'] = bin2hex(random_bytes(32));
-// }
-    // your main logic here
 }
 header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none';");
 ?>
@@ -106,6 +102,7 @@ echo"<br>";
  }
 }
 ?>
+
  <?php
  $pending = 0;
 
@@ -149,16 +146,33 @@ $sno = (int)$PatienName['sno'];
      
 	   $fect0['amt']+=$fect['online'];
 	}
+    ?>
+
+    <?php
+    // $dat/e =
 	echo"<tr>
-   <td>".htmlspecialchars($fect['date'])."</td>
-   <td>".htmlspecialchars($fect['dueDate'])."</td>
-   <td >".htmlspecialchars($fect['treatment'])."</td>
-   <td align='center'>".htmlspecialchars($fect['advance'])."</td>
-   <td align='center'>".htmlspecialchars($fect['online'])."</td>
-   <td align='center'>".htmlspecialchars($pending)."</td>
-   <td align='center'>".htmlspecialchars($fect['amount'])."</td>
+   <td>".htmlspecialchars(date('d-m-Y', strtotime($fect['date'])), ENT_QUOTES, 'UTF-8')."</td>"."<td>".
+htmlspecialchars(
+    (!empty($fect['dueDate']) && $fect['dueDate'] != '0000-00-00')
+        ? date('d-m-Y', strtotime($fect['dueDate']))
+        : '',
+    ENT_QUOTES,
+    'UTF-8'
+)."</td>
+ <td>".htmlspecialchars($fect['treatment'],ENT_QUOTES, 'UTF-8')."</td>
+   <td align='center'>".htmlspecialchars($fect['advance'], ENT_QUOTES, 'UTF-8')."</td>
+   <td align='center'>".htmlspecialchars($fect['online'], ENT_QUOTES, 'UTF-8')."</td>
+   <td align='center'>".htmlspecialchars($pending, ENT_QUOTES, 'UTF-8')."</td>
+   <td align='center'>".htmlspecialchars($fect['amount'], ENT_QUOTES, 'UTF-8')."</td>
   <td><a href='EditTreatment\EditTreatment.php?tid=$tid'>Edit</a></td>
-  <td><a href='EditTreatment\TreatmentDelete.php?id=$sno&treatId=$tid'>Delete</a></td>
+  <td>
+  <form action='EditTreatment/TreatmentDelete.php' method='POST'>
+    <input type='hidden' name='id' value='" . htmlspecialchars($sno, ENT_QUOTES, 'UTF-8') . "'>
+    <input type='hidden' name='treatId' value='" . htmlspecialchars($tid, ENT_QUOTES, 'UTF-8') . "'>
+    <input type='hidden' name='token' value='" . htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8') . "'>
+    <button type='submit'>Delete</button>
+</form>
+  </td>
     </tr>";
 
 }
@@ -179,14 +193,15 @@ else if($noOfTreat==0){
 }  
 
 ?>
- <form action="./InsertTreatment.php" id="addTreatment">
+ <form action="./InsertTreatment.php" id="addTreatment" method='GET'>
 	<input type="hidden" name="id" value=<?php echo"$fid"?> /> 
     <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
 	<input type="hidden" name="tp" value=<?php echo"True"?> />
 	<input type="submit" value="Click here to add more treatment"><br>
  </form>
- <form action="EditTreatment\TreatmentDelete.php?"  method="POST" id="delF">
-	<input type="hidden" name="fid" value=<?php echo"$PatienName[sno]"?> />
+ <form action="EditTreatment\TreatmentDelete.php" id="delF" method="POST">
+    <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
+	<input type="hidden" name="fid" value=<?php echo"$sno"?> />
 
 <div id="submitBtn"> <input type="Submit" name="DeleteAll" value="Delete All" id="deleteAll"> </div>
 </form>
