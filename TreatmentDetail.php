@@ -79,6 +79,7 @@ if (!mysqli_stmt_execute($NameQuery)) {
  $PatienName  =  mysqli_fetch_assoc($result);
  $treatment ="select *from treatment where sno=? and admin_id=?";
    $treatQuery   =  mysqli_prepare($conn, $treatment);
+//    $treatCount   = mysqli_nums
   if (!$treatQuery) {
     
         die("Query failed");
@@ -109,7 +110,7 @@ echo"<br>";
 
  if($noOfTreat>0) 
  {
-// echo"<h1>Treatment for ".$no."  </h1>";
+echo"<h1>Treatment for ".$noOfTreat."  </h1>";
 // echo"<h1>You are here</h1>";
    $fect0['amt'] = 0;
 echo"<center>
@@ -201,7 +202,9 @@ else if($noOfTreat==0){
  </form>
  <form action="EditTreatment\TreatmentDelete.php" id="delF" method="POST">
     <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
-	<input type="hidden" name="fid" value=<?php echo"$sno"?> />
+    <input type="hidden" name="id" value="<?php echo htmlspecialchars($sno, ENT_QUOTES, 'UTF-8'); ?>">
+	<input type="hidden" name="fid" value=<?php echo htmlspecialchars($sno, ENT_QUOTES, 'UTF-8'); ?> />
+
 
 <div id="submitBtn"> <input type="Submit" name="DeleteAll" value="Delete All" id="deleteAll"> </div>
 </form>
