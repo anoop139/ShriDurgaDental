@@ -1,11 +1,13 @@
-.Deleted1{
+#message{
 	position: absolute;
-	top: 0px;
+	top: -80px;
 	left: 400px;
 	background-color: white;
 	color: green;
 }
-
+#message{
+    transition: transform 3s;
+}
 #ul{
 padding-left:955px;
  height: 40px;    
