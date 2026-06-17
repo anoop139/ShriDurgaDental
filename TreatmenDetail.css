@@ -6,7 +6,7 @@
 	color: green;
 }
 #message{
-    transition: transform 3s;
+    transition: transform 3s ease;
 }
 #ul{
 padding-left:955px;
