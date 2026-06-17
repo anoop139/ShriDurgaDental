@@ -37,7 +37,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
     <title>Patient Treatment record</title>
     <!-- <link rel="stylesheet" href="Header.css">/ -->
 	    <link rel="stylesheet" href="Header2.css">
-		<link rel="stylesheet" href="TreatmenDetail.css?v=1">
+		<link rel="stylesheet" href="TreatmenDetail.css?v=2">
 		<link rel="stylesheet" href="Export.css?v=1">
 </head>
 <body>
@@ -56,11 +56,18 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
 </ul><br>
 </div>
 <div id="res1">
+    <div id="message">
  <?php 
  $fid = isset($_GET['id']) ? (int)$_GET['id'] : 0;
  $tid = isset($_GET['tid']) ? (int)$_GET['tid'] : 0;
-
+if ($_GET['Delete']) {
+  echo"<h1 class='Deleted1' id='d'>One treatment deleted successfully </h1>";
+}
+if ($_GET['DeleteAll']) {
+  echo"<h1 class='Deleted1' id='d'>All treatments deleted successfully </h1>";
+}
 ?>
+</div>
 <?php
 if ($fid > 0){
  $showName ="select *from patient where sno=? and admin_id=?";
@@ -110,7 +117,7 @@ echo"<br>";
 
  if($noOfTreat>0) 
  {
-echo"<h1>Treatment for ".$noOfTreat."  </h1>";
+// echo"<h1>Treatment for ".$noOfTreat."  </h1>";
 // echo"<h1>You are here</h1>";
    $fect0['amt'] = 0;
 echo"<center>
@@ -170,6 +177,7 @@ htmlspecialchars(
   <form action='EditTreatment/TreatmentDelete.php' method='POST'>
     <input type='hidden' name='id' value='" . htmlspecialchars($sno, ENT_QUOTES, 'UTF-8') . "'>
     <input type='hidden' name='treatId' value='" . htmlspecialchars($tid, ENT_QUOTES, 'UTF-8') . "'>
+    <input type='hidden' name='noOfTreat' value='" . htmlspecialchars(1, ENT_QUOTES, 'UTF-8') . "'>
     <input type='hidden' name='token' value='" . htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8') . "'>
     <button type='submit'>Delete</button>
 </form>
@@ -204,6 +212,7 @@ else if($noOfTreat==0){
     <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
     <input type="hidden" name="id" value="<?php echo htmlspecialchars($sno, ENT_QUOTES, 'UTF-8'); ?>">
 	<input type="hidden" name="fid" value=<?php echo htmlspecialchars($sno, ENT_QUOTES, 'UTF-8'); ?> />
+	<input type="hidden" name="noOfTreat" value=<?php echo htmlspecialchars($noOfTreat, ENT_QUOTES, 'UTF-8'); ?> />
 
 
 <div id="submitBtn"> <input type="Submit" name="DeleteAll" value="Delete All" id="deleteAll"> </div>
@@ -216,5 +225,6 @@ else if($noOfTreat==0){
 	<input type="submit" value="Click here to add more treatment"> -->
  </form>
 </div>
+<script src="TreatmentDetail.js"></script>
 </body>
 </html> 
