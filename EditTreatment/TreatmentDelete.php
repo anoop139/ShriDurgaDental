@@ -48,7 +48,8 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$n
 <div id="main-div">
          <?php
           $patientId = $_POST['id'];
-            //   echo"<h2> Treatment i is $patientId</h2>";
+          $no = $_POST['noOfTreat'];
+            //   echo"<h2> Treatment i is $no</h2>"; DONE
          ?>
         <div class="result-div output">
             <?php
@@ -82,7 +83,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$n
             if ($deleteTreatQuery) {//////
            echo "<script  nonce='$nonce'>
             window.location.href='../TreatmentDetail.php?id=$patientId&Delete=$deleteTreatQuery';
-             //</script>"; //pass foreign key
+               </script>"; //pass foreign key
               }// /
             //   else {
              # code...
@@ -90,15 +91,15 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$n
             //    }
              }//
            }
-      if (isset($patientId) && empty($treatmentId)) {
+      if (isset($_POST["deleteAll"]) ) {
                      echo"<h1>treatment id "."$patientId is set only"."</h1>";
 
-        $deleteAllTreat ="delete from treatment where sno=$patientId";
-          $deleteAllQuery=mysqli_query($conn, $deleteAllTreat);
-          if ($deleteAllQuery) {
-                echo "<script  nonce='$nonce'>
-            window.location.href='../TreatmentDetail.php?id=$patientId&Delete=$deleteTreatQuery';
-             //</script>"; //pass foreign key
+        // $deleteAllTreat ="delete from treatment where sno=$patientId";
+        //   $deleteAllQuery=mysqli_query($conn, $deleteAllTreat);
+        //   if ($deleteAllQuery) {
+        //         echo "<script  nonce='$nonce'>
+        //     window.location.href='../TreatmentDetail.php?id=$patientId&Delete=$deleteTreatQuery';
+        //      //</script>"; //pass foreign key
           }
 //             else {
 //              # code...
@@ -110,31 +111,34 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$n
     
                 }
 // // /              }
-            }
+            
         if (isset($_POST['fid'])) {
             
                 echo"else ";
                 $primaryKey = $_POST['fid'];
-                echo"ho".$primaryKey;
+                // echo"ho".$primaryKey;
               $getName0 ="select patient.name from patient where sno=$primaryKey"; 
               $query = mysqli_query($conn, $getName0);
              $showName = mysqli_fetch_assoc($query); 
-               echo"<h1>Are you sure you want to delete all treatment records of  "."$showName[name]"."?</h1>";
+               echo"<h1>Are you sure you want to delete all  treatment records of  "."$showName[name] "."?</h1>";
             //    echo"<h1>Are you sure you want to delete all treatment records of  "."$showName[tm]"."?</h1>";
    } 
 
-          if (isset($_POST['deleteTreatmentAll'])) {
+          if (isset($_POST['deleteAll'])) {
           # code...
           $foreignKey = $_POST['primary'];///
-             echo"<h1>Foriegn ke".$foreignKey."</h1>";
-        //   $deleteAllTreat ="delete from treatment where sno=$foreignKey";
-        //   $deleteAllQuery=mysqli_query($conn, $deleteAllTreat);
-        //   if ($deleteAllQuery) {
-        //     # code...
-        //     echo"<h1>Deleted All</h1>";
-        //      echo "<script>window.location.href='../TreatmentDetail.php?id=$foreignKey&DeleteAll=$deleteAllQuery';</script>"; //pass foreign key
+             //echo"<h1>Foriegn key ".$foreignKey."</h1>";
+           //  echo"<h1>Foriegn key you got it baby </h1>";////
+          $deleteAllTreat ="delete from treatment where sno=$foreignKey";
+          $deleteAllQuery=mysqli_query($conn, $deleteAllTreat);
+          if ($deleteAllQuery) {
+            # code...
+            // echo"<h1>Deleted All  THIS</h1>";
+            echo "<script nonce='$nonce'>
+            window.location.href='../TreatmentDetail.php?id=$foreignKey&DeleteAll=$deleteAllQuery';
+            </script>"; //pass foreign key
 
-        //   }
+          }
         //     else {
         //      # code...
         //      echo"<h1>Deletion failed all field </h1>";
@@ -155,12 +159,13 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$n
     <input type="hidden"  id="da"  value="<?php echo$_POST['DeleteAll'];?>">
     <input type="hidden" name="primary" value="<?php echo$patientId;?>">
     <input type="hidden" name="n" value="<?php echo$name5;?>">
-    <input type="hidden" name="no" value="<?php echo$_POST['noOfTreat'];?>">
+    <input type="hidden" name="no" id="noOfTreat" value="<?php echo$_POST['noOfTreat'];?>">
           </div>   
     <span id="back"><input type="submit" class="submit" value="yes"></span>
-<div id="Yes"><input type="submit" class="submit" name="deleteTreatment" id="deleteTreatmentAll" value="Yes" class="btns"> </div>
+<div id="Yes"><input type="submit" class="submit" name="deleteTreatment" id="deleteTreatment" value="Yes" class="btns"> </div>
 <!-- <div id="Yes"><input type="submit" class="submit" name="deleteTreatmentAll" id="deleteTreatmentAll1" value="YesAll" class="btns"> </div> -->
 </form>  
-<script src="./TreatmentDetail.js"></script>
+
+<script src="./TreatmentDelete.js?v=1"></script>
 </body>
 </html>
