@@ -60,10 +60,10 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
  <?php 
  $fid = isset($_GET['id']) ? (int)$_GET['id'] : 0;
  $tid = isset($_GET['tid']) ? (int)$_GET['tid'] : 0;
-if ($_GET['Delete']) {
-  echo"<h1 class='Deleted1' id='d'>One treatment deleted successfully </h1>";
+if(isset($_GET['Delete'])) {
+  echo"<h1 class='Deleted1' id='d'>One treatment deleted successfully  </h1>";
 }
-if ($_GET['DeleteAll']) {
+if (isset($_GET['DeleteAll'])) {
   echo"<h1 class='Deleted1' id='d'>All treatments deleted successfully </h1>";
 }
 ?>
