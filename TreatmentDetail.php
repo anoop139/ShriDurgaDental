@@ -141,7 +141,7 @@ while( $fect= mysqli_fetch_assoc($treatmentRes))
 $sno = (int)$PatienName['sno'];
 
 	if ($fect['amount']>$fect['advance'] && $fect['advance']!=0) {
-	  $pending = $fect['amount']-($fect['advance'] + $fect['online']);
+	$pending = max(0, $fect['amount'] - ($fect['advance'] + $fect['online']));
 	//   echo"<></>";pending = amount - (advance + online)
 
 	}///
@@ -178,7 +178,7 @@ htmlspecialchars(
   <td><a href='EditTreatment\EditTreatment.php?tid=$tid'>Edit</a></td>
   <td>
   <form action='EditTreatment/TreatmentDelete.php' method='POST'>
-    <input type='hidden' name='id' value='" . htmlspecialchars($sno, ENT_QUOTES, 'UTF-8') . "'>
+    <input type='hidden' name='id' value='" . htmlspecialchars($fid, ENT_QUOTES, 'UTF-8') . "'>
     <input type='hidden' name='treatId' value='" . htmlspecialchars($tid, ENT_QUOTES, 'UTF-8') . "'>
     <input type='hidden' name='noOfTreat' value='" . htmlspecialchars(1, ENT_QUOTES, 'UTF-8') . "'>
     <input type='hidden' name='token' value='" . htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8') . "'>
@@ -207,14 +207,15 @@ else if($noOfTreat==0){
 ?>
  <form action="./InsertTreatment.php" id="addTreatment" method='GET'>
 	<input type="hidden" name="id" value="<?php echo htmlspecialchars($fid, ENT_QUOTES, 'UTF-8');?>" /> 
-    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
 	<input type="hidden" name="tp" value=<?php echo"True"?> />
 	<input type="submit" value="Click here to add more treatment"><br>
  </form>
  <form action="EditTreatment\TreatmentDelete.php" id="delF" method="POST">
+    	<input type="hidden" name="treatId" value="<?php echo htmlspecialchars($tid, ENT_QUOTES, 'UTF-8');?>" /> 
     <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
     <input type="hidden" name="id" value="<?php echo htmlspecialchars($fid, ENT_QUOTES, 'UTF-8'); ?>">
-	<input type="hidden" name="fid" value=<?php echo htmlspecialchars($fid, ENT_QUOTES, 'UTF-8'); ?> />
+<input type="hidden" name="action" value="all">
+	<input type="hidden" name="fid" value="<?php echo htmlspecialchars($fid, ENT_QUOTES, 'UTF-8'); ?>" />
 	<input type="hidden" name="noOfTreat" value=<?php echo htmlspecialchars($noOfTreat, ENT_QUOTES, 'UTF-8'); ?> />
 
 
