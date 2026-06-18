@@ -69,6 +69,9 @@ if (isset($_GET['DeleteAll'])) {
 ?>
 </div>
 <?php
+$PatienName = null;
+$noOfTreat = 0;
+$sno = 0;
 if ($fid > 0){
  $showName ="select *from patient where sno=? and admin_id=?";
  $NameQuery   =  mysqli_prepare($conn, $showName);
@@ -203,15 +206,15 @@ else if($noOfTreat==0){
 
 ?>
  <form action="./InsertTreatment.php" id="addTreatment" method='GET'>
-	<input type="hidden" name="id" value=<?php echo"$fid"?> /> 
+	<input type="hidden" name="id" value="<?php echo htmlspecialchars($fid, ENT_QUOTES, 'UTF-8');?>" /> 
     <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
 	<input type="hidden" name="tp" value=<?php echo"True"?> />
 	<input type="submit" value="Click here to add more treatment"><br>
  </form>
  <form action="EditTreatment\TreatmentDelete.php" id="delF" method="POST">
     <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
-    <input type="hidden" name="id" value="<?php echo htmlspecialchars($sno, ENT_QUOTES, 'UTF-8'); ?>">
-	<input type="hidden" name="fid" value=<?php echo htmlspecialchars($sno, ENT_QUOTES, 'UTF-8'); ?> />
+    <input type="hidden" name="id" value="<?php echo htmlspecialchars($fid, ENT_QUOTES, 'UTF-8'); ?>">
+	<input type="hidden" name="fid" value=<?php echo htmlspecialchars($fid, ENT_QUOTES, 'UTF-8'); ?> />
 	<input type="hidden" name="noOfTreat" value=<?php echo htmlspecialchars($noOfTreat, ENT_QUOTES, 'UTF-8'); ?> />
 
 
