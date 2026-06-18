@@ -15,10 +15,8 @@ document.getElementById("mainFom").onsubmit=()=>{
     // alert("You are del 1")
     return true;
   }
-  else{
-  
-       
-    return true;
+  else if (treatNo>=1) {
+    return true
   }
 }
    
