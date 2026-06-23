@@ -7,6 +7,10 @@ let inpt = document.getElementById("input");
                 // alert(0)
                 error.innerHTML="Enter amount"
                    e.preventDefault();
+            }         if (inpt.value<0) {
+                // alert(0)
+                error.innerHTML="Enter valid amount"
+                   e.preventDefault();
             }
         }
 
