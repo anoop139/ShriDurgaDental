@@ -1,3 +1,4 @@
+
 <?php
 include("../Connection/Connect.php");
 
@@ -38,6 +39,8 @@ if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 
     header("Location: LogIn.php");
     exit();
 }
+
+
 $_SESSION['LAST_ACTIVITY'] = time();
 
 // User authentication check
@@ -45,17 +48,61 @@ if (!isset($_SESSION['user'])) {
     header("Location: LogIn.php");
     exit();
 }
-
+$admin_id = isset($_SESSION['admin_id']) ? (int)$_SESSION['admin_id'] : 0;
+if ($admin_id <= 0) {
+    die("Unauthorized");
+}
 // CSRF check for POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
-        die("CSRF validation failed");
+        die("CSRF validation failed its me");
     }
 }
 
-?>
+?>      <?php
+        
+              if (isset($_POST['Submit']))
+                 {
+                    $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+            if ($id <= 0) {
+    
+          
+                 die("Invalid ID");
+            }
+                   $amount = (int)$_POST['amount'];
+                   if ($amount <= 0) {
+                    die("Invalid amount");
+                   }
+                   $update ="UPDATE treatment SET amount=? WHERE tid=? AND admin_id=?";//
+                   $prepare = mysqli_prepare($conn, $update);
+                        if (!$prepare) {
+                    
+                        die("Query failed");
+                    }
+                   mysqli_stmt_bind_param($prepare, 'iii', $amount, $id, $admin_id);
+                   $treatQuery = mysqli_stmt_execute($prepare);
+                   if (!$treatQuery) {
+    
+                   die("Query failed");
+                   }
+
+                   mysqli_stmt_close($prepare);
+                   if ($treatQuery) {
+                    // echo"Treatment update";
+                 header("Location: ./EditTreatment.php?tid=$id&updateAmount=true");
+                  exit();
+                     
+                   }
+                  else {
+                  
+                     echo"Updation failed ".$id." and  ".$treatment;
+
+                  }
+
+                }
+                ?>
 <!DOCTYPE html>
-<html lang="javascriptract">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,41 +114,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      <div class="treatDiv">
         <h1>Enter new amount :</h1>
         <form action="" class="inputDiv" id="amountFom" method="POST">
+            <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
             <input type="number" name="amount" id="input">
-            <input type="hidden" name="id" value="<?php echo$_GET['id'];?>">
+            <input type="hidden" name="id" value="<?php echo isset($_GET['id']) ? (int)$_GET['id'] : 0; ?>">
             <h2 id="Error">
-                <?php
-                 $id = $_GET['id'];
-                   
-              if (isset($_POST['Submit']))
-                 {
-                   $amount = $_POST['amount'];
-                   $update ="update treatment set amount=$amount where tid=$id";//
-                   $treatQuery = mysqli_query($conn, $update);
-                   if ($treatQuery) {
-                    // echo"Treatment update";
-                    echo"
-                    <script>
-                    window.location.href='./EditTreatment.php?tid=$id&updateAmount=true';
-                    </script>
-                    
-                    ";
-                     
-                   }
-                  else {
-                  
-                     echo"Updation failed ".$id." and  ".$treatment;
-
-                  }
-
-                }
-                ?>
+          
             </h2>
           <div id="buttionArea">  <input type="submit" name="Submit" value="Update"></div>
         </form>
      </div>
     </div>
-    <script src="./Amount.js">
+    <script src="./Amount.js?v=1">
   
     </script>
 </body>
