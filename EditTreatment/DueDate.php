@@ -1,69 +1,80 @@
 <?php
 include("../Connection/Connect.php");
-error_reporting(0);
+
+// Error & session security secure 8.5/10
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+ini_set('session.cookie_httponly', 1);
+//ini_set('session.cookie_secure', 0); // only if HTTPS
+ini_set('session.use_strict_mode', 1);
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+session_start();
+// header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
+// CSRF token
+if (empty($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
+
+// Nonce for CSP
+$nonce = bin2hex(random_bytes(16));
+
+// Security headers
+header("X-Frame-Options: DENY");
+header("X-Content-Type-Options: nosniff");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self';");
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
+
+// Session timeout (15 minutes)
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
+    session_unset();
+    session_destroy();
+    header("Location: LogIn.php");
+    exit();
+}
+
+
+$_SESSION['LAST_ACTIVITY'] = time();
+
+// User authentication check
+if (!isset($_SESSION['user'])) {
+    header("Location: LogIn.php");
+    exit();
+}
+$admin_id = isset($_SESSION['admin_id']) ? (int)$_SESSION['admin_id'] : 0;
+if ($admin_id <= 0) {
+    die("Unauthorized");
+}
+// CSRF check for POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['token']) || !hash_equals($_SESSION['token'], $_POST['token'])) {
+        die("CSRF validation failed its me");
+    }
+}
+
 ?>
 <!DOCTYPE html>
-<html lang="javascriptract">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Due Date update page</title>
-    <style>
-        *{
-            padding: 0px;
-            margin: 0px;
-        }
-          body{
-          background-image:url("../Images/DueDate.png");
-          background-repeat:no-repeat;
-          background-size:cover;
-
-		 
-	 }
-	
-        #main-div{
-           margin-top:100px;
-        
-        }   
-        #main-div{
-            /* border: //2px solid black; */
-            height:60px
-        
-        }
-        .treatDiv{
-            position: absolute;
-            top:10px;
-        }
-        .inputDiv{
-            position: absolute;
-            left: 700px;
-            top: 10px;
-            bottom: 10px;
-        }
-        #buttionArea{
-            padding-left:0px;
-            /* background:yellow */
-        }
-        #buttionArea input{
-            padding-left:30px;
-            padding-right:35px;
-         background-color: #AAA17A; /* Coral Orange */
-         color:white
-        } 
-        #Error{
-            /* font-size:2em; */
-            color:red;
-            width: 400px;
-        }
-    </style>
+    <link rel="stylesheet" href="DueDate.css">
 </head>
 <body>
     <div id="main-div">
      <div class="treatDiv">
         <h1>Enter new Date :</h1>
-        <form action="" class="inputDiv" onsubmit="return checkInput()" method="POST">
-           &nbsp; <input type="date" name="dueDated" id="input">
-           &nbsp; <input type="hidden" name="dueDate" id="input2">
+        <form action="" class="inputDiv" id="dueDate" method="POST">
+         <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
+           &nbsp; <input type="date" name="dueDate" id="input">
+           &nbsp; <input type="hidden" name="dueDate1" id="input2">
             <input type="hidden" name="id" value="<?php echo$_GET['id'];?>"> <br>
             <h2 id="Error">
                 <?php
@@ -72,17 +83,17 @@ error_reporting(0);
               if (isset($_POST['Submit']))
                  {
                    $date = $_POST['dueDate'];
-                //    echo"<h1>$date </h1>";
+                   echo"<h1>date $date </h1>";
                    $update ="update treatment set dueDate='$date' where tid=$id";//
                    $treatQuery = mysqli_query($conn, $update);
                    if ($treatQuery) {
-                    // echo"<h1> new date is $date</h1>";
-                    echo"
-                    <script>
-                    window.location.href='./EditTreatment.php?tid=$id&updateDueDate=true';
-                    </script>
+                    echo"<h1> new date is $date</h1>";
+                    // echo"
+                    // <script>
+                    // window.location.href='./EditTreatment.php?tid=$id&updateDueDate=true';
+                    // </script>
                     
-                    ";
+                    // ";
                      
                    }
                   else {
@@ -98,56 +109,7 @@ error_reporting(0);
         </form>
      </div>
     </div>
-    <script>
-        let inpt = document.getElementById("input");
-        let input = document.getElementById("input2");
-        let error = document.getElementById("Error");
-        function checkInput() {
-            if (inpt.value=="") {
-                // alert(0)
-                error.innerHTML="Enter due date"
-                return false
-            }
-            else{
-                let x = inpt.value.split("-").reverse().join(" - ")
-                let date = Number(x.charAt(0)+x.charAt(1))
-                let month = Number(x.charAt(5)+x.charAt(6))
-                let year = Number(x.slice(10,14))
-                let currentDate = new Date()
-                let currentYear       = currentDate.getFullYear()
-                let toDay       = currentDate.getDate()
-                let thisMonth       = currentDate.getMonth()+1
-                if ((date<=toDay || month<thisMonth) && currentYear==year) {
-                     alert("Wrong due date or month")
-                    
-                    return false
-                  
-                }
-                if ( year<currentYear) {
-                   alert("Wrong due year")
-                    
-                    return false
-                }
-                if (date<10 && month<10) {
-                  x = x.replace("0", "")
-                 x = x.replace("0", "")
-                input.value = x
-                // alert("date is "+toDay+" and month is "+thisMo/nth)
-                // return false
-                }
-                else if (date>10 && month<10) {
-                 x = x.replace("0", "")
-                 input.value = x
-                }
-            else{
-               // alert("All good ")   
-                 input.value = x
-            }
-            }
-        }
-        oninput =()=>{
-            error.innerHTML=""
-        }
+    <script src="./DueDate.js">
     </script>
 </body>
 </html>
