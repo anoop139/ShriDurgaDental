@@ -94,7 +94,7 @@ error_reporting(0);
               $treatQuery  = mysqli_query($conn, $selectTreat);
               while ($fetch = mysqli_fetch_assoc($treatQuery)) {
                     echo"<tr>
-                     <td>$fetch[dueDate]</td>
+                     <td>".htmlspecialchars(date('d-m-Y', strtotime($fetch['dueDate'])))."</td>
                   <td><a href='DueDate.php?id=$treatId'>Click here to edit or add due date</a></td>
                   <td>$fetch[treatment]</td>
                   <td><a href='Treatment.php?id=$treatId'>Click here to edit treatment</a></td>
