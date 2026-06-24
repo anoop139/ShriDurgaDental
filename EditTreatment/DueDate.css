@@ -1,0 +1,46 @@
+     *{
+            padding: 0px;
+            margin: 0px;
+        }
+          body{
+          background-image:url("../Images/DueDate.png");
+          background-repeat:no-repeat;
+          background-size:cover;
+
+		 
+	 }
+	
+        #main-div{
+           margin-top:100px;
+        
+        }   
+        #main-div{
+            /* border: //2px solid black; */
+            height:60px
+        
+        }
+        .treatDiv{
+            position: absolute;
+            top:10px;
+        }
+        .inputDiv{
+            position: absolute;
+            left: 700px;
+            top: 10px;
+            bottom: 10px;
+        }
+        #buttionArea{
+            padding-left:0px;
+            /* background:yellow */
+        }
+        #buttionArea input{
+            padding-left:30px;
+            padding-right:35px;
+         background-color: #AAA17A; /* Coral Orange */
+         color:white
+        } 
+        #Error{
+            /* font-size:2em; */
+            color:red;
+            width: 400px;
+        }
