@@ -75,29 +75,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
            &nbsp; <input type="date" name="dueDate" id="input">
            &nbsp; <input type="hidden" name="dueDate1" id="input2">
-            <input type="hidden" name="id" value="<?php echo$_GET['id'];?>"> <br>
+            <input type="hidden" name="id" value="<?php echo isset($_GET['id']) ? (int)$_GET['id'] : 0; ?>"> <br>
             <h2 id="Error">
                 <?php
-                 $id = $_GET['id'];
-                   
+          $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+                   if ($id <= 0) {
+ 
+                   die("Invalid ID");
+
+                   }
               if (isset($_POST['Submit']))
                  {
-                   $date = $_POST['dueDate'];
-                   echo"<h1>date $date </h1>";
-                   $update ="update treatment set dueDate='$date' where tid=$id";//
-                   $treatQuery = mysqli_query($conn, $update);
-                   if ($treatQuery) {
-                    echo"<h1> new date is $date</h1>";
-                    // echo"
-                    // <script>
-                    // window.location.href='./EditTreatment.php?tid=$id&updateDueDate=true';
-                    // </script>
+                   $due= $_POST['dueDate'];
+        if (empty($due) || strtotime($due) <= strtotime(date('Y-m-d'))) {
+ 
+               die("Invalid due date");
+            }
+                //    echo"<h1>date $date </h1>";
+                   $update ="update treatment set dueDate=? where tid=? and admin_id=?";//
+                   $prepareDue = mysqli_prepare($conn, $update);
+                   if (!$prepareDue) {
+             
+                   die("Database error");
+                }
+      mysqli_stmt_bind_param($prepareDue, 'sii',$due, $id, $admin_id);
+     mysqli_stmt_execute($prepareDue);
+     $treatQuery = mysqli_stmt_affected_rows($prepareDue);
+               if ($treatQuery != -1) {
+     
+               mysqli_stmt_close($prepareDue);
+               header("Location: ./EditTreatment.php?tid=$id&updateDueDate=true");
+             exit();
+} else {
+    mysqli_stmt_close($prepareDue);
+    die("Update failed");
+}
                     
                     // ";
                      
                    }
                   else {
-                  
+                  mysqli_stmt_close($prepareDue);
                      echo"Updation failed ".$id." and  ".$treatment;
 
                   }
