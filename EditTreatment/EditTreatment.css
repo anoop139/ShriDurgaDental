@@ -1,0 +1,47 @@
+#ul{
+  
+  background:lightblue; 
+  height: 40px; 
+    width:340px;
+ padding-left:1000px
+}
+   body {
+        background: grey
+       }
+       ul li ul li{
+        background-color:lightblue;
+       }
+       #main{
+            border: 2px solid black;
+            padding-bottom: 200px; 
+            background:white
+        }   
+        #main{
+            padding-top:100px;
+            padding-left:20px;
+        }
+           #main{
+            margin-top:20px ; 
+        }
+        .num{
+            padding-left:10px ;
+        }
+        #message{
+            position: absolute;
+            top:      -40px;
+            left:       400px;
+            background:white;
+            font-weight:bold;
+            font-size:2em;
+        }
+        #message{
+            transition:transform, 3s 
+        }
+     table tr th, td{
+        padding: 7px;
+     }
+     #clearBtn{
+        position: relative;
+         top: auto;
+         left: 20px;
+     }
