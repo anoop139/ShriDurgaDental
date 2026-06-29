@@ -35,7 +35,7 @@ header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
     session_unset();
     session_destroy();
-    header("Location: LogIn.php");
+    header("Location:../LogIn.php");
     exit();
 }
 
@@ -79,11 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2 id="Error">
                 <?php
           $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
-                   if ($id <= 0) {
- 
-                   die("Invalid ID");
-
-                   }
+            
               if (isset($_POST['Submit']))
                  {
                    $due= $_POST['dueDate'];
@@ -99,8 +95,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                    die("Database error");
                 }
       mysqli_stmt_bind_param($prepareDue, 'sii',$due, $id, $admin_id);
-     mysqli_stmt_execute($prepareDue);
-     $treatQuery = mysqli_stmt_affected_rows($prepareDue);
+ if (!mysqli_stmt_execute($prepareDue)) {
+    mysqli_stmt_close($prepareDue);
+    die("Database error");
+}
+
+$treatQuery = mysqli_stmt_affected_rows($prepareDue);
                if ($treatQuery != -1) {
      
                mysqli_stmt_close($prepareDue);
@@ -111,14 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die("Update failed");
 }
                     
-                    // ";
-                     
-                   }
-                  else {
-                  mysqli_stmt_close($prepareDue);
-                     echo"Updation failed ".$id." and  ".$treatment;
-
-                  }
+    
 
                 }
                 ?>
