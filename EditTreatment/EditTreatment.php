@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </ul>
         </li>
         </li>
-</ul
+</ul> 
     </div>
     <div id="main">
         <table border="2" cellpadding="10" id="table"style="text-align:center">
@@ -106,8 +106,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>Edit Amount</th>
             </tr>
             <?php
-              $treatId = $_GET['tid'];              
-              $try =  $_GET['tid'];
+       $treatId = isset($_GET['tid']) ? (int)$_GET['tid'] : 0; 
+           if ($treatId <= 0) {
+            
+           die("Invalid ID");
+            }         
 
               $selectTreat = "select *from treatment where tid =? and admin_id=?";
               $treatPrepare = mysqli_prepare($conn, $selectTreat);
@@ -116,26 +119,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                    die("Database error");
                 }
       mysqli_stmt_bind_param($treatPrepare, 'ii', $treatId, $admin_id);
-      $execute     = mysqli_stmt_execute($treatPrepare);
-      
-$result = mysqli_stmt_get_result($treatPrepare);
-              while ($fetch = mysqli_fetch_assoc($result)) {
-                    echo"<tr>
-                     <td>".htmlspecialchars(date('d-m-Y', strtotime($fetch['dueDate'])))."</td>
-                  <td><a href='DueDate.php?id=$treatId'>Click here to edit or add due date</a></td>
-                  <td>$fetch[treatment]</td>
-                  <td><a href='Treatment.php?id=$treatId'>Click here to edit treatment</a></td>
-                 <td>$fetch[advance]</td>
-                        <td><a href='AdvanceAmount.php?id=$treatId'>Click here to edit advance amount</a></td>
-                                         <td>$fetch[online]</td>
-<td><a href='Online.php?id=$treatId'>Click here to edit Online amount</a></td>
-                 <td>$fetch[amount]</td>
+    
+      if (!mysqli_stmt_execute($treatPrepare)) {
+ 
+      die("Database error");
 
-                <td><a href='Amount.php?id=$treatId'>Click here to edit amount</a></td>
-              </tr>";
-              }
-         
-            
+      }
+$result = mysqli_stmt_get_result($treatPrepare);
+if (!$result) {
+    die("Database error");
+}
+if (mysqli_num_rows($result) == 0) {
+    echo "<tr><td colspan='10'>No treatment found.</td></tr>";
+}
+else {
+                  while ($fetch = mysqli_fetch_assoc($result)) {
+               echo "<tr>
+<td>" .
+(
+    !empty($fetch['dueDate'])
+        ? htmlspecialchars(date('d-m-Y', strtotime($fetch['dueDate'])), ENT_QUOTES, 'UTF-8')
+        : "-"
+) .
+"</td>
+
+<td><a href='DueDate.php?id=" . urlencode($treatId) . "'>Click here to edit or add due date</a></td>
+
+<td>" . htmlspecialchars($fetch['treatment'], ENT_QUOTES, 'UTF-8') . "</td>
+<td><a href='Treatment.php?id=" . urlencode($treatId) . "'>Click here to edit treatment</a></td>
+
+<td>" . htmlspecialchars($fetch['advance'], ENT_QUOTES, 'UTF-8') . "</td>
+<td><a href='AdvanceAmount.php?id=" . urlencode($treatId) . "'>Click here to edit advance amount</a></td>
+
+<td>" . htmlspecialchars($fetch['online'], ENT_QUOTES, 'UTF-8') . "</td>
+<td><a href='Online.php?id=" . urlencode($treatId) . "'>Click here to edit Online amount</a></td>
+
+<td>" . htmlspecialchars($fetch['amount'], ENT_QUOTES, 'UTF-8') . "</td>
+<td><a href='Amount.php?id=" . urlencode($treatId) . "'>Click here to edit amount</a></td>
+</tr>";
+              
+    }
+  
+}
+
+
+mysqli_stmt_close($treatPrepare);
             ?>
             <h1></h1>
             <span id="message">
@@ -165,9 +193,10 @@ $result = mysqli_stmt_get_result($treatPrepare);
                 ?>
             </span>
         </table>
-        </form>
+
         <form action="clearDate.php" method="POST" name="clearDate" id="clearBtn"> 
-        <input type="hidden" name="dueId" value="<?php echo"$treatId";?>">
+<input type="hidden" name="dueId" value="<?php echo htmlspecialchars($treatId, ENT_QUOTES, 'UTF-8'); ?>">
+        <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
     <input type="submit" value="Clear here to clear date">
             </form>
         
