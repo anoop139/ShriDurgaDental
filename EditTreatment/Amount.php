@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                  die("Invalid ID");
             }
                    $amount = (int)$_POST['amount'];
-                   if ($amount <= 0) {
+                   if ($amount < 0) {
                     die("Invalid amount");
                    }
                    $update ="UPDATE treatment SET amount=? WHERE tid=? AND admin_id=?";//
