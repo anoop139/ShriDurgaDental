@@ -1,4 +1,4 @@
-<?php  //88–92% secure
+<?php  //88–92% secure//
 include("Connection/Connect.php");
 header("X-Frame-Options: DENY");
 header("X-Content-Type-Options: nosniff");
