@@ -122,7 +122,7 @@ echo"<br>";
  {
 // echo"<h1>Treatment for ".$noOfTreat."  </h1>";
 // echo"<h1>You are here</h1>";
-   $fect0['amt'] = 0;
+   $fect0['amt'] =0;
 echo"<center>
 <table border='2' id='myTable' cellpadding='10px' class='treatTable'>
    <tr>
@@ -132,14 +132,43 @@ echo"<center>
    <th>Advance Amount</th>
    <th>Online Amount</th>
    <th>Pending Amount</th>
-   <th>Amount</th>
+   <th>Cash Amount</th>
    <th>Edit</th>
    <th>Delete</th>
    </tr>";
-while( $fect= mysqli_fetch_assoc($treatmentRes))
-{ $tid = (int)$fect['tid'];
-$sno = (int)$PatienName['sno'];
+ $totalQuery = "SELECT
+    SUM(amount) AS totalAmount,
+    SUM(online) AS totalOnline
+FROM treatment
+WHERE sno=? AND admin_id=?";
 
+$totalPrepare = mysqli_prepare($conn, $totalQuery);
+
+if (!$totalPrepare) {
+    die("Query failed");
+}
+
+mysqli_stmt_bind_param($totalPrepare, "ii", $fid, $admin_id);
+
+if (!mysqli_stmt_execute($totalPrepare)) {
+    die("Execution failed");
+}
+
+$totalResult = mysqli_stmt_get_result($totalPrepare);
+
+$totalFetch = mysqli_fetch_assoc($totalResult);
+
+// $totalReceived = $totalFetch['totalAmount'] ?? 0;
+    //
+mysqli_stmt_close($totalPrepare); 
+$totalReceived = ($totalFetch['totalAmount'] ?? 0) + ($totalFetch['totalOnline'] ?? 0);
+//  echo"<h1>total is $totalReceived </h1>";
+while( $fect= mysqli_fetch_assoc($treatmentRes))
+
+//200, 14600
+{       $tid = (int)$fect['tid'];
+       $sno = (int)$PatienName['sno'];
+  
 	if ($fect['amount']>$fect['advance'] && $fect['advance']!=0) {
 	$pending = max(0, $fect['amount'] - ($fect['advance'] + $fect['online']));
 	//   echo"<></>";pending = amount - (advance + online)
@@ -152,11 +181,7 @@ $sno = (int)$PatienName['sno'];
 	  $pending = 0;
 	//   echo"<h1>yes bro</h1>";
 	}///
-	// $pending =$fect['amount']-$fect['advance'];
-	if ($fect['online']!=0) {
-     
-	   $fect0['amt']+=$fect['online'];
-	}
+	
     ?>
 
     <?php
@@ -194,7 +219,7 @@ echo"<th></th>
    <th></th>
    <th>Total</th>
    <th></th>
-   <th> $fect0[amt]</th>
+   <th>    $totalReceived</th>
          </table>
       </center>";
 }
