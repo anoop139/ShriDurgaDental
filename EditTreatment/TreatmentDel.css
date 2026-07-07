@@ -29,8 +29,8 @@
      text-align:right;
    } 
  #Yes{
-   position: relative;
-   top: -40px;    
+   /* position: relative; */
+   /* top: -/40px;     */
    }
    .submit{
     padding: 10px;

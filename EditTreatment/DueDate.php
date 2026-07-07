@@ -65,12 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Due Date update page</title>
-    <link rel="stylesheet" href="DueDate.css">
+    <link rel="stylesheet" href="DueDate.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <div id="main-div">
      <div class="treatDiv">
-        <h1>Enter new Date :</h1>
+        <h1>Enter new Due Date :</h1>
         <form action="" class="inputDiv" id="dueDate" method="POST">
          <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>">
            &nbsp; <input type="date" name="dueDate" id="input">
@@ -106,17 +106,19 @@ $treatQuery = mysqli_stmt_affected_rows($prepareDue);
                mysqli_stmt_close($prepareDue);
                header("Location: ./EditTreatment.php?tid=$id&updateDueDate=true");
              exit();
-} else {
+             }
+          else {
     mysqli_stmt_close($prepareDue);
+   
     die("Update failed");
-}
+   }
                     
     
 
                 }
                 ?>
             </h2>
-          <div id="buttionArea">  <input type="submit" name="Submit" value="Update"></div>
+          <div id="buttonArea">  <input type="submit" name="Submit" value="Update"></div>
         </form>
      </div>
     </div>

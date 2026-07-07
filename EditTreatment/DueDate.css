@@ -33,14 +33,20 @@
             padding-left:0px;
             /* background:yellow */
         }
-        #buttionArea input{
+        #buttonArea input{
             padding-left:30px;
             padding-right:35px;
          background-color: #AAA17A; /* Coral Orange */
          color:white
+        }        
+        
+        #buttonArea input{
+            position: relative;
+            top: 5px;
         } 
         #Error{
             /* font-size:2em; */
             color:red;
             width: 400px;
         }
+         

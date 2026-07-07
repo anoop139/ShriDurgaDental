@@ -86,10 +86,15 @@
             font-weight: bold;
             font-size: 20px;
         }
+		form #Submit{
+        position: absolute;
+		   top: 380px;
+		   left: 380px;
+	
+        }
         form #Submit{
             padding: 40px;
-			/* margin-top: 0px; */
-            margin-left: 400px;
+            margin-left:400px;
         background-color: green;
             border: 2px solid white;
             color: white;

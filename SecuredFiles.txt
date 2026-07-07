@@ -1,0 +1,8 @@
+File/Page	                       Approx Rating
+Login page (LogIn.php)	                    8/10
+Dashboard/Home (DentalHomePage.php)	    8.5/10
+Patient Edit page	                     8/10
+Export.php (latest version)	             9/10
+Insert patient page	                     9/10
+DeletePatientRecord.php	                    7.5–8/10
+pdateGender.php                             9.2/10

@@ -137,8 +137,8 @@ echo"<center>
    <th>Delete</th>
    </tr>";
  $totalQuery = "SELECT
-    SUM(amount) AS totalAmount,
-    SUM(online) AS totalOnline
+COALESCE(SUM(amount),0) AS totalAmount,
+COALESCE(SUM(online),0) AS totalOnline
 FROM treatment
 WHERE sno=? AND admin_id=?";
 
