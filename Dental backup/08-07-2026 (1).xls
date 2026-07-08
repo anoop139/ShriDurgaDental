@@ -1,0 +1,51 @@
+<table border="0" class="exportMsg" id="allTable">
+         <tbody><tr>
+         <td>
+         <table border="2" id="table1" class="contain" cellpadding="10">
+         <tbody><tr>
+         </tr>
+            <tr>
+              <th colspan="4">Patient Details</th>
+             </tr>
+              <tr>
+                <th class="td">Date  </th>
+                <th>Name</th>
+              <th>Age</th>
+             <th>Phone Number</th>
+             </tr><tr>
+            <td>2026-07-08</td><td>Jishnu Rao</td><td>5</td><td>8431459418</td></tr><tr>
+            <td>2026-07-08</td><td>Saurabh Shukla</td><td>7</td><td>9819565543</td></tr></tbody></table> </td><td></td><td valign="top"> 
+               <table border="2" id="treatment" class="contain" cellpadding="6">  
+                <tbody><tr>
+               </tr>
+                <tr>
+                <th colspan="6">Treatment Detail </th>
+                </tr>
+                <tr><th colspan="6" style="text-align:center">Jishnu Rao</th>
+                </tr>
+                <tr>
+                <th>Date</th>
+                <th>Due Date</th>
+                <th style="text-align:left; padding-left:10px">Treatment</th>
+                <th>Advance</th>
+                <th>Online</th>
+                <th>Amount</th>
+                </tr>
+                <tr>
+                <td>2026-07-08</td><td></td><td>rct</td><td style="text-align:center">1000</td><td style="text-align:center">800</td><td style="text-align:center">100</td></tr><tr>
+                <td>2026-07-08</td><td>2026-08-01</td><td>filling</td><td style="text-align:center">800</td><td style="text-align:center">10000</td><td style="text-align:center">800</td></tr><tr>
+              <th colspan="5" style="text-align:left">Total</th><th id="dwTotalAmount">11700</th></tr>
+                <tr><th colspan="6" style="text-align:center">Saurabh Shukla</th>
+                </tr>
+                <tr>
+                <th>Date</th>
+                <th>Due Date</th>
+                <th style="text-align:left; padding-left:10px">Treatment</th>
+                <th>Advance</th>
+                <th>Online</th>
+                <th>Amount</th>
+                </tr>
+                <tr>
+                <td>2026-07-08</td><td></td><td>check up</td><td style="text-align:center">0</td><td style="text-align:center">0</td><td style="text-align:center">0</td></tr><tr>
+                <td>2026-07-08</td><td></td><td>rct</td><td style="text-align:center">0</td><td style="text-align:center">1000</td><td style="text-align:center">0</td></tr><tr>
+              <th colspan="5" style="text-align:left">Total</th><th id="dwTotalAmount">1000</th></tr></tbody></table></td></tr></tbody></table>
