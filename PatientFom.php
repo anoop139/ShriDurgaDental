@@ -32,8 +32,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
    
 </head>
 <body id="body1">
-           <!-- <di> -->
-    <!-- <div id///="ul" style="background-color: white; height: 40px;"> -->
+
        <ul id="ul">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
