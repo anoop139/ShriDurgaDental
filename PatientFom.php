@@ -32,7 +32,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
    
 </head>
 <body id="body1">
-
+<!-- test -->
        <ul id="ul">
         <li><a href="DentalHomePage.php">Home </a></li>&nbsp;
         <li><a href="PatientRecord.php">Patient List </a></li>&nbsp;
