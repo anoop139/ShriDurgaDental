@@ -58,13 +58,13 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
  </div>
  
  <div id="formInput">
-    <form action="InsertPatientRecord.php" method="POST" id="inputPatient">    
+    <form action="InsertPatientRecord.php" method="POST" id="inputPatient"> <br><br>                         
     <input type="text" name="name" id="name0" class="error" required><br> 
     <span class="mobErr" id="nameErr"></span><br><br>
     <input type="number" name="age" id="age" required><br>
-	   <span class="mobErr" id="errInfo1"></span><br><br><br>
+	   <span class="mobErr" id="errInfo1"></span><br><br>
     <input type="radio" name="Gender" id="Male" value="Male" required><span class="span" name="Male">Male</span>
-    <input type="radio" name="Gender" id="Female" value="Female" required><span class="span">Female</span><br><br><br>
+    <input type="radio" name="Gender" id="Female" value="Female" required><span class="span">Female</span><br><br>
     <input type="text" name="pho" id="pho" required><br>
     <span class="mobErr" id="errInfo"></span><br><br>
     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
