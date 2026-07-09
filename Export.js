@@ -3,6 +3,15 @@ document.getElementById("exportBtn").onclick =()=>{
   let table = document.getElementById("allTable");
   let treatment = document.getElementById("treatment");
    let a =table.outerHTML
-   alert("All set to download "+today)//
-download(a, `${today}.xls`,'application/vnd.ms-excel')////
+   let result = confirm("Are you sure you want to download today's record?");
+
+   if (result === false) {
+
+    return false; 
+   }
+   else{
+   
+    download(a, `${today}.xls`,'application/vnd.ms-excel')////
+      return true
+   }
 }
