@@ -129,10 +129,10 @@ echo"<center>
    <th>Date</th>
    <th>Due Date</th>
    <th>Treatment</th>
-   <th>Advance Amount</th>
-   <th>Online Amount</th>
+   <th>Advance Amount Cash/online</th>
+   <th>Online Payment</th>
    <th>Pending Amount</th>
-   <th>Cash Amount</th>
+   <th>Amount</th>
    <th>Edit</th>
    <th>Delete</th>
    </tr>";
