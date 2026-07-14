@@ -33,7 +33,7 @@ if (!document.getElementById("token").value) {
 	
 }
     let csrfToken = ''
-   fetch("Gettoken.php")
+   fetch("GetToken.php")
       .then(response => response.text())
       .then(token => {
          // Do something with the token
