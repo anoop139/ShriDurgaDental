@@ -25,7 +25,7 @@ header("Referrer-Policy: no-referrer");
 <body>
 
 <div class="login-container">
-    <h2>Shri Durga Dental Clinic</h2>
+    <h2>Dental Management System</h2>
     <form action="Session.php" method="POST">
         
         <input type="text" name="username" placeholder="Username" required>
