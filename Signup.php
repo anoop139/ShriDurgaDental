@@ -1,13 +1,16 @@
 <?php
 session_start();
 include("Connection/Connect.php");
-
+if (!isset($_SESSION['super_admin'])) {
+    header("Location: AdminCreateUserLogin.php");
+    exit();
+}
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
 
-if (!empty($_SESSION['user'])) {
-    header("Location: DentalHomePage.php");
+if (empty($_SESSION['user']) || empty($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: AdminCreateUserLogin.php?error=admin_required");
     exit();
 }
 
@@ -43,9 +46,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 mysqli_stmt_bind_param($stmt, "ss", $usernameValue, $hashedPassword);
 
                 if (mysqli_stmt_execute($stmt)) {
-                    $message = "Account created successfully. You can now log in.";
-                    $usernameValue = "";
-                    $_SESSION['token'] = bin2hex(random_bytes(32));
+                 $_SESSION = [];      // Clear all session data
+               
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(
+        session_name(),
+        '',
+        time() - 42000,
+        $params["path"],
+        $params["domain"],
+        $params["secure"],
+        $params["httponly"]
+    );
+}
+                session_destroy();   // Destroy the session
+            header("Location: LogIn.php");
+             exit();
+                   
+        
                 } else {
                     $error = "Unable to create your account. Please try again.";
                 }
@@ -61,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Shri Durga Dental Clinic</title>
-    <link rel="stylesheet" href="SignUp.css?v=1">
+    <link rel="stylesheet" href="SignUp.css?v=2">
 </head>
 <body>
     <div class="signup-card">
@@ -93,11 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Create a password" autocomplete="new-password" value="" required>
+            <div id="password-message" class="helper-text"></div>
 
             <label for="confirm_password">Confirm Password</label>
             <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter password" autocomplete="new-password" value="" required>
-
-            <div id="password-message" class="helper-text"></div>
+            <div id="confirm-password-message" class="helper-text"></div>
 
             <?php if (!empty($error)) : ?>
                 <p class="message error"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
@@ -113,6 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="footer-link">Already joined us? <a href="LogIn.php">Log in here</a></p>
     </div>
 
-    <script src="SingUp.js"></script>
+    <script src="SingUp.js?v=2"></script>
 </body>
 </html>
