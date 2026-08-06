@@ -129,7 +129,8 @@ if (ini_get("session.use_cookies")) {
             <button type="submit">Sign Me Up</button>
         </form>
 
-        <p class="footer-link">Already joined us? <a href="LogIn.php">Log in here</a></p>
+        <p class="footer-link">
+        <a href="DentalHomePage.php">Back to Dashboard</a></p>
     </div>
 
     <script src="SingUp.js?v=2"></script>
