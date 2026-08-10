@@ -1,4 +1,3 @@
 <?php
-header("Location: DentalHomePage.php");
-exit();
+// Entry page intentionally left blank.
 ?>

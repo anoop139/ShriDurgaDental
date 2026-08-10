@@ -20,10 +20,10 @@ header("Referrer-Policy: no-referrer");
 <html>
 <head>
     <title>Login - Shri Durga Dental Clinic</title>
-    <link rel="stylesheet" href="login.css?v=5">
+    <link rel="stylesheet" href="Login.css?v=4">
 </head>
 <body>
-
+<nav id="nav"><a href="index.html">Home</a></nav>
 <div class="login-container">
     <h2>Dental Management System</h2>
     <form action="Session.php" method="POST">
@@ -40,7 +40,7 @@ header("Referrer-Policy: no-referrer");
             echo "<p class='error'>Invalid Username or Password</p>";
         }
         ?>
-        <h3>If not a user <a href="./Signup.php" target="_blank" rel="noopener noreferrer">click here</a> To Sign Up</h3>
+        <h3>If not a user <a href="./AdminCreateUserLogin.php">click here</a> to create a user account</h3>
     </form>
 </div>
 
