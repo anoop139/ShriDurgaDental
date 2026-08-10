@@ -8,7 +8,19 @@ body {
     align-items: center;
     height: 100vh;
 }
-
+#nav {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+#nav{
+  width: 40px
+}
+#nav {
+    background-color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
 .login-container {
     background: white;
     padding: 40px;
