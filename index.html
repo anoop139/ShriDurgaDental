@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental Management System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: url("https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        .navbar a {
+            color: #0f3d5e;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .navbar a:hover {
+            background: rgba(15, 61, 94, 0.1);
+        }
+
+        .navbar a {
+            position: relative;
+        }
+
+        .navbar a.active .popup {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, 0);
+        }
+
+        .popup {
+            position: fixed;
+            top: 140px;
+            left: 40%;
+            transform: translate(-50%, -30px);
+            width: 240px;
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            background: rgba(15, 61, 94, 0.96);
+            color: white;
+            border-radius: 16px;
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            z-index: 20;
+        }
+
+        .popup .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0f3d5e;
+        }
+
+        p {
+            margin: 0;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #0f3d5e;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="LogIn.php">
+            Login
+            <span class="popup">
+                <button class="close-btn" type="button" aria-label="Close">×</button>
+            </span>
+        </a>
+        <a href="#about" title="Click here to know more about our site">
+            About
+            <span class="popup">
+                <button class="close-btn" type="button" aria-label="Close">×</button>
+                This dental management system helps clinics organize patient and treatment details.
+            </span>
+        </a>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const links = document.querySelectorAll('.navbar a');
+
+            links.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    const isLoginLink = link.getAttribute('href') === 'LogIn.php';
+
+                    if (isLoginLink) {
+                        return;
+                    }
+
+                    event.preventDefault();
+
+                    const isActive = link.classList.contains('active');
+
+                    links.forEach(function (item) {
+                        item.classList.remove('active');
+                    });
+
+                    if (!isActive) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!event.target.closest('.navbar a')) {
+                    links.forEach(function (link) {
+                        link.classList.remove('active');
+                    });
+                }
+            });
+
+            document.querySelectorAll('.close-btn').forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    event.target.closest('.navbar a').classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
