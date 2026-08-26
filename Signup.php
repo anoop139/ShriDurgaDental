@@ -80,9 +80,13 @@ if (ini_get("session.use_cookies")) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Shri Durga Dental Clinic</title>
-    <link rel="stylesheet" href="SignUp.css?v=2">
+    <link rel="stylesheet" href="SignUp.css?v=3">
 </head>
 <body>
+    <nav class="navbar" aria-label="Main navigation">
+        <a href="DentalHomePage.php">Dashboard</a>
+        <a href="LogOut.php">Logout</a>
+    </nav>
     <div class="signup-card">
         <div class="brand">
             <h1>Welcome To Dental Management System</h1>

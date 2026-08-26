@@ -10,8 +10,9 @@ body {
         linear-gradient(rgba(7, 58, 76, 0.65), rgba(7, 58, 76, 0.65)),
         url('Images/blurred-image-modern-dental-clinic_334978-14316.jpg') center/cover no-repeat;
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 12px;
     color: #123b4a;
     position: relative;
@@ -26,6 +27,34 @@ body::before {
     pointer-events: none;
 }
 
+.navbar {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 8px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.navbar a {
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #0f4c5c;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background: #e5f5f4;
+}
+
 .signup-card {
     width: 100%;
     max-width: 390px;
@@ -37,7 +66,8 @@ body::before {
     backdrop-filter: blur(6px);
     position: relative;
     z-index: 1;
-    margin: 6px 0;
+    margin: 60px 0 6px;
+    align-self: center;
 }
 
 .brand h1 {
