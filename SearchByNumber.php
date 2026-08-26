@@ -142,8 +142,8 @@ if (empty($_SESSION['token'])) {
         
         <li><a href="">Search by</a>
    <ul>
-            <li><a href="SearchByDate.php">Date</a></li><br>
-            <li><a href="SearchByNumber.php">Number</a></li>
+            <li><a href="SearchByName.php">Name</a></li><br>
+            <li><a href="SearchByDate.php">Date</a></li>
     
         </ul>
         </li>

@@ -36,7 +36,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$n
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Treatment Deletion page</title>
-   <link rel="stylesheet" href="./treatmentDel.css?v=1">
+   <link rel="stylesheet" href="./TreatmentDel.css">
 </head>
 <body>
 <form id="mainFom" method="POST" >

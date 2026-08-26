@@ -10,7 +10,7 @@ if ($conn) {
   //echo"Connected successfuly";
 }
 else{
- die("Database connection failed");
+    echo"Failed";
 }
 
 ?>

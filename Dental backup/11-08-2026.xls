@@ -13,14 +13,14 @@
               <th>Age</th>
              <th>Phone Number</th>
              </tr><tr>
-            <td>2026-06-24</td><td>Saurabh Shukla</td><td>20</td><td>8431459417</td></tr></tbody></table> </td><td></td><td valign="top"> 
+            <td>2026-08-11</td><td>Shreyas</td><td>7</td><td>8431459418</td></tr></tbody></table> </td><td></td><td valign="top"> 
                <table border="2" id="treatment" class="contain" cellpadding="6">  
                 <tbody><tr>
                </tr>
                 <tr>
                 <th colspan="6">Treatment Detail </th>
                 </tr>
-                <tr><th colspan="6" style="text-align:center">Saurabh Shukla</th>
+                <tr><th colspan="6" style="text-align:center">Shreyas</th>
                 </tr>
                 <tr>
                 <th>Date</th>
@@ -31,5 +31,7 @@
                 <th>Amount</th>
                 </tr>
                 <tr>
-                <td>2026-06-24</td><td>0000-00-00</td><td>rcr</td><td style="text-align:center">100</td><td style="text-align:center">0</td><td style="text-align:center">100</td></tr><tr>
-              <th colspan="5" style="text-align:left">Total</th><th id="dwTotalAmount">100</th></tr></tbody></table></td></tr></tbody></table>
+                <td>2026-08-11</td><td></td><td>checkup</td><td style="text-align:center">100</td><td style="text-align:center">0</td><td style="text-align:center">100</td></tr><tr>
+                <td>2026-08-11</td><td>2026-09-07</td><td>rct</td><td style="text-align:center">2000</td><td style="text-align:center">101</td><td style="text-align:center">2000</td></tr><tr>
+                <td>2026-08-11</td><td></td><td>filling</td><td style="text-align:center">500</td><td style="text-align:center">0</td><td style="text-align:center">500</td></tr><tr>
+              <th colspan="5" style="text-align:left">Total</th><th id="dwTotalAmount">2701</th></tr></tbody></table></td></tr></tbody></table>

@@ -40,10 +40,10 @@ if ($row) {
         $_SESSION['role'] = $row['role'];
 unset($_SESSION['token']);
     // admin redirect
-   if ($row['role'] === "admin") {
-    header("Location: admin.php");
-    exit();
-}
+//    if ($row['role'] === "admin") {
+//     header("Location: admin.php");
+//     exit();
+// }
 
         header("Location: DentalHomePage.php");
         exit();
